@@ -141,7 +141,57 @@
     margin: 4px 0;
   }
 
-  .result-box {
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .multiplier-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .multiplier-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .multiplier-input-wrap input {
+    width: 60px;
+    padding: 4px 6px;
+    text-align: right;
+    font-family: inherit;
+    font-size: 0.78rem;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink);
+  }
+
+  .result-item {
+    margin-bottom: 4px;
+  }
+
+  .result-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 12px 0;
+  }
+
+  .result-box .result-value {
+    font-size: 1.8rem;
+  }
+
+
     border: 2px solid var(--ink);
     border-radius: 6px;
     padding: 20px;
@@ -426,22 +476,78 @@
 
     <div class="divider"></div>
 
+    <!-- Editable multipliers -->
+    <div class="section-label">Price Multipliers</div>
+    <div class="multiplier-row">
+      <label>Off-peak</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multOffPeak" value="200" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Reduced</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multReduced" value="300" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Peak</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multPeak" value="400" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Buyout surcharge</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multBuyout" value="25" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Results -->
     <div class="result-box">
-      <div class="result-label">Expected Revenue</div>
-      <div class="result-value zero" id="resultValue">—</div>
-      <div class="result-breakdown" id="breakdown" style="display:none;">
-        <div class="breakdown-row">
-          <span>Members</span>
-          <strong id="memberRev">—</strong>
+      <div class="result-item">
+        <div class="result-label">Opportunity Cost</div>
+        <div class="result-value zero" id="resultValue">—</div>
+        <div class="result-breakdown" id="breakdown" style="display:none;">
+          <div class="breakdown-row">
+            <span>Members</span>
+            <strong id="memberRev">—</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Non-Members</span>
+            <strong id="nonMemberRev">—</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Duration</span>
+            <strong id="durationHours">—</strong>
+          </div>
         </div>
-        <div class="breakdown-row">
-          <span>Non-Members</span>
-          <strong id="nonMemberRev">—</strong>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Multiplier</div>
+        <div class="result-value zero" id="multiplierValue">—</div>
+        <div class="result-breakdown" id="multiplierBreakdown" style="display:none;">
+          <div class="breakdown-row">
+            <span>Period type</span>
+            <strong id="periodType">—</strong>
+          </div>
+          <div class="breakdown-row" id="buyoutRow" style="display:none;">
+            <span>Buyout surcharge</span>
+            <strong id="buyoutPct">—</strong>
+          </div>
         </div>
-        <div class="breakdown-row">
-          <span>Duration</span>
-          <strong id="durationHours">—</strong>
-        </div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Recommended Price</div>
+        <div class="result-value zero" id="recommendedValue">—</div>
       </div>
       <button onclick="calculate()" style="margin-top:16px;width:100%;padding:10px;background:var(--ink);color:var(--paper);border:none;font-family:inherit;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;">Calculate</button>
     </div>
@@ -449,17 +555,6 @@
 
   <main class="main">
     <div id="warnBox" class="warn-box" style="display:none;"></div>
-
-    <div class="section-title">Hourly Revenue Breakdown</div>
-    <div class="chart-container">
-      <div class="chart-bars" id="chartBars"></div>
-    </div>
-
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Members</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--accent);opacity:0.7"></div>Non-Members</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#d0d0d0"></div>Outside booking window</div>
-    </div>
 
     <div class="section-title">Hour-by-Hour Detail</div>
     <table class="hour-breakdown-table" id="detailTable">
@@ -615,7 +710,24 @@ function fmtPct(n) {
   return (n * 100).toFixed(1) + '%';
 }
 
-function adjustTables(delta) {
+// Classify booking period using member hours only.
+// Priority: Peak > Reduced > Off-peak
+function classifyPeriod(location, dayOfWeek, hours) {
+  if (!PRICING_DATA || !hours.length) return 'offpeak';
+  const memberHours = PRICING_DATA._hours.members;
+  let hasPeak = false;
+  let hasReduced = false;
+  for (const h of hours) {
+    const status = memberHours[String(h.hour)]?.[dayOfWeek] ?? 'NP';
+    if (status === 'P') hasPeak = true;
+    if (status === 'R') hasReduced = true;
+  }
+  if (hasPeak) return 'peak';
+  if (hasReduced) return 'reduced';
+  return 'offpeak';
+}
+
+
   const el = document.getElementById('numTables');
   const v = Math.min(4, Math.max(1, (parseInt(el.value) || 1) + delta));
   el.value = v;
@@ -630,19 +742,32 @@ function calculate() {
   const endTime    = document.getElementById('endTime').value;
   const numTables  = parseInt(document.getElementById('numTables').value) || 1;
 
+  // Read multipliers
+  const multOffPeak = parseFloat(document.getElementById('multOffPeak').value) || 200;
+  const multReduced = parseFloat(document.getElementById('multReduced').value) || 300;
+  const multPeak    = parseFloat(document.getElementById('multPeak').value)    || 400;
+  const multBuyout  = parseFloat(document.getElementById('multBuyout').value)  || 25;
+
   const warn = document.getElementById('warnBox');
   warn.style.display = 'none';
 
   const result = expectedRevenue(location, dayOfWeek, startTime, endTime, numTables);
 
-  const resultValue = document.getElementById('resultValue');
-  const breakdown   = document.getElementById('breakdown');
+  const resultValue      = document.getElementById('resultValue');
+  const breakdown        = document.getElementById('breakdown');
+  const multiplierValue  = document.getElementById('multiplierValue');
+  const multiplierBD     = document.getElementById('multiplierBreakdown');
+  const recommendedValue = document.getElementById('recommendedValue');
 
   if (!result) {
     resultValue.textContent = '—';
     resultValue.className = 'result-value zero';
     breakdown.style.display = 'none';
-    renderChart([]);
+    multiplierValue.textContent = '—';
+    multiplierValue.className = 'result-value zero';
+    multiplierBD.style.display = 'none';
+    recommendedValue.textContent = '—';
+    recommendedValue.className = 'result-value zero';
     renderTable([]);
     return;
   }
@@ -653,54 +778,39 @@ function calculate() {
     warn.style.display = 'block';
   }
 
+  // --- Opportunity cost ---
   resultValue.textContent = fmt(result.total);
   resultValue.className = 'result-value' + (result.total === 0 ? ' zero' : '');
   breakdown.style.display = 'flex';
-
-  document.getElementById('memberRev').textContent    = fmt(result.memberTotal);
-  document.getElementById('nonMemberRev').textContent = fmt(result.nmTotal);
+  document.getElementById('memberRev').textContent     = fmt(result.memberTotal);
+  document.getElementById('nonMemberRev').textContent  = fmt(result.nmTotal);
   document.getElementById('durationHours').textContent = result.durationHours.toFixed(1) + ' hrs';
 
-  renderChart(result.hours);
+  // --- Multiplier ---
+  const period = classifyPeriod(location, dayOfWeek, result.hours);
+  const periodLabels = { peak: 'Peak', reduced: 'Reduced', offpeak: 'Off-peak' };
+  const baseMult = period === 'peak' ? multPeak : period === 'reduced' ? multReduced : multOffPeak;
+  const isBuyout = numTables === 4;
+  const totalMult = isBuyout ? baseMult * (1 + multBuyout / 100) : baseMult;
+
+  multiplierValue.textContent = totalMult.toFixed(1) + '%';
+  multiplierValue.className = 'result-value';
+  multiplierBD.style.display = 'flex';
+  document.getElementById('periodType').textContent = periodLabels[period] + ' (' + baseMult.toFixed(0) + '%)';
+  const buyoutRow = document.getElementById('buyoutRow');
+  if (isBuyout) {
+    buyoutRow.style.display = 'flex';
+    document.getElementById('buyoutPct').textContent = '+' + multBuyout.toFixed(0) + '%';
+  } else {
+    buyoutRow.style.display = 'none';
+  }
+
+  // --- Recommended price ---
+  const recommended = result.total * (totalMult / 100);
+  recommendedValue.textContent = fmt(recommended);
+  recommendedValue.className = 'result-value';
+
   renderTable(result.hours);
-}
-
-function renderChart(hours) {
-  const container = document.getElementById('chartBars');
-  container.innerHTML = '';
-  if (!hours.length) return;
-
-  const maxTotal = Math.max(...hours.map(h => h.total), 0.01);
-
-  hours.forEach(h => {
-    const wrap = document.createElement('div');
-    wrap.className = 'bar-wrap';
-
-    const mBar = document.createElement('div');
-    mBar.className = 'bar bar-members';
-    mBar.style.height = Math.max(2, (h.memberRev / maxTotal) * 140) + 'px';
-    mBar.title = `Hour ${h.hour}: Members ${fmt(h.memberRev)}`;
-
-    const nmBar = document.createElement('div');
-    nmBar.className = 'bar bar-nonmembers';
-    nmBar.style.height = Math.max(2, (h.nmRev / maxTotal) * 140) + 'px';
-    nmBar.title = `Hour ${h.hour}: Non-Members ${fmt(h.nmRev)}`;
-
-    const lbl = document.createElement('div');
-    lbl.className = 'bar-label';
-    lbl.textContent = h.hour + ':00';
-
-    // If no revenue, show grey
-    if (h.total === 0) {
-      mBar.style.background = '#ddd';
-      nmBar.style.background = '#ddd';
-    }
-
-    wrap.appendChild(nmBar);
-    wrap.appendChild(mBar);
-    wrap.appendChild(lbl);
-    container.appendChild(wrap);
-  });
 }
 
 function renderTable(hours) {
@@ -752,7 +862,7 @@ function populateTimeDropdowns() {
 populateTimeDropdowns();
 
 // Wire up all inputs
-['location','dayofweek','startTime','endTime','numTables'].forEach(id => {
+['location','dayofweek','startTime','endTime','numTables','multOffPeak','multReduced','multPeak','multBuyout'].forEach(id => {
   document.getElementById(id).addEventListener('change', calculate);
   document.getElementById(id).addEventListener('input', calculate);
 });
