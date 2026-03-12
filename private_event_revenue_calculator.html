@@ -443,6 +443,7 @@
           <strong id="durationHours">—</strong>
         </div>
       </div>
+      <button onclick="calculate()" style="margin-top:16px;width:100%;padding:10px;background:var(--ink);color:var(--paper);border:none;font-family:inherit;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;">Calculate</button>
     </div>
   </aside>
 
@@ -487,7 +488,7 @@ let PRICING_DATA = null;
 
 async function loadPricingData() {
   try {
-    const response = await fetch('pricing_data.json');
+    const response = await fetch('pricing_data.json?v=' + Date.now());
     if (!response.ok) throw new Error('HTTP ' + response.status);
     PRICING_DATA = await response.json();
     document.getElementById('loading-banner').style.display = 'none';
