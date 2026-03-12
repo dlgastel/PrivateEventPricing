@@ -494,7 +494,7 @@ async function loadPricingData() {
     calculate();
   } catch (err) {
     document.getElementById('loading-banner').textContent =
-      '⚠️ Could not load pricing_data.json — if running locally, use start.bat rather than opening the HTML directly. Error: ' + err.message;
+      '⚠️ Could not load pricing_data.json — if running locally, use start.bat rather than opening the HTML directly. If accessing via GitHub Pages, ensure pricing_data.json is in the PrivateEventPricing repository. Error: ' + err.message;
     document.getElementById('loading-banner').style.color = '#c8430a';
   }
 }
