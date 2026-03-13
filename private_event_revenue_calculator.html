@@ -481,21 +481,21 @@
     <div class="multiplier-row">
       <label>Off-peak</label>
       <div class="multiplier-input-wrap">
-        <input type="number" id="multOffPeak" value="200" min="0" step="1">
+        <input type="number" id="multOffPeak" value="125" min="0" step="1">
         <span>%</span>
       </div>
     </div>
     <div class="multiplier-row">
       <label>Reduced</label>
       <div class="multiplier-input-wrap">
-        <input type="number" id="multReduced" value="300" min="0" step="1">
+        <input type="number" id="multReduced" value="150" min="0" step="1">
         <span>%</span>
       </div>
     </div>
     <div class="multiplier-row">
       <label>Peak</label>
       <div class="multiplier-input-wrap">
-        <input type="number" id="multPeak" value="400" min="0" step="1">
+        <input type="number" id="multPeak" value="175" min="0" step="1">
         <span>%</span>
       </div>
     </div>
@@ -512,7 +512,7 @@
     <!-- Results -->
     <div class="result-box">
       <div class="result-item">
-        <div class="result-label">Opportunity Cost</div>
+        <div class="result-label">Expected Revenues</div>
         <div class="result-value zero" id="resultValue">—</div>
         <div class="result-breakdown" id="breakdown" style="display:none;">
           <div class="breakdown-row">
@@ -528,6 +528,11 @@
             <strong id="durationHours">—</strong>
           </div>
         </div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Booking Cost for Non-Members</div>
+        <div class="result-value zero" id="bookingCostValue">—</div>
       </div>
       <div class="result-divider"></div>
       <div class="result-item">
@@ -663,6 +668,7 @@ function expectedRevenue(location, dayOfWeek, startTimeStr, endTimeStr, numTable
 
   let totalMember    = 0;
   let totalNonMember = 0;
+  let totalBookingCost = 0;
   const hourDetail   = [];
 
   for (const h of uniqueHours) {
@@ -675,8 +681,12 @@ function expectedRevenue(location, dayOfWeek, startTimeStr, endTimeStr, numTable
     const mRev  = mOcc  * mPrc  * numTables;
     const nmRev = nmOcc * nmPrc * numTables;
 
-    totalMember    += mRev;
-    totalNonMember += nmRev;
+    // Booking cost: rack rate × numTables, no utilization factor
+    const bookingCost = nmPrc * numTables;
+
+    totalMember      += mRev;
+    totalNonMember   += nmRev;
+    totalBookingCost += bookingCost;
 
     const mStatus  = PRICING_DATA._hours.members[hStr]?.[dayOfWeek]    ?? 'NP';
     const nmStatus = PRICING_DATA._hours.nonMembers[hStr]?.[dayOfWeek] ?? 'NP';
@@ -685,17 +695,19 @@ function expectedRevenue(location, dayOfWeek, startTimeStr, endTimeStr, numTable
       hour: h,
       memberOcc: mOcc,  memberPrice: mPrc,  memberRev: mRev,  memberStatus: mStatus,
       nmOcc,            nmPrice: nmPrc,     nmRev,            nmStatus,
+      bookingCost,
       total: mRev + nmRev,
       inWindow: true
     });
   }
 
   return {
-    total:       totalMember + totalNonMember,
-    memberTotal: totalMember,
-    nmTotal:     totalNonMember,
+    total:        totalMember + totalNonMember,
+    memberTotal:  totalMember,
+    nmTotal:      totalNonMember,
+    bookingCost:  totalBookingCost,
     durationHours,
-    hours:       hourDetail
+    hours:        hourDetail
   };
 }
 
@@ -729,6 +741,7 @@ function classifyPeriod(location, dayOfWeek, hours) {
 }
 
 function adjustTables(delta) {
+  const el = document.getElementById('numTables');
   const v = Math.min(4, Math.max(1, (parseInt(el.value) || 1) + delta));
   el.value = v;
   calculate();
@@ -743,9 +756,9 @@ function calculate() {
   const numTables  = parseInt(document.getElementById('numTables').value) || 1;
 
   // Read multipliers
-  const multOffPeak = parseFloat(document.getElementById('multOffPeak').value) || 200;
-  const multReduced = parseFloat(document.getElementById('multReduced').value) || 300;
-  const multPeak    = parseFloat(document.getElementById('multPeak').value)    || 400;
+  const multOffPeak = parseFloat(document.getElementById('multOffPeak').value) || 125;
+  const multReduced = parseFloat(document.getElementById('multReduced').value) || 150;
+  const multPeak    = parseFloat(document.getElementById('multPeak').value)    || 175;
   const multBuyout  = parseFloat(document.getElementById('multBuyout').value)  || 25;
 
   const warn = document.getElementById('warnBox');
@@ -763,6 +776,8 @@ function calculate() {
     resultValue.textContent = '—';
     resultValue.className = 'result-value zero';
     breakdown.style.display = 'none';
+    document.getElementById('bookingCostValue').textContent = '—';
+    document.getElementById('bookingCostValue').className = 'result-value zero';
     multiplierValue.textContent = '—';
     multiplierValue.className = 'result-value zero';
     multiplierBD.style.display = 'none';
@@ -786,12 +801,17 @@ function calculate() {
   document.getElementById('nonMemberRev').textContent  = fmt(result.nmTotal);
   document.getElementById('durationHours').textContent = result.durationHours.toFixed(1) + ' hrs';
 
+  // --- Booking cost for non-members ---
+  const bookingCostEl = document.getElementById('bookingCostValue');
+  bookingCostEl.textContent = fmt(result.bookingCost);
+  bookingCostEl.className = 'result-value' + (result.bookingCost === 0 ? ' zero' : '');
+
   // --- Multiplier ---
   const period = classifyPeriod(location, dayOfWeek, result.hours);
   const periodLabels = { peak: 'Peak', reduced: 'Reduced', offpeak: 'Off-peak' };
   const baseMult = period === 'peak' ? multPeak : period === 'reduced' ? multReduced : multOffPeak;
   const isBuyout = numTables === 4;
-  const totalMult = isBuyout ? baseMult * (1 + multBuyout / 100) : baseMult;
+  const totalMult = isBuyout ? baseMult + multBuyout : baseMult;
 
   multiplierValue.textContent = totalMult.toFixed(1) + '%';
   multiplierValue.className = 'result-value';
@@ -806,7 +826,7 @@ function calculate() {
   }
 
   // --- Recommended price ---
-  const recommended = result.total * (totalMult / 100);
+  const recommended = result.bookingCost * (totalMult / 100);
   recommendedValue.textContent = fmt(recommended);
   recommendedValue.className = 'result-value';
 
@@ -861,10 +881,47 @@ function populateTimeDropdowns() {
 
 populateTimeDropdowns();
 
-// Wire up all inputs
-['location','dayofweek','startTime','endTime','numTables','multOffPeak','multReduced','multPeak','multBuyout'].forEach(id => {
+// When start time changes, shift end time to preserve duration
+function onStartTimeChange() {
+  const startSel = document.getElementById('startTime');
+  const endSel   = document.getElementById('endTime');
+
+  const prev = startSel.dataset.prev || '09:00';
+  const [oldStartH, oldStartM] = prev.split(':').map(Number);
+  const [newStartH, newStartM] = startSel.value.split(':').map(Number);
+  const [endH, endM]           = endSel.value.split(':').map(Number);
+
+  const oldStartMins = oldStartH * 60 + oldStartM;
+  const newStartMins = newStartH * 60 + newStartM;
+  let   endMins      = endH * 60 + endM;
+
+  // Compute current duration (handle midnight crossing)
+  let duration = endMins - oldStartMins;
+  if (duration <= 0) duration += 24 * 60;
+
+  // New end = new start + same duration, wrapped to 24h
+  let newEndMins = (newStartMins + duration) % (24 * 60);
+  const newEndH   = Math.floor(newEndMins / 60);
+  const newEndM   = newEndMins % 60;
+  const newEndVal = String(newEndH).padStart(2,'0') + ':' + String(newEndM).padStart(2,'0');
+
+  if ([...endSel.options].some(o => o.value === newEndVal)) {
+    endSel.value = newEndVal;
+  }
+
+  startSel.dataset.prev = startSel.value;
+  calculate();
+}
+
+// Set initial prev value once dropdowns are populated
+document.getElementById('startTime').dataset.prev = '09:00';
+
+// Wire up start time with duration-preserving handler
+document.getElementById('startTime').addEventListener('change', onStartTimeChange);
+
+// Wire up all other inputs directly to calculate
+['endTime','location','dayofweek','numTables','multOffPeak','multReduced','multPeak','multBuyout'].forEach(id => {
   document.getElementById(id).addEventListener('change', calculate);
-  document.getElementById(id).addEventListener('input', calculate);
 });
 
 // Initial load — fetches pricing_data.json then triggers calculate()
