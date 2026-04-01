@@ -7,402 +7,155 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0e0e0e;
-    --paper: #f5f2eb;
-    --accent: #c8430a;
-    --muted: #8a8070;
-    --rule: #d4cebc;
-    --highlight: #fff8e8;
-    --green: #2a6144;
-    --green-bg: #e8f2ec;
-    --blue: #1a5276;
-    --blue-bg: #dceaf5;
-    --orange-bg: #fdf0e6;
-    --red: #922b21;
-    --red-bg: #f9e0de;
+    --ink: #0e0e0e; --paper: #f5f2eb; --accent: #c8430a; --muted: #8a8070;
+    --rule: #d4cebc; --highlight: #fff8e8; --green: #2a6144; --green-bg: #e8f2ec;
+    --blue: #1a5276; --blue-bg: #dceaf5; --orange-bg: #fdf0e6; --red: #922b21; --red-bg: #f9e0de;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Mono', monospace;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
-    padding: 0;
-  }
+  body { font-family: 'DM Mono', monospace; background: var(--paper); color: var(--ink); min-height: 100vh; }
 
   header {
-    border-bottom: 2px solid var(--ink);
-    padding: 16px 30px;
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    background: var(--ink);
-    color: var(--paper);
+    border-bottom: 2px solid var(--ink); padding: 14px 28px;
+    display: flex; align-items: baseline; gap: 16px;
+    background: var(--ink); color: var(--paper);
   }
+  header h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; text-transform: uppercase; }
+  header span { font-size: 0.6rem; opacity: 0.5; letter-spacing: 0.15em; text-transform: uppercase; }
 
-  header h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
+  .layout { display: grid; grid-template-columns: 260px 270px 1fr; min-height: calc(100vh - 50px); }
+
+  /* COL 1 */
+  .col-input {
+    border-right: 1px solid var(--rule); padding: 16px;
+    display: flex; flex-direction: column; gap: 10px; background: white; overflow-y: auto;
   }
+  .col-input h2 { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 2px; }
 
-  header span {
-    font-size: 0.65rem;
-    opacity: 0.5;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .layout {
-    display: grid;
-    grid-template-columns: 270px 1fr 280px;
-    min-height: calc(100vh - 54px);
-  }
-
-  /* ---- SIDEBAR ---- */
-  .sidebar {
-    border-right: 1px solid var(--rule);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    background: white;
-    overflow-y: auto;
-  }
-
-  .sidebar h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  label {
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
+  .fg { display: flex; flex-direction: column; gap: 3px; }
+  .fg label { font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   select, input[type="number"], input[type="date"] {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 8px 10px;
-    background: var(--paper);
-    color: var(--ink);
-    width: 100%;
-    cursor: pointer;
-    transition: border-color 0.15s;
+    font-family: 'DM Mono', monospace; font-size: 0.8rem;
+    border: 1px solid var(--rule); border-radius: 4px; padding: 7px 8px;
+    background: var(--paper); color: var(--ink); width: 100%;
   }
-
   select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230e0e0e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 28px;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%230e0e0e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center; padding-right: 24px;
   }
-
   select:focus, input:focus { outline: none; border-color: var(--ink); background: white; }
-
-  .row { display: flex; gap: 8px; }
-  .row .field-group { flex: 1; }
-
-  .addon-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.72rem;
-    padding: 3px 0;
+  .row2 { display: flex; gap: 6px; }
+  .row2 .fg { flex: 1; }
+  .addon-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; padding: 2px 0; }
+  .addon-detail { color: var(--muted); font-size: 0.56rem; }
+  .addon-row input { width: 44px; padding: 4px; text-align: center; font-size: 0.72rem; }
+  .calc-btn {
+    margin-top: 4px; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 5px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;
   }
+  .calc-btn:hover { background: #a33608; }
 
-  .addon-detail { color: var(--muted); font-size: 0.6rem; }
-
-  .addon-row input[type="number"] {
-    width: 48px;
-    padding: 4px 6px;
-    text-align: center;
-    font-size: 0.75rem;
+  /* COL 2 */
+  .col-pricing { border-right: 1px solid var(--rule); padding: 16px; background: var(--highlight); overflow-y: auto; }
+  .col-pricing h2 { font-family: 'Syne', sans-serif; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+  .metric { padding: 7px 0; border-bottom: 1px solid var(--rule); }
+  .metric:last-child { border-bottom: none; }
+  .metric .lbl { font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .metric .val { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-top: 1px; }
+  .metric .val.accent { color: var(--accent); }
+  .metric .val.green { color: var(--green); }
+  .metric .val.red { color: var(--red); }
+  .metric .detail { font-size: 0.54rem; color: var(--muted); margin-top: 1px; }
+  .divider { height: 1px; background: var(--rule); margin: 8px 0; }
+  .derived-row { font-size: 0.72rem; padding: 4px 2px; color: var(--ink); }
+  .derived-row strong { font-family: 'Syne', sans-serif; font-size: 0.85rem; }
+  .guest-warn { color: var(--red); font-size: 0.6rem; margin-left: 6px; }
+  .table-checks { display: flex; gap: 6px; margin-top: 2px; }
+  .tbl-chk {
+    display: flex; align-items: center; gap: 4px; padding: 5px 10px;
+    border: 1px solid var(--rule); border-radius: 5px; cursor: pointer;
+    font-size: 0.76rem; font-weight: 500; background: white; transition: all 0.15s;
   }
+  .tbl-chk:has(input:checked) { border-color: var(--accent); background: var(--orange-bg); }
+  .tbl-chk.tbl-private:has(input:checked) { border-color: var(--blue); background: var(--blue-bg); }
+  .tbl-chk input[type="checkbox"] { accent-color: var(--accent); width: auto; margin: 0; }
+  .tbl-chk.tbl-private input[type="checkbox"] { accent-color: var(--blue); }
+  .tbl-chk.tbl-disabled { opacity: 0.35; pointer-events: none; }
+  .tbl-legend { font-size: 0.48rem; color: var(--muted); margin-top: 2px; letter-spacing: 0.02em; }
+  .addon-line { display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--muted); padding: 1px 0; }
+  .addon-line .ao-val { color: var(--ink); font-weight: 500; }
+  .toggle-header { cursor: pointer; user-select: none; }
+  .toggle-header:hover { color: var(--accent); }
+  .hour-table { width: 100%; border-collapse: collapse; font-size: 0.56rem; margin-top: 4px; }
+  .hour-table th { background: var(--ink); color: var(--paper); padding: 4px 5px; text-align: left; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .hour-table td { padding: 3px 5px; border-bottom: 1px solid var(--rule); }
+  .prow { display: flex; justify-content: space-between; align-items: center; padding: 2px 0; }
+  .prow label { font-size: 0.5rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .prow input { width: 50px; padding: 2px 4px; border: 1px solid var(--rule); border-radius: 3px; font-family: inherit; font-size: 0.62rem; text-align: right; background: white; }
 
-  .calculate-btn {
-    margin-top: 6px;
-    padding: 12px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: background 0.2s;
+  /* COL 3 */
+  .col-script { padding: 16px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+  .col-script h2 { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+  /* Dialogue box */
+  .dialogue-box {
+    background: white; border: 1px solid var(--rule); border-radius: 8px;
+    padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    flex: 1; overflow-y: auto; min-height: 180px;
   }
-  .calculate-btn:hover { background: #a33608; }
-
-  /* ---- MAIN SCRIPT AREA ---- */
-  .main {
-    padding: 24px 28px;
-    overflow-y: auto;
+  .dialogue-entry { margin-bottom: 14px; font-size: 0.84rem; line-height: 1.65; }
+  .dialogue-entry:last-child { margin-bottom: 0; }
+  .dialogue-role {
+    font-family: 'Syne', sans-serif; font-size: 0.56rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px;
   }
+  .dialogue-role.sales { color: var(--green); }
+  .dialogue-role.customer { color: var(--blue); }
+  .dialogue-text { color: var(--ink); }
+  .dialogue-text .price { font-weight: 500; color: var(--accent); font-size: 0.98rem; background: var(--orange-bg); padding: 1px 6px; border-radius: 4px; }
+  .dialogue-text .emphasis { font-weight: 500; }
+  .dialogue-divider { border: none; border-top: 1px dashed var(--rule); margin: 10px 0; }
 
-  .main h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 14px;
+  /* Customer choices */
+  .choices-box {
+    background: var(--blue-bg); border: 1px solid var(--blue); border-radius: 8px;
+    padding: 12px 14px;
   }
-
-  .script-card {
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 18px 22px;
-    margin-bottom: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  .choices-box h3 {
+    font-family: 'Syne', sans-serif; font-size: 0.54rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue); margin-bottom: 8px;
   }
-
-  .script-card.active { border-color: var(--accent); border-width: 2px; }
-  .script-card.success { background: var(--green-bg); border-color: var(--green); }
-  .script-card.success h3 { color: var(--green); }
-  .script-card.info { background: var(--blue-bg); border-color: var(--blue); }
-  .script-card.info h3 { color: var(--blue); }
-  .script-card.warning { background: var(--orange-bg); border-color: var(--accent); }
-  .script-card.declined { background: var(--red-bg); border-color: var(--red); }
-  .script-card.declined h3 { color: var(--red); }
-
-  .script-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 8px;
+  .choice-btn {
+    display: block; width: 100%; text-align: left; padding: 8px 12px; margin-bottom: 5px;
+    border: 1px solid var(--rule); border-radius: 6px; cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 0.76rem; background: white;
+    transition: all 0.15s; color: var(--ink);
   }
+  .choice-btn:hover { border-color: var(--blue); background: white; }
+  .choice-btn:last-child { margin-bottom: 0; }
+  .budget-inline { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  .budget-inline label { font-size: 0.72rem; color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .budget-inline input { width: 90px; padding: 6px 8px; border: 2px solid var(--accent); border-radius: 5px; font-size: 0.9rem; font-weight: 500; color: var(--accent); }
+  .budget-inline button { padding: 6px 12px; background: var(--accent); color: white; border: none; border-radius: 5px; font-family: inherit; font-size: 0.7rem; cursor: pointer; }
 
-  .script-text {
-    font-size: 0.88rem;
-    line-height: 1.7;
-    color: var(--ink);
+  /* Nav buttons */
+  .nav-bar { display: flex; gap: 8px; }
+  .nav-btn {
+    padding: 7px 18px; border: 1px solid var(--rule); border-radius: 5px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; background: white; color: var(--ink);
   }
+  .nav-btn:hover { border-color: var(--ink); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .nav-btn.primary:hover { background: #a33608; }
 
-  .script-text .price {
-    font-weight: 500;
-    color: var(--accent);
-    font-size: 1.05rem;
-    background: var(--orange-bg);
-    padding: 1px 6px;
-    border-radius: 4px;
-  }
-
-  .response-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-
-  .response-btn {
-    padding: 7px 14px;
-    border: 2px solid var(--rule);
-    border-radius: 20px;
-    background: white;
-    font-family: inherit;
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--ink);
-  }
-  .response-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .response-btn.positive { border-color: var(--green); color: var(--green); background: var(--green-bg); }
-  .response-btn.negative { border-color: var(--muted); color: var(--muted); }
-
-  .budget-input-section {
-    margin-top: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .budget-input-section label {
-    font-size: 0.78rem;
-    color: var(--ink);
-    text-transform: none;
-    letter-spacing: 0;
-  }
-
-  .budget-input-section input {
-    width: 110px;
-    padding: 8px 10px;
-    border: 2px solid var(--accent);
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--accent);
-  }
-
-  .budget-input-section button {
-    padding: 8px 14px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
-  .budget-input-section button:hover { background: #a33608; }
-
-  .step-indicator {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    font-size: 0.6rem;
-    font-weight: 700;
-    margin-right: 6px;
-    flex-shrink: 0;
-  }
-  .step-indicator.done { background: var(--green); }
-
-  .placeholder-message {
-    text-align: center;
-    padding: 60px 30px;
-    color: var(--muted);
-  }
-  .placeholder-message h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-    color: var(--ink);
-  }
-  .placeholder-message p { font-size: 0.78rem; line-height: 1.6; }
-
+  .placeholder-msg { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .placeholder-msg h3 { font-family: 'Syne', sans-serif; font-size: 1rem; margin-bottom: 6px; color: var(--ink); }
+  .placeholder-msg p { font-size: 0.75rem; line-height: 1.5; }
   .hidden { display: none !important; }
-
-  /* ---- INFO PANEL ---- */
-  .info-panel {
-    border-left: 1px solid var(--rule);
-    padding: 18px;
-    background: var(--highlight);
-    overflow-y: auto;
-    font-size: 0.72rem;
-  }
-
-  .info-panel h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .info-metric {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .info-metric:last-child { border-bottom: none; }
-  .info-metric .lbl {
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-  }
-  .info-metric .val {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--ink);
-    margin-top: 1px;
-  }
-  .info-metric .val.accent { color: var(--accent); }
-  .info-metric .val.green { color: var(--green); }
-  .info-metric .detail {
-    font-size: 0.58rem;
-    color: var(--muted);
-    margin-top: 1px;
-  }
-
-  .divider { height: 1px; background: var(--rule); margin: 10px 0; }
-
-  .param-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3px 0;
-  }
-  .param-row label {
-    font-size: 0.55rem;
-    color: var(--muted);
-  }
-  .param-row input {
-    width: 55px;
-    padding: 3px 5px;
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    font-family: inherit;
-    font-size: 0.68rem;
-    text-align: right;
-    background: white;
-  }
-
-  .hour-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.6rem;
-    margin-top: 6px;
-  }
-  .hour-table th {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 5px 6px;
-    text-align: left;
-    font-size: 0.55rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .hour-table td {
-    padding: 4px 6px;
-    border-bottom: 1px solid var(--rule);
-  }
-  .hour-table tr:nth-child(even) { background: rgba(0,0,0,0.02); }
-
-  #loading-banner {
-    text-align: center;
-    padding: 10px;
-    background: var(--orange-bg);
-    font-size: 0.75rem;
-    color: var(--accent);
-  }
+  #loading-banner { text-align: center; padding: 8px; background: var(--orange-bg); font-size: 0.7rem; color: var(--accent); }
+  .warn-banner { padding: 8px 12px; background: var(--red-bg); color: var(--red); font-size: 0.72rem; border-radius: 5px; margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -411,720 +164,1030 @@
   <h1>Private Event Pricing Calculator</h1>
   <span>Sales Script Guide</span>
 </header>
-
 <div id="loading-banner">Loading pricing data...</div>
 
 <div class="layout">
-  <!-- LEFT SIDEBAR: Party Details -->
-  <div class="sidebar">
+
+  <!-- COL 1: Party Details -->
+  <div class="col-input">
     <h2>Party Details</h2>
 
-    <div class="field-group">
+    <div class="fg">
       <label>Location</label>
-      <select id="location"></select>
+      <select id="location">
+        <option value="Dobro">DoBro (Downtown Brooklyn)</option>
+        <option value="LES">LES (Lower East Side)</option>
+        <option value="Wburg">Williamsburg</option>
+      </select>
     </div>
 
-    <div class="field-group">
+    <div class="row2">
+      <div class="fg"><label>Children</label><input type="number" id="numChildren" min="0" max="200" value="0"></div>
+      <div class="fg"><label>Adults</label><input type="number" id="numAdults" min="0" max="200" value="20"></div>
+    </div>
+    <div class="derived-row">
+      Total Guests: <strong id="totalGuests">20</strong>
+      <span id="guestWarn" class="guest-warn hidden"></span>
+    </div>
+
+    <div class="fg">
+      <label>Tables</label>
+      <div class="table-checks">
+        <label class="tbl-chk"><input type="checkbox" id="tblT1" checked><span>T1</span></label>
+        <label class="tbl-chk"><input type="checkbox" id="tblT2" checked><span>T2</span></label>
+        <label class="tbl-chk"><input type="checkbox" id="tblT3" checked><span>T3</span></label>
+        <label class="tbl-chk tbl-private"><input type="checkbox" id="tblP1"><span>P1</span></label>
+      </div>
+      <div class="tbl-legend">T1–T3 = Open section &nbsp;|&nbsp; P1 = Private</div>
+    </div>
+
+    <div class="fg">
       <label>Event Date</label>
-      <input type="date" id="eventDate">
-    </div>
-
-    <div class="row">
-      <div class="field-group">
-        <label>Start Time</label>
-        <select id="startTime"></select>
-      </div>
-      <div class="field-group">
-        <label>End Time</label>
-        <select id="endTime"></select>
+      <div style="display:flex;align-items:center;border:1px solid var(--rule);border-radius:4px;background:var(--paper);padding:0 8px">
+        <span id="dowLabel" style="font-size:0.8rem;color:var(--ink);margin-right:4px">Sat</span>
+        <input type="date" id="eventDate" style="flex:1;border:none;padding:7px 0;background:transparent">
       </div>
     </div>
 
-    <div class="field-group">
-      <label>Number of People</label>
-      <input type="number" id="numPeople" min="1" max="200" value="20">
-    </div>
-
-    <div class="field-group">
-      <label>Number of Tables (1-8)</label>
-      <input type="number" id="numTables" min="1" max="8" value="4">
+    <div class="row2">
+      <div class="fg"><label>Start</label><select id="startTime"></select></div>
+      <div class="fg"><label>End</label><select id="endTime"></select></div>
     </div>
 
     <h2>Add-Ons</h2>
-
+    <div class="addon-row">
+      <div><div>Coaches</div><div class="addon-detail" id="coachRateLabel">$75/hr · auto: 1 per 10 kids / 15 adults</div></div>
+      <select id="coachToggle" style="width:54px;padding:4px;font-size:0.72rem">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+    <div id="coachCountRow" class="addon-detail hidden" style="padding-left:4px;margin-bottom:2px"></div>
+    <div class="addon-row">
+      <div><div>Banquet Tables</div><div class="addon-detail" id="banquetRateLabel">$60 1st + $30 ea addtl</div></div>
+      <input type="number" id="numBanquetTables" min="0" max="4" value="0">
+    </div>
+    <div class="addon-row">
+      <div><div>Beverage Tubs</div><div class="addon-detail">$30 each</div></div>
+      <input type="number" id="numBevTubs" min="0" max="6" value="0">
+    </div>
     <div class="addon-row">
       <div>
-        <div>Coaches</div>
-        <div class="addon-detail" id="coachRateLabel">$75/hr each</div>
+        <label class="tbl-chk"><input type="checkbox" id="drinksToggle"><span>Drink Package</span></label>
+        <div class="addon-detail" id="drinksLabel">$5/pp/hr + $50 admin</div>
       </div>
-      <input type="number" id="numCoaches" min="0" max="4" value="0">
     </div>
-
     <div class="addon-row">
       <div>
-        <div>Banquet Tables</div>
-        <div class="addon-detail" id="banquetRateLabel">$100 each</div>
-      </div>
-      <input type="number" id="numBanquetTables" min="0" max="2" value="0">
-    </div>
-
-    <div class="addon-row">
-      <div>
-        <div>Beverage Tubs</div>
-        <div class="addon-detail" id="bevTubRateLabel">$75 each</div>
-      </div>
-      <input type="number" id="numBevTubs" min="0" max="4" value="0">
-    </div>
-
-    <button class="calculate-btn" onclick="calculate()">Generate Script</button>
-
-    <!-- SETTINGS (collapsible) -->
-    <div style="margin-top:10px;">
-      <h2 style="cursor:pointer; user-select:none;" onclick="document.getElementById('settingsBody').classList.toggle('hidden'); this.querySelector('span').textContent = document.getElementById('settingsBody').classList.contains('hidden') ? '\u25B6' : '\u25BC';">
-        <span>\u25B6</span> Settings
-      </h2>
-      <div id="settingsBody" class="hidden" style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
-        <div class="param-row"><label>Admin Fee ($)</label><input type="number" id="paramAdminFee" value="50" min="0"></div>
-        <div class="param-row"><label>Buyout Surcharge (%)</label><input type="number" id="multBuyout" value="25" min="0"></div>
-        <div class="param-row"><label>Budget Surcharge (%)</label><input type="number" id="paramBudgetSurcharge" value="25" min="0" step="5"></div>
-        <div class="param-row"><label>Exp Price Factor (Z)</label><input type="number" id="paramExpPriceFactor" value="4" min="1" step="0.5"></div>
-        <div class="param-row"><label>Coach Fee ($/hr)</label><input type="number" id="paramCoachRate" value="75" min="0"></div>
-        <div class="param-row"><label>Banquet Table ($)</label><input type="number" id="paramBanquetRate" value="100" min="0"></div>
-        <div class="param-row"><label>Beverage Tubs ($)</label><input type="number" id="paramBevTubRate" value="75" min="0"></div>
-        <div class="param-row"><label>Headcount Threshold</label><input type="number" id="paramHeadcountThreshold" value="30" min="1"></div>
-        <div class="param-row"><label>Headcount Surchg ($/hd)</label><input type="number" id="paramHeadcountSurcharge" value="5" min="0" step="1"></div>
-        <div style="margin-top:6px; border-top:1px solid var(--rule); padding-top:6px;">
-          <div class="param-row"><label>Off-Peak Mult (%)</label><input type="number" id="multOffPeak" value="125" min="100"></div>
-          <div class="param-row"><label>Reduced Mult (%)</label><input type="number" id="multReduced" value="150" min="100"></div>
-          <div class="param-row"><label>Peak Mult (%)</label><input type="number" id="multPeak" value="175" min="100"></div>
-          <div class="param-row"><label>Peak Threshold (%)</label><input type="number" id="paramPeakThreshold" value="75" min="50" max="100"></div>
-        </div>
+        <label class="tbl-chk"><input type="checkbox" id="snackToggle"><span>Snack Package</span></label>
+        <div class="addon-detail" id="snackLabel">$5/pp/hr + $50 admin</div>
       </div>
     </div>
+
+    <button class="calc-btn" onclick="calculate()">Generate Script</button>
   </div>
 
-  <!-- CENTER: Sales Script -->
-  <div class="main">
-    <div id="placeholder" class="placeholder-message">
-      <h3>Enter Party Details</h3>
-      <p>Fill in event details on the left, then click<br>"Generate Script" to see the sales script.</p>
-    </div>
-
-    <div id="scriptArea" class="hidden">
-
-      <!-- STEP 1: Present Standard Price -->
-      <h2><span class="step-indicator" id="step1badge">1</span> Present Standard Price</h2>
-      <div class="script-card active" id="step1Card">
-        <h3>Say to Customer</h3>
-        <div class="script-text" id="standardPriceScript"></div>
-        <div class="response-buttons" id="step1Buttons">
-          <button class="response-btn positive" onclick="customerAccepts()">Customer Says "Yes"</button>
-          <button class="response-btn negative" onclick="customerHesitates()">Says "Let Me Think About It"</button>
-          <button class="response-btn negative" onclick="customerHesitates()">Says "Too Expensive"</button>
-        </div>
-      </div>
-
-      <!-- STEP 2A: Customer Accepts -->
-      <div id="acceptCard" class="script-card success hidden">
-        <h3><span class="step-indicator done">&#10003;</span> Booking Confirmation Script</h3>
-        <div class="script-text" id="acceptScript"></div>
-      </div>
-
-      <!-- STEP 2B: Customer Hesitates — Ask Budget -->
-      <div id="budgetSection" class="hidden">
-        <h2 style="margin-top:16px"><span class="step-indicator" id="step2badge">2</span> Ask About Budget</h2>
-        <div class="script-card active" id="budgetCard">
-          <h3>Say to Customer</h3>
-          <div class="script-text">"How much have you budgeted for the party?"</div>
-          <div class="budget-input-section">
-            <label>Customer's budget: $</label>
-            <input type="number" id="customerBudget" min="0" step="10" placeholder="0">
-            <button onclick="processBudget()">Go</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3: Budget Response -->
-      <div id="budgetResponseSection" class="hidden">
-        <h2 style="margin-top:16px"><span class="step-indicator">3</span> Offer / Response</h2>
-        <div class="script-card" id="budgetResponseCard">
-          <h3 id="budgetResponseTitle">Response</h3>
-          <div class="script-text" id="budgetResponseScript"></div>
-        </div>
-        <div id="negotiatedAcceptCard" class="hidden">
-          <div class="script-card success" style="margin-top:10px">
-            <h3>When Customer Accepts</h3>
-            <div class="script-text" id="negotiatedAcceptScript"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- RIGHT: Info Panel -->
-  <div class="info-panel">
+  <!-- COL 2: Pricing Info -->
+  <div class="col-pricing">
     <h2>Pricing Info (Internal)</h2>
 
-    <div class="info-metric">
-      <div class="lbl">Standard Price</div>
-      <div class="val accent" id="infoStandardPrice">--</div>
+    <div class="metric">
+      <div class="lbl">Standard Price (Rate Card)</div>
+      <div class="val accent" id="infoStdPrice">--</div>
+      <div class="detail" id="infoStdPriceD"></div>
     </div>
-    <div class="info-metric">
-      <div class="lbl">Buyout Price</div>
-      <div class="val" id="infoBuyoutPrice">--</div>
-      <div class="detail" id="infoBuyoutDetail"></div>
+    <div class="metric">
+      <div class="lbl">Tulip Insurance</div>
+      <div class="val" id="infoTulip">--</div>
+      <div class="detail" id="infoTulipD"></div>
     </div>
-    <div class="info-metric">
-      <div class="lbl">Expected Revenue (Opp. Cost)</div>
-      <div class="val green" id="infoExpectedRev">--</div>
-      <div class="detail" id="infoExpRevDetail"></div>
+    <div class="metric">
+      <div class="lbl toggle-header" onclick="document.getElementById('addonLineItems').classList.toggle('hidden')" style="cursor:pointer">
+        Add-On Costs <span style="font-size:0.45rem;opacity:0.6">[show/hide]</span>
+      </div>
+      <div class="val" id="infoAddOn">$0</div>
+      <div id="addonLineItems" class="hidden" style="margin-top:4px">
+        <div id="infoAddOnLines"></div>
+      </div>
     </div>
-    <div class="info-metric">
-      <div class="lbl">Add-On Costs</div>
-      <div class="val" id="infoAddOnCost">$0.00</div>
-      <div class="detail" id="infoAddOnDetail">None</div>
+    <div class="metric">
+      <div class="lbl">Large Group Surcharge</div>
+      <div class="val" id="infoLgSurcharge">$0.00</div>
+      <div class="detail" id="infoLgSurchargeD"></div>
     </div>
-    <div class="info-metric">
-      <div class="lbl">Admin Fee</div>
+    <div class="metric">
+      <div class="lbl">Event Admin Fee</div>
       <div class="val" id="infoAdminFee">--</div>
     </div>
-    <div class="info-metric">
+    <div class="divider"></div>
+    <div class="metric" style="padding:8px;border-radius:6px;margin:4px 0;border:1px solid #ccc">
+      <div class="lbl" style="font-weight:700;font-size:0.6rem">Event Total</div>
+      <div class="val" id="infoEventTotal" style="font-size:1.15rem">--</div>
+      <div class="detail" id="infoEventTotalD"></div>
+    </div>
+    <div class="metric" style="padding:8px;border-radius:6px;margin:4px 0;border:1px solid #ccc">
+      <div class="lbl" style="font-weight:700;font-size:0.6rem">Discount</div>
+      <div class="val" id="infoDiscount" style="font-size:1rem">--</div>
+      <div class="detail" id="infoDiscountD"></div>
+    </div>
+    <div class="metric" style="background:var(--blue-bg);padding:8px;border-radius:6px;margin:4px 0;border:2px solid var(--blue)">
+      <div class="lbl" style="font-weight:700;font-size:0.6rem;color:var(--blue)">Final Offer</div>
+      <div class="val" id="infoFinalOffer" style="font-size:1.2rem;color:var(--blue)">--</div>
+      <div class="detail" id="infoFinalOfferD"></div>
+    </div>
+
+    <div class="divider"></div>
+    <h2>Negotiation Reference</h2>
+    <div class="metric">
+      <div class="lbl">Expected Revenue (Opp. Cost)</div>
+      <div class="val green" id="infoExpRev">--</div>
+      <div class="detail" id="infoExpRevD"></div>
+    </div>
+    <div class="metric">
+      <div class="lbl">Buyout Price</div>
+      <div class="val" id="infoBuyout">--</div>
+      <div class="detail" id="infoBuyoutD"></div>
+    </div>
+    <div class="metric">
       <div class="lbl">Period</div>
       <div class="val" id="infoPeriod">--</div>
     </div>
-    <div class="info-metric">
+    <div class="metric">
       <div class="lbl">Duration</div>
       <div class="val" id="infoDuration">--</div>
     </div>
 
     <div class="divider"></div>
-    <h2>Hour-by-Hour Detail</h2>
-    <div id="hourTableContainer"></div>
+    <h2 class="toggle-header" onclick="document.getElementById('hourTableBox').classList.toggle('hidden')">
+      Hour-by-Hour <span id="hourToggle" style="font-size:0.5rem;opacity:0.6;cursor:pointer">[show/hide]</span>
+    </h2>
+    <div id="hourTableBox" class="hidden"></div>
 
+    <div class="divider"></div>
+    <h2 class="toggle-header" onclick="document.getElementById('paramsBlock').classList.toggle('hidden')">
+      Parameters <span style="font-size:0.5rem;opacity:0.6">[show/hide]</span>
+    </h2>
+    <div id="paramsBlock" class="hidden">
+      <div class="prow"><label>Event Admin Fee ($)</label><input type="number" id="paramAdminFee" value="50" min="0"></div>
+      <div class="prow"><label>Tulip Ins ($/person)</label><input type="number" id="paramTulipRate" value="10" min="0" step="0.5"></div>
+      <div class="prow"><label>Lg Group Limit</label><input type="number" id="paramLgGroupLimit" value="6" min="1"></div>
+      <div class="prow"><label>Lg Group Surchg $/pp</label><input type="number" id="paramLgGroupSurcharge" value="10" min="0"></div>
+      <div class="prow"><label>Buyout Surch %</label><input type="number" id="multBuyout" value="25" min="0"></div>
+      <div class="prow"><label>Reduced Discount %</label><input type="number" id="paramReducedDisc" value="20" min="0" max="100"></div>
+      <div class="prow"><label>Non-Peak Discount %</label><input type="number" id="paramNonPeakDisc" value="50" min="0" max="100"></div>
+      <div class="prow"><label>Exp Rev Factor (X)</label><input type="number" id="paramExpRevFactor" value="1.5" min="1" step="0.1"></div>
+      <div class="prow"><label>Non-Peak Buyout Disc %</label><input type="number" id="paramNonPeakBuyoutDisc" value="25" min="0" max="100"></div>
+    </div>
+
+    <div class="divider"></div>
+    <h2 class="toggle-header" onclick="document.getElementById('addonRatesBlock').classList.toggle('hidden')">
+      Add-On Rates <span style="font-size:0.5rem;opacity:0.6">[show/hide]</span>
+    </h2>
+    <div id="addonRatesBlock" class="hidden">
+      <div class="prow"><label>Coach $/hr</label><input type="number" id="paramCoachRate" value="75" min="0"></div>
+      <div class="prow"><label>Banquet 1st Tbl $</label><input type="number" id="paramBanquetFirst" value="60" min="0"></div>
+      <div class="prow"><label>Banquet Addtl $</label><input type="number" id="paramBanquetAddtl" value="30" min="0"></div>
+      <div class="prow"><label>Bev Tub $</label><input type="number" id="paramBevTub" value="30" min="0"></div>
+      <div class="prow"><label>Drink Pkg $/pp/hr</label><input type="number" id="paramDrinksRate" value="5" min="0" step="0.5"></div>
+      <div class="prow"><label>Drink Pkg Admin $</label><input type="number" id="paramDrinksAdmin" value="50" min="0"></div>
+      <div class="prow"><label>Snack Pkg $/pp/hr</label><input type="number" id="paramSnackRate" value="5" min="0" step="0.5"></div>
+      <div class="prow"><label>Snack Pkg Admin $</label><input type="number" id="paramSnackAdmin" value="50" min="0"></div>
+    </div>
+
+    <div class="divider"></div>
+    <h2 class="toggle-header" onclick="document.getElementById('maxGuestsBlock').classList.toggle('hidden')">
+      Max Guests Per Location <span style="font-size:0.5rem;opacity:0.6">[show/hide]</span>
+    </h2>
+    <div id="maxGuestsBlock" class="hidden">
+      <div class="prow"><label>DoBro Open</label><input type="number" id="maxDobroOpen" value="50" min="1"></div>
+      <div class="prow"><label>DoBro Open + Private</label><input type="number" id="maxDobroPrivate" value="70" min="1"></div>
+      <div class="prow"><label>LES Open</label><input type="number" id="maxLESOpen" value="30" min="1"></div>
+      <div class="prow"><label>Wburg Open</label><input type="number" id="maxWburgOpen" value="30" min="1"></div>
+      <div class="prow"><label>Wburg Open + Private</label><input type="number" id="maxWburgPrivate" value="40" min="1"></div>
+    </div>
   </div>
+
+  <!-- COL 3: Conversation -->
+  <div class="col-script">
+    <div id="placeholder" class="placeholder-msg">
+      <h3>Enter Party Details</h3>
+      <p>Fill in the event details and click "Generate Script".</p>
+    </div>
+
+    <div id="scriptArea" class="hidden">
+      <div id="warnBox" class="warn-banner hidden"></div>
+
+      <h2>Sales Conversation</h2>
+      <div class="dialogue-box" id="dialogueBox"></div>
+
+      <div id="choicesArea" class="choices-box">
+        <h3>Customer Response</h3>
+        <div id="choicesList"></div>
+      </div>
+
+      <div class="nav-bar">
+        <button class="nav-btn" id="btnBack" onclick="convBack()" disabled>← Back</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 // ============================================================
-// PRICING DATA
+// RATE TABLES (from pricing images)
 // ============================================================
+// Each tier: { maxGuests, open: $/hr or null, private: $/hr or null, tulipOpen: bool, tulipPrivate: bool }
+// null = "Full Buyout Required" (not available at this tier)
 
-let PRICING_DATA = null;
-let currentCalc = null;
+const RATE_TABLES = {
+  Dobro: [
+    { maxGuests: 20, open: 250, private: 350, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 25, open: 300, private: 400, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 30, open: 350, private: 450, tulipOpen: true,  tulipPrivate: false },
+    { maxGuests: 40, open: 450, private: 550, tulipOpen: true,  tulipPrivate: true  },
+    { maxGuests: 50, open: 550, private: 650, tulipOpen: true,  tulipPrivate: true  },
+    { maxGuests: 60, open: null,private: 750, tulipOpen: false, tulipPrivate: true  },
+    { maxGuests: 70, open: null,private: 850, tulipOpen: false, tulipPrivate: true  },
+  ],
+  LES: [
+    { maxGuests: 20, open: 250, private: null, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 25, open: 300, private: null, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 30, open: 350, private: null, tulipOpen: true,  tulipPrivate: false },
+  ],
+  Wburg: [
+    { maxGuests: 20, open: 250, private: 350, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 25, open: 300, private: 400, tulipOpen: false, tulipPrivate: false },
+    { maxGuests: 30, open: 350, private: 450, tulipOpen: true,  tulipPrivate: false },
+    { maxGuests: 40, open: null,private: 550, tulipOpen: false, tulipPrivate: true  },
+  ],
+};
 
-async function loadPricingData() {
-  try {
-    const response = await fetch('pricing_data.json?v=' + Date.now());
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    PRICING_DATA = await response.json();
-  } catch (err) {
-    console.warn('Could not fetch pricing_data.json, using fallback:', err);
-    // If running locally without the JSON file, show error
-    document.getElementById('loading-banner').textContent = 'Error loading pricing data. Make sure pricing_data.json is in the same directory.';
-    return;
+// Look up rate from table. Returns { hourlyRate, needsTulip, fullBuyoutRequired, tierLabel }
+function lookupRate(location, podType, numGuests) {
+  const tiers = RATE_TABLES[location];
+  if (!tiers) return { hourlyRate: 0, needsTulip: false, fullBuyoutRequired: true, tierLabel: 'Unknown location' };
+
+  // Find matching tier
+  for (const t of tiers) {
+    if (numGuests <= t.maxGuests) {
+      const rate = podType === 'private' ? t.private : t.open;
+      const tulip = podType === 'private' ? t.tulipPrivate : t.tulipOpen;
+      if (rate === null) {
+        return { hourlyRate: 0, needsTulip: false, fullBuyoutRequired: true,
+                 tierLabel: numGuests + ' guests — Full Buyout Required for ' + (podType === 'private' ? 'Open Pod + Private Pod' : 'Open Pod') };
+      }
+      const prevMax = tiers.indexOf(t) > 0 ? tiers[tiers.indexOf(t) - 1].maxGuests + 1 : 1;
+      const label = (prevMax === 1 ? 'Up to ' : prevMax + '-') + t.maxGuests + ' guests';
+      return { hourlyRate: rate, needsTulip: tulip, fullBuyoutRequired: false, tierLabel: label };
+    }
   }
-  document.getElementById('loading-banner').style.display = 'none';
 
-  // Populate location dropdown from data
-  const locSel = document.getElementById('location');
-  locSel.innerHTML = '';
-  for (const loc of Object.keys(PRICING_DATA)) {
-    if (loc.startsWith('_')) continue; // skip _hours etc.
-    locSel.appendChild(new Option(loc, loc));
-  }
+  // Exceeds all tiers
+  const maxCap = tiers[tiers.length - 1].maxGuests;
+  return { hourlyRate: 0, needsTulip: false, fullBuyoutRequired: true,
+           tierLabel: numGuests + ' guests exceeds max capacity of ' + maxCap + ' at this location' };
 }
 
 // ============================================================
-// CORE CALCULATION (preserved from original)
+// PRICING DATA (for expected revenue / negotiation reference)
 // ============================================================
+const FALLBACK_DATA = {"Dobro":{"members":{"occupancy":{"0":{"Sat":0.007256376811594203,"Sun":0.009625384615384616,"Mon":0.03366384615384616,"Tue":0.004817692307692308,"Wed":0.01622621621621622,"Thu":0.004817692307692308,"Fri":0.004840917874396135},"1":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"2":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"3":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"4":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"5":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"6":{"Sat":0.01989636363636364,"Sun":0.02748252747252747,"Mon":0.01603564102564102,"Tue":0.01443307692307692,"Wed":0.01618250673854447,"Thu":0.02894890675241157,"Fri":0.05807451612903226},"7":{"Sat":0.09376,"Sun":0.0985676923076923,"Mon":0.07644312101910827,"Tue":0.05556555555555556,"Wed":0.05631026809651475,"Thu":0.1224058333333333,"Fri":0.09017393442622951},"8":{"Sat":0.7235676923076922,"Sun":0.7301304819277108,"Mon":0.1368024528301887,"Tue":0.2427845664739884,"Wed":0.09607986899563319,"Thu":0.2919175144508671,"Fri":0.2552401255230126},"9":{"Sat":0.8028946153846154,"Sun":0.8164351207729468,"Mon":0.2231504958677686,"Tue":0.4565317391304348,"Wed":0.2243343243243243,"Thu":0.3774609803921569,"Fri":0.5013433333333333},"10":{"Sat":0.12501,"Sun":0.1432138834951456,"Mon":0.3065793430656935,"Tue":0.5314109661835749,"Wed":0.4575571698113208,"Thu":0.5456830769230768,"Fri":0.5408753846153845},"11":{"Sat":0.1259359259259259,"Sun":0.1466446153846154,"Mon":0.3154134229828851,"Tue":0.50001,"Wed":0.5118024528301887,"Thu":0.5036419612590799,"Fri":0.5122051219512195},"12":{"Sat":0.08848184986595174,"Sun":0.1009715384615385,"Mon":0.04456445544554456,"Tue":0.05393156862745099,"Wed":0.04029436018957346,"Thu":0.06025096385542169,"Fri":0.06061606060606061},"13":{"Sat":0.06342463414634146,"Sun":0.1153946153846154,"Mon":0.03008518796992481,"Tue":0.03686503685503686,"Wed":0.02133701421800948,"Thu":0.0314869975786925,"Fri":0.03884495145631068},"14":{"Sat":0.08938198067632849,"Sun":0.07693307692307692,"Mon":0.039129804400978,"Tue":0.04902960784313726,"Wed":0.05661377358490566,"Thu":0.06281193236714976,"Fri":0.05122951219512195},"15":{"Sat":0.09201968523002421,"Sun":0.08654846153846153,"Mon":0.08938198067632849,"Tue":0.06039647342995169,"Wed":0.08491566037735848,"Thu":0.09135615384615384,"Fri":0.05186185185185185},"16":{"Sat":0.06251,"Sun":0.08654846153846153,"Mon":0.1301304819277108,"Tue":0.08174076923076923,"Wed":0.2335005660377359,"Thu":0.1418369230769231,"Fri":0.09880518072289156},"17":{"Sat":0.09269292682926829,"Sun":0.1538561538461539,"Mon":0.02164461538461538,"Tue":0.09376,"Wed":0.1533118867924528,"Thu":0.06010615384615385,"Fri":0.08414461538461539},"18":{"Sat":0.07711843373493976,"Sun":0.25001,"Mon":0.1081830769230769,"Tue":0.1466446153846154,"Wed":0.08255716981132075,"Thu":0.1226061538461538,"Fri":0.1610676923076923},"19":{"Sat":0.05289461538461539,"Sun":0.2307792307692308,"Mon":0.1610676923076923,"Tue":0.2331830769230769,"Wed":0.1928671428571429,"Thu":0.3285124154589372,"Fri":0.1899138461538462},"20":{"Sat":0.02645230769230769,"Sun":0.3990484615384616,"Mon":0.1180822891566265,"Tue":0.2063206796116505,"Wed":0.259443962264151,"Thu":0.3091887439613527,"Fri":0.1207829468599034},"21":{"Sat":0.03847153846153847,"Sun":0.4759715384615384,"Mon":0.08414461538461539,"Tue":0.1893303883495146,"Wed":0.1179345283018868,"Thu":0.1014592753623188,"Fri":0.02899550724637681},"22":{"Sat":0.02404846153846154,"Sun":0.1899138461538462,"Mon":0.04087538461538462,"Tue":0.1041262227602906,"Wed":0.02123641509433962,"Thu":0.04380562043795621,"Fri":0.04107280193236715},"23":{"Sat":0.004817692307692308,"Sun":0.07693307692307692,"Mon":0.002413846153846154,"Tue":0.01928710843373494,"Wed":0.00001,"Thu":0.00967183574879227,"Fri":0.02174913043478261}},"prices":{"0":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"1":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"2":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"3":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"4":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"5":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"6":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"7":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"8":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"9":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"10":{"Sat":21,"Sun":21,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"11":{"Sat":21,"Sun":21,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"12":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"13":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"14":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"15":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":21},"16":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":21},"17":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"18":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"19":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"20":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"21":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"22":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"23":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21}}},"nonMembers":{"occupancy":{"0":{"Sat":0.09179743961352657,"Sun":0.09376,"Mon":0.04327923076923077,"Tue":0.009625384615384616,"Wed":0.03514513513513514,"Thu":0.04087538461538462,"Fri":0.06281193236714976},"1":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"2":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"3":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"4":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"5":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"6":{"Sat":0.00001,"Sun":0.002757252747252747,"Mon":0.00642025641025641,"Tue":0.009625384615384616,"Wed":0.005400835579514825,"Thu":0.01287173633440514,"Fri":0.00968741935483871},"7":{"Sat":0.02865583333333333,"Sun":0.03847153846153847,"Mon":0.003194713375796179,"Tue":0.01516151515151515,"Wed":0.005371930294906166,"Thu":0.01303083333333333,"Fri":0.01913568306010929},"8":{"Sat":0.03366384615384616,"Sun":0.03133530120481928,"Mon":0.02831188679245283,"Tue":0.008680520231213872,"Wed":0.01747724890829694,"Thu":0.005790346820809248,"Fri":0.01674640167364017},"9":{"Sat":0.02885615384615385,"Sun":0.03141096618357488,"Mon":0.08265462809917355,"Tue":0.03624188405797102,"Wed":0.08109108108108108,"Thu":0.06128450980392157,"Fri":0.07734333333333333},"10":{"Sat":0.1838335294117647,"Sun":0.3859323300970874,"Mon":0.0924674209245742,"Tue":0.1449375362318841,"Wed":0.09670811320754717,"Thu":0.08654846153846153,"Fri":0.12501},"11":{"Sat":0.3506272839506173,"Sun":0.4543369230769231,"Mon":0.136929315403423,"Tue":0.1802984615384615,"Wed":0.1108590566037736,"Thu":0.1356032203389831,"Fri":0.0975709756097561},"12":{"Sat":0.4155595978552279,"Sun":0.4783753846153846,"Mon":0.1782278217821782,"Tue":0.1029511764705882,"Wed":0.1137540758293839,"Thu":0.1590461445783133,"Fri":0.148999898989899},"13":{"Sat":0.4463514634146342,"Sun":0.5432792307692307,"Mon":0.2756992230576441,"Tue":0.1498871498771499,"Wed":0.1611474407582938,"Thu":0.2421407506053269,"Fri":0.2160294174757282},"14":{"Sat":0.5410728019323671,"Sun":0.5913561538461538,"Mon":0.234728826405868,"Tue":0.1911864705882353,"Wed":0.1651043396226415,"Thu":0.2343095169082126,"Fri":0.2536685365853659},"15":{"Sat":0.6004942615012107,"Sun":0.68751,"Mon":0.2584641062801932,"Tue":0.2318940579710145,"Wed":0.1910477358490566,"Thu":0.2524138461538462,"Fri":0.2864297530864198},"16":{"Sat":0.6346253846153845,"Sun":0.6851061538461538,"Mon":0.3180822891566265,"Tue":0.3557792307692308,"Wed":0.3419911320754717,"Thu":0.3365484615384616,"Fri":0.4578413253012048},"17":{"Sat":0.5048880487804878,"Sun":0.5216446153846154,"Mon":0.21876,"Tue":0.2572215384615384,"Wed":0.2641609433962264,"Thu":0.2307792307692308,"Fri":0.3653946153846154},"18":{"Sat":0.4698895180722892,"Sun":0.6754907692307692,"Mon":0.2956830769230769,"Tue":0.3149138461538462,"Wed":0.5707647169811321,"Thu":0.3341446153846154,"Fri":0.4182792307692308},"19":{"Sat":0.3918369230769231,"Sun":0.6947215384615384,"Mon":0.37501,"Tue":0.3413561538461539,"Wed":0.3952480952380952,"Thu":0.4058071014492754,"Fri":0.50001},"20":{"Sat":0.3726061538461539,"Sun":0.4302984615384616,"Mon":0.3084437349397591,"Tue":0.3106896116504854,"Wed":0.3585005660377358,"Thu":0.3744061352657005,"Fri":0.427546231884058},"21":{"Sat":0.3149138461538462,"Sun":0.1899138461538462,"Mon":0.2283753846153846,"Tue":0.2961265048543689,"Wed":0.2547269811320755,"Thu":0.3285124154589372,"Fri":0.3647442995169082},"22":{"Sat":0.2836638461538462,"Sun":0.1586638461538462,"Mon":0.1346253846153846,"Tue":0.1864506779661017,"Wed":0.1485949056603774,"Thu":0.0949005109489051,"Fri":0.2174013043478261},"23":{"Sat":0.1802984615384615,"Sun":0.0673176923076923,"Mon":0.06251,"Tue":0.06025096385542169,"Wed":0.08491566037735848,"Thu":0.06039647342995169,"Fri":0.1497684541062802}},"prices":{"0":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"1":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"2":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"3":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"4":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"5":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"6":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"7":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"8":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"9":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"10":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"11":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"12":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"13":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"14":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"15":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"16":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"17":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"18":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"19":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"20":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"21":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"22":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"23":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42}}}},"LES":{"members":{"occupancy":{"0":{"Sat":0.08895230769230769,"Sun":0.0577023076923077,"Mon":0.09376,"Tue":0.04946054945054945,"Wed":0.06133075471698114,"Thu":0.04568307692307692,"Fri":0.04087538461538462},"1":{"Sat":0.04808692307692308,"Sun":0.02164461538461538,"Mon":0.02885615384615385,"Tue":0.02885615384615385,"Wed":0.01887792452830189,"Thu":0.01683692307692308,"Fri":0.02164461538461538},"2":{"Sat":0.01443307692307692,"Sun":0.00001,"Mon":0.00001,"Tue":0.009625384615384616,"Wed":0.00001,"Thu":0.003856153846153846,"Fri":0.00001},"3":{"Sat":0.00001,"Sun":0.009625384615384616,"Mon":0.00001,"Tue":0,"Wed":0,"Thu":0.009625384615384616,"Fri":0.00001},"4":{"Sat":0.00001,"Sun":0.009625384615384616,"Mon":0.00001,"Tue":0.00001,"Wed":0,"Thu":0.009625384615384616,"Fri":0},"5":{"Sat":0.009625384615384616,"Sun":0.01924076923076923,"Mon":0,"Tue":0.00001,"Wed":0,"Thu":0.00001,"Fri":0},"6":{"Sat":0.1506272839506173,"Sun":0.1226061538461538,"Mon":0.2091446153846154,"Tue":0.2457102457002457,"Wed":0.2004816981132076,"Thu":0.2139523076923077,"Fri":0.1610676923076923},"7":{"Sat":0.50001,"Sun":0.4615484615384616,"Mon":0.5504907692307692,"Tue":0.5985676923076922,"Wed":0.5825571698113207,"Thu":0.5432792307692307,"Fri":0.4831830769230769},"8":{"Sat":0.5865484615384615,"Sun":0.5985676923076922,"Mon":0.4591446153846154,"Tue":0.5264523076923077,"Wed":0.5235949056603774,"Thu":0.5673176923076922,"Fri":0.4807792307692308},"9":{"Sat":0.6658263265306122,"Sun":0.6298176923076922,"Mon":0.4327023076923077,"Tue":0.4759715384615384,"Wed":0.4811420754716981,"Thu":0.6177984615384615,"Fri":0.4879907692307692},"10":{"Sat":0.1824424324324324,"Sun":0.2716446153846154,"Mon":0.6009715384615384,"Tue":0.6150221065375302,"Wed":0.5636892452830188,"Thu":0.6153946153846154,"Fri":0.6370292307692307},"11":{"Sat":0.1756473937677054,"Sun":0.2932792307692308,"Mon":0.6630827762803234,"Tue":0.6778450515463917,"Wed":0.6221762468513854,"Thu":0.6592897783933518,"Fri":0.6356689147286821},"12":{"Sat":0.1133104926108374,"Sun":0.2067407692307692,"Mon":0.06290308176100629,"Tue":0.08760124087591241,"Wed":0.07064197026022305,"Thu":0.09562752988047808,"Fri":0.1124597991967871},"13":{"Sat":0.1497684541062802,"Sun":0.1754907692307692,"Mon":0.06061606060606061,"Tue":0.02977190476190476,"Wed":0.08384233532934131,"Thu":0.06780661016949152,"Fri":0.1035698705501618},"14":{"Sat":0.2355869230769231,"Sun":0.2307792307692308,"Mon":0.08934002481389577,"Tue":0.6900826392251815,"Wed":0.1445597630331754,"Thu":0.1800586618004866,"Fri":0.1475926972010178},"15":{"Sat":0.2788561538461539,"Sun":0.2764523076923077,"Mon":0.2163561538461539,"Tue":0.68751,"Wed":0.1919531279620853,"Thu":0.2749491727493917,"Fri":0.2009903921568628},"16":{"Sat":0.1670802179176755,"Sun":0.1514523076923077,"Mon":0.2115484615384615,"Tue":0.2829368292682927,"Wed":0.2464554976303318,"Thu":0.3454206280193237,"Fri":0.2705414009661836},"17":{"Sat":0.1057792307692308,"Sun":0.1274138461538462,"Mon":0.2115484615384615,"Tue":0.2795280722891567,"Wed":0.2417161611374408,"Thu":0.2385642168674699,"Fri":0.20001},"18":{"Sat":0.1140876699029126,"Sun":0.3702023076923077,"Mon":0.1827023076923077,"Tue":0.2826186956521739,"Wed":0.4633669739952719,"Thu":0.3389523076923077,"Fri":0.2355869230769231},"19":{"Sat":0.1466446153846154,"Sun":0.3798176923076923,"Mon":0.1995292307692308,"Tue":0.3164351207729469,"Wed":0.455198679245283,"Thu":0.3221253846153846,"Fri":0.2692407692307692},"20":{"Sat":0.1153946153846154,"Sun":0.4831830769230769,"Mon":0.1899138461538462,"Tue":0.2620292307692308,"Wed":0.2099156603773585,"Thu":0.28126,"Fri":0.2747087951807229},"21":{"Sat":0.05289461538461539,"Sun":0.6490484615384615,"Mon":0.1322215384615385,"Tue":0.1298176923076923,"Wed":0.1179345283018868,"Thu":0.1706830769230769,"Fri":0.2115484615384615},"22":{"Sat":0.1226061538461538,"Sun":0.5504907692307692,"Mon":0.08654846153846153,"Tue":0.1586638461538462,"Wed":0.1320854716981132,"Thu":0.1490484615384615,"Fri":0.1827023076923077},"23":{"Sat":0.0985676923076923,"Sun":0.3101061538461539,"Mon":0.06491384615384616,"Tue":0.04808692307692308,"Wed":0.0589722641509434,"Thu":0.04568307692307692,"Fri":0.1105869230769231}},"prices":{"0":{"Sat":22,"Sun":22,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"1":{"Sat":22,"Sun":22,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"2":{"Sat":22,"Sun":22,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"3":{"Sat":24,"Sun":24,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"4":{"Sat":24,"Sun":24,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"5":{"Sat":24,"Sun":24,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"6":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"7":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"8":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"9":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"10":{"Sat":24,"Sun":24,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"11":{"Sat":24,"Sun":24,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"12":{"Sat":24,"Sun":24,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"13":{"Sat":24,"Sun":24,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"14":{"Sat":24,"Sun":24,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"15":{"Sat":24,"Sun":24,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":24},"16":{"Sat":24,"Sun":24,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":24},"17":{"Sat":24,"Sun":0,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"18":{"Sat":24,"Sun":0,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"19":{"Sat":24,"Sun":0,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"20":{"Sat":24,"Sun":0,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"21":{"Sat":24,"Sun":0,"Mon":24,"Tue":24,"Wed":24,"Thu":24,"Fri":24},"22":{"Sat":22,"Sun":0,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22},"23":{"Sat":22,"Sun":0,"Mon":22,"Tue":22,"Wed":22,"Thu":22,"Fri":22}}},"nonMembers":{"occupancy":{"0":{"Sat":0.1634715384615385,"Sun":0.1490484615384615,"Mon":0.06251,"Tue":0.02473527472527472,"Wed":0.05661377358490566,"Thu":0.06251,"Fri":0.0673176923076923},"1":{"Sat":0.1057792307692308,"Sun":0.08414461538461539,"Mon":0.02645230769230769,"Tue":0.01683692307692308,"Wed":0.02123641509433962,"Thu":0.02404846153846154,"Fri":0.02885615384615385},"2":{"Sat":0.04808692307692308,"Sun":0.03847153846153847,"Mon":0.03077923076923077,"Tue":0.00001,"Wed":0.01180245283018868,"Thu":0.01924076923076923,"Fri":0.08654846153846153},"3":{"Sat":0.0577023076923077,"Sun":0.09616384615384616,"Mon":0.02885615384615385,"Tue":0,"Wed":0,"Thu":0.02885615384615385,"Fri":0.03847153846153847},"4":{"Sat":0.07693307692307692,"Sun":0.08654846153846153,"Mon":0.01924076923076923,"Tue":0.03847153846153847,"Wed":0,"Thu":0.01924076923076923,"Fri":0},"5":{"Sat":0.01924076923076923,"Sun":0.0673176923076923,"Mon":0,"Tue":0.03847153846153847,"Wed":0,"Thu":0.01924076923076923,"Fri":0},"6":{"Sat":0.01976308641975309,"Sun":0.01202923076923077,"Mon":0.01924076923076923,"Tue":0.01229501228501228,"Wed":0.01416094339622642,"Thu":0.004817692307692308,"Fri":0.01924076923076923},"7":{"Sat":0.02885615384615385,"Sun":0.01443307692307692,"Mon":0.01202923076923077,"Tue":0.02164461538461538,"Wed":0.02359490566037736,"Thu":0.009625384615384616,"Fri":0.01683692307692308},"8":{"Sat":0.04568307692307692,"Sun":0.09616384615384616,"Mon":0.03847153846153847,"Tue":0.01924076923076923,"Wed":0.01180245283018868,"Thu":0.02885615384615385,"Fri":0.06491384615384616},"9":{"Sat":0.07398959183673469,"Sun":0.18751,"Mon":0.0673176923076923,"Tue":0.04808692307692308,"Wed":0.07548169811320754,"Thu":0.04808692307692308,"Fri":0.09616384615384616},"10":{"Sat":0.1486586486486487,"Sun":0.1706830769230769,"Mon":0.1226061538461538,"Tue":0.1065475302663438,"Wed":0.1037835849056604,"Thu":0.1346253846153846,"Fri":0.1418369230769231},"11":{"Sat":0.226638895184136,"Sun":0.2163561538461539,"Mon":0.123999218328841,"Tue":0.08506154639175258,"Wed":0.1083223425692695,"Thu":0.1080432409972299,"Fri":0.1343769250645995},"12":{"Sat":0.2783351231527094,"Sun":0.21876,"Mon":0.1949785534591195,"Tue":0.1240975912408759,"Wed":0.09294680297397769,"Thu":0.1314841035856574,"Fri":0.2048292771084337},"13":{"Sat":0.3985607246376812,"Sun":0.2668369230769231,"Mon":0.196979696969697,"Tue":0.1815576190476191,"Wed":0.08983035928143712,"Thu":0.2062246892655367,"Fri":0.2621459223300971},"14":{"Sat":0.4879907692307692,"Sun":0.3581830769230769,"Mon":0.1836328287841191,"Tue":0.2784603631961259,"Wed":0.1801047867298578,"Thu":0.2700829927007299,"Fri":0.3129870992366413},"15":{"Sat":0.4976061538461539,"Sun":0.4543369230769231,"Mon":0.2980869230769231,"Tue":0.28126,"Wed":0.2132801421800948,"Thu":0.2846815328467153,"Fri":0.3676570588235294},"16":{"Sat":0.5254337288135593,"Sun":0.5384715384615384,"Mon":0.3317407692307692,"Tue":0.2487904878048781,"Wed":0.3056972037914692,"Thu":0.3285124154589372,"Fri":0.4058071014492754},"17":{"Sat":0.5817407692307692,"Sun":0.5144330769230768,"Mon":0.15626,"Tue":0.2265160240963855,"Wed":0.1919531279620853,"Thu":0.2626606024096386,"Fri":0.4241063855421687},"18":{"Sat":0.4757381553398058,"Sun":0.4158753846153846,"Mon":0.2524138461538462,"Tue":0.321266038647343,"Wed":0.2955182742316785,"Thu":0.3581830769230769,"Fri":0.4639523076923077},"19":{"Sat":0.3557792307692308,"Sun":0.3918369230769231,"Mon":0.3293369230769231,"Tue":0.355082463768116,"Wed":0.3089722641509434,"Thu":0.3942407692307692,"Fri":0.4543369230769231},"20":{"Sat":0.3509715384615384,"Sun":0.2764523076923077,"Mon":0.2836638461538462,"Tue":0.3365484615384616,"Wed":0.3419911320754717,"Thu":0.4014523076923077,"Fri":0.3783232530120482},"21":{"Sat":0.3653946153846154,"Sun":0.1153946153846154,"Mon":0.2235676923076923,"Tue":0.2283753846153846,"Wed":0.3184062264150944,"Thu":0.31251,"Fri":0.4182792307692308},"22":{"Sat":0.3557792307692308,"Sun":0.1153946153846154,"Mon":0.1610676923076923,"Tue":0.1226061538461538,"Wed":0.1674628301886792,"Thu":0.1730869230769231,"Fri":0.4038561538461539},"23":{"Sat":0.2548176923076923,"Sun":0.07693307692307692,"Mon":0.07693307692307692,"Tue":0.08895230769230769,"Wed":0.1320854716981132,"Thu":0.1274138461538462,"Fri":0.2331830769230769}},"prices":{"0":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"1":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"2":{"Sat":50,"Sun":50,"Mon":50,"Tue":50,"Wed":50,"Thu":50,"Fri":50},"3":{"Sat":50,"Sun":50,"Mon":50,"Tue":50,"Wed":50,"Thu":50,"Fri":50},"4":{"Sat":50,"Sun":50,"Mon":50,"Tue":50,"Wed":50,"Thu":50,"Fri":50},"5":{"Sat":50,"Sun":50,"Mon":50,"Tue":50,"Wed":50,"Thu":50,"Fri":50},"6":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"7":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"8":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"9":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"10":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"11":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"12":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"13":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"14":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"15":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"16":{"Sat":48,"Sun":48,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"17":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"18":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"19":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"20":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"21":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"22":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48},"23":{"Sat":48,"Sun":48,"Mon":48,"Tue":48,"Wed":48,"Thu":48,"Fri":48}}}},"Wburg":{"members":{"occupancy":{"0":{"Sat":0.03606769230769231,"Sun":0.007221538461538462,"Mon":0.00001,"Tue":0.00001,"Wed":0.009625384615384616,"Thu":0.004726981132075471,"Fri":0.02404846153846154},"1":{"Sat":0.01202923076923077,"Sun":0.004817692307692308,"Mon":0.00001,"Tue":0.00001,"Wed":0.00001,"Thu":0.00001,"Fri":0.004911960784313725},"2":{"Sat":0.00001,"Sun":0.00001,"Mon":0.00001,"Tue":0.00001,"Wed":0.00642025641025641,"Thu":0.00001,"Fri":0.004817692307692308},"3":{"Sat":0.00001,"Sun":0.00001,"Mon":0.00001,"Tue":0.002460980392156863,"Wed":0.00001,"Thu":0.00001,"Fri":0.00642025641025641},"4":{"Sat":0.00001,"Sun":0.00001,"Mon":0.00001,"Tue":0.00001,"Wed":0.00001,"Thu":0.00001,"Fri":0.00642025641025641},"5":{"Sat":0,"Sun":0.005504505494505495,"Mon":0.00001,"Tue":0.00001,"Wed":0,"Thu":0.00001,"Fri":0.00642025641025641},"6":{"Sat":0.003856153846153846,"Sun":0.01924076923076923,"Mon":0,"Tue":0.01220512195121951,"Wed":0.00001,"Thu":0.00001,"Fri":0.003215128205128205},"7":{"Sat":0.02658004830917874,"Sun":0.08414461538461539,"Mon":0.03526641025641026,"Tue":0.04107280193236715,"Wed":0.04488179487179488,"Thu":0.07672232876712329,"Fri":0.06411256410256409},"8":{"Sat":0.2874792874692875,"Sun":0.1995292307692308,"Mon":0.05449717948717949,"Tue":0.04808692307692308,"Wed":0.1081830769230769,"Thu":0.08895230769230769,"Fri":0.08242758241758241},"9":{"Sat":0.37501,"Sun":0.2788561538461539,"Mon":0.1270818232044199,"Tue":0.09474684210526316,"Wed":0.1914993617021277,"Thu":0.1417212299465241,"Fri":0.1340582573726542},"10":{"Sat":0.05379973105134474,"Sun":0.1033753846153846,"Mon":0.1909190909090909,"Tue":0.2932651319648094,"Wed":0.2591193117408907,"Thu":0.3104495604395605,"Fri":0.3333433333333333},"11":{"Sat":0.1083843842364532,"Sun":0.08654846153846153,"Mon":0.1032708695652174,"Tue":0.2908753846153846,"Wed":0.273946170212766,"Thu":0.3136892452830189,"Fri":0.3152273913043478},"12":{"Sat":0.1002544987775061,"Sun":0.03606769230769231,"Mon":0.03366384615384616,"Tue":0.06251,"Wed":0.09179743961352657,"Thu":0.0731232075471698,"Fri":0.0975709756097561},"13":{"Sat":0.08049780487804878,"Sun":0.06491384615384616,"Mon":0.04327923076923077,"Tue":0.05826242718446602,"Wed":0.06491384615384616,"Thu":0.0589722641509434,"Fri":0.06634906633906633},"14":{"Sat":0.1038747342995169,"Sun":0.06010615384615385,"Mon":0.03366384615384616,"Tue":0.04902960784313726,"Wed":0.03847153846153847,"Thu":0.06133075471698114,"Fri":0.04879048780487805},"15":{"Sat":0.07711843373493976,"Sun":0.05289461538461539,"Mon":0.05289461538461539,"Tue":0.03126,"Wed":0.01683692307692308,"Thu":0.04010433962264151,"Fri":0.04568307692307692},"16":{"Sat":0.03847153846153847,"Sun":0.1033753846153846,"Mon":0.1490484615384615,"Tue":0.1207829468599034,"Wed":0.03847153846153847,"Thu":0.04048619047619048,"Fri":0.08174076923076923},"17":{"Sat":0.03856421686746989,"Sun":0.1129907692307692,"Mon":0.1971253846153846,"Tue":0.0721253846153846,"Wed":0.06491384615384616,"Thu":0.07143857142857142,"Fri":0.1226061538461538},"18":{"Sat":0.02416458937198068,"Sun":0.15626,"Mon":0.2115484615384615,"Tue":0.0577023076923077,"Wed":0.07933692307692307,"Thu":0.1108590566037736,"Fri":0.2067407692307692},"19":{"Sat":0.03865734299516908,"Sun":0.1682792307692308,"Mon":0.1754907692307692,"Tue":0.1586638461538462,"Wed":0.1634715384615385,"Thu":0.2004816981132076,"Fri":0.25001},"20":{"Sat":0.03382642512077295,"Sun":0.1586638461538462,"Mon":0.1322215384615385,"Tue":0.3653946153846154,"Wed":0.1610676923076923,"Thu":0.1839722641509434,"Fri":0.1370292307692308},"21":{"Sat":0.05073463768115943,"Sun":0.2740484615384616,"Mon":0.05529846153846154,"Tue":0.3004907692307692,"Wed":0.2139523076923077,"Thu":0.1037835849056604,"Fri":0.1057792307692308},"22":{"Sat":0.05798101449275363,"Sun":0.2115484615384615,"Mon":0.02645230769230769,"Tue":0.1370292307692308,"Wed":0.1827023076923077,"Thu":0.07784018867924528,"Fri":0.05289461538461539},"23":{"Sat":0.03865734299516908,"Sun":0.01924076923076923,"Mon":0.005504505494505495,"Tue":0.02164461538461538,"Wed":0.04808692307692308,"Thu":0.02831188679245283,"Fri":0.009625384615384616}},"prices":{"0":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"1":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"2":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"3":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"4":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"5":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"6":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"7":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"8":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"9":{"Sat":0,"Sun":0,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"10":{"Sat":21,"Sun":21,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"11":{"Sat":21,"Sun":21,"Mon":0,"Tue":0,"Wed":0,"Thu":0,"Fri":0},"12":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"13":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"14":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":18},"15":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":21},"16":{"Sat":21,"Sun":21,"Mon":18,"Tue":18,"Wed":18,"Thu":18,"Fri":21},"17":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"18":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"19":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"20":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"21":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"22":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21},"23":{"Sat":21,"Sun":21,"Mon":21,"Tue":21,"Wed":21,"Thu":21,"Fri":21}}},"nonMembers":{"occupancy":{"0":{"Sat":0.1129907692307692,"Sun":0.12501,"Mon":0.03366384615384616,"Tue":0.03022978021978022,"Wed":0.04087538461538462,"Thu":0.02123641509433962,"Fri":0.05049076923076923},"1":{"Sat":0.06491384615384616,"Sun":0.0577023076923077,"Mon":0.03606769230769231,"Tue":0.00642025641025641,"Wed":0.01924076923076923,"Thu":0.01887792452830189,"Fri":0.0196178431372549},"2":{"Sat":0.04488179487179488,"Sun":0.02885615384615385,"Mon":0.01283051282051282,"Tue":0.00642025641025641,"Wed":0.009625384615384616,"Thu":0.01618250673854447,"Fri":0.02404846153846154},"3":{"Sat":0.02473527472527472,"Sun":0.02645230769230769,"Mon":0.00642025641025641,"Tue":0.00001,"Wed":0.00642025641025641,"Thu":0.009443962264150943,"Fri":0.01603564102564102},"4":{"Sat":0.01443307692307692,"Sun":0.01443307692307692,"Mon":0.01283051282051282,"Tue":0.004911960784313725,"Wed":0.00001,"Thu":0.006299308176100629,"Fri":0.009625384615384616},"5":{"Sat":0,"Sun":0.002757252747252747,"Mon":0.009625384615384616,"Tue":0.00001,"Wed":0,"Thu":0.006299308176100629,"Fri":0.00001},"6":{"Sat":0.01154846153846154,"Sun":0.00001,"Mon":0,"Tue":0.00001,"Wed":0.01924076923076923,"Thu":0.006299308176100629,"Fri":0.00642025641025641},"7":{"Sat":0.02174913043478261,"Sun":0.007221538461538462,"Mon":0.00642025641025641,"Tue":0.02416458937198068,"Wed":0.009625384615384616,"Thu":0.00001,"Fri":0.003215128205128205},"8":{"Sat":0.03686503685503686,"Sun":0.01443307692307692,"Mon":0.003215128205128205,"Tue":0.01683692307692308,"Wed":0.01443307692307692,"Thu":0.007221538461538462,"Fri":0.008251758241758242},"9":{"Sat":0.08174076923076923,"Sun":0.04808692307692308,"Mon":0.01934701657458563,"Tue":0.02895736842105263,"Wed":0.03192489361702128,"Thu":0.0160527807486631,"Fri":0.01341482573726542},"10":{"Sat":0.1051444743276284,"Sun":0.06491384615384616,"Mon":0.03637363636363636,"Tue":0.02933551319648094,"Wed":0.03644724696356275,"Thu":0.02198802197802198,"Fri":0.02667666666666667},"11":{"Sat":0.1477932512315271,"Sun":0.1394330769230769,"Mon":0.06522739130434782,"Tue":0.05529846153846154,"Wed":0.0399036170212766,"Thu":0.03538735849056604,"Fri":0.03533608695652174},"12":{"Sat":0.215168924205379,"Sun":0.1298176923076923,"Mon":0.06491384615384616,"Tue":0.05289461538461539,"Wed":0.08938198067632849,"Thu":0.04010433962264151,"Fri":0.05610756097560976},"13":{"Sat":0.2487904878048781,"Sun":0.2067407692307692,"Mon":0.07693307692307692,"Tue":0.05826242718446602,"Wed":0.0721253846153846,"Thu":0.0731232075471698,"Fri":0.08354808353808353},"14":{"Sat":0.3116042028985507,"Sun":0.2836638461538462,"Mon":0.1009715384615385,"Tue":0.04902960784313726,"Wed":0.0577023076923077,"Thu":0.1061420754716981,"Fri":0.09513195121951219},"15":{"Sat":0.3156726506024096,"Sun":0.3221253846153846,"Mon":0.1851061538461539,"Tue":0.1009715384615385,"Wed":0.08174076923076923,"Thu":0.1108590566037736,"Fri":0.1730869230769231},"16":{"Sat":0.3485676923076923,"Sun":0.3149138461538462,"Mon":0.2043369230769231,"Tue":0.1352757004830918,"Wed":0.09135615384615384,"Thu":0.08572428571428571,"Fri":0.2043369230769231},"17":{"Sat":0.3783232530120482,"Sun":0.3077023076923077,"Mon":0.1754907692307692,"Tue":0.1057792307692308,"Wed":0.1153946153846154,"Thu":0.08334333333333332,"Fri":0.1634715384615385},"18":{"Sat":0.3236814975845411,"Sun":0.3221253846153846,"Mon":0.1610676923076923,"Tue":0.1802984615384615,"Wed":0.2668369230769231,"Thu":0.1886892452830189,"Fri":0.1634715384615385},"19":{"Sat":0.251217729468599,"Sun":0.31251,"Mon":0.1851061538461539,"Tue":0.2644330769230769,"Wed":0.2427984615384615,"Thu":0.2547269811320755,"Fri":0.2211638461538462},"20":{"Sat":0.251217729468599,"Sun":0.2764523076923077,"Mon":0.1586638461538462,"Tue":0.3485676923076923,"Wed":0.2235676923076923,"Thu":0.2712364150943397,"Fri":0.3245292307692308},"21":{"Sat":0.251217729468599,"Sun":0.1778946153846154,"Mon":0.1081830769230769,"Tue":0.3269330769230769,"Wed":0.1730869230769231,"Thu":0.2429345283018868,"Fri":0.2524138461538462},"22":{"Sat":0.2343095169082126,"Sun":0.08414461538461539,"Mon":0.08414461538461539,"Tue":0.1153946153846154,"Wed":0.1057792307692308,"Thu":0.1297269811320755,"Fri":0.1706830769230769},"23":{"Sat":0.176338502415459,"Sun":0.04808692307692308,"Mon":0.04946054945054945,"Tue":0.0673176923076923,"Wed":0.04087538461538462,"Thu":0.09199113207547169,"Fri":0.1634715384615385}},"prices":{"0":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"1":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"2":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"3":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"4":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"5":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"6":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"7":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"8":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"9":{"Sat":36,"Sun":36,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"10":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"11":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"12":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"13":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"14":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":36},"15":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"16":{"Sat":42,"Sun":42,"Mon":36,"Tue":36,"Wed":36,"Thu":36,"Fri":48},"17":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"18":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"19":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"20":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"21":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"22":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42},"23":{"Sat":42,"Sun":42,"Mon":42,"Tue":42,"Wed":42,"Thu":42,"Fri":42}}}},"_hours":{"nonMembers":{"0":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"1":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"2":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"3":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"4":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"5":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"6":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"7":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"8":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"9":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"10":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"11":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"12":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"13":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"14":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"15":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"P"},"16":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"P"},"17":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"18":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"19":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"20":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"21":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"22":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"23":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"}},"members":{"0":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"1":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"2":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"3":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"4":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"5":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"6":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"7":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"8":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"9":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"10":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"11":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"12":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"13":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"14":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"15":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"P"},"16":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"P"},"17":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"18":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"19":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"20":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"21":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"22":{"Sat":"R","Sun":"NP","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"23":{"Sat":"R","Sun":"NP","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"}}}};
 
+let PRICING_DATA = null;
+let C = null;
+
+async function loadPricingData() {
+  try {
+    const r = await fetch('pricing_data.json?v=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    PRICING_DATA = await r.json();
+  } catch (err) {
+    console.warn('Could not fetch pricing_data.json, using embedded fallback:', err);
+    PRICING_DATA = FALLBACK_DATA;
+  }
+  document.getElementById('loading-banner').style.display = 'none';
+  calculate();
+}
+
+// ============================================================
+// CORE: expectedRevenue (for negotiation reference)
+// ============================================================
 function expectedRevenue(location, dayOfWeek, startTimeStr, endTimeStr, numTables) {
   if (!location || !dayOfWeek || !startTimeStr || !endTimeStr || !numTables) return null;
   const locData = PRICING_DATA[location];
   if (!locData) return null;
-
   const [startH, startM] = startTimeStr.split(':').map(Number);
   const [endH, endM] = endTimeStr.split(':').map(Number);
   if (isNaN(startH) || isNaN(endH)) return null;
-
-  let startMinutes = startH * 60 + (startM || 0);
-  let endMinutes   = endH   * 60 + (endM   || 0);
-  if (endMinutes <= startMinutes) endMinutes += 24 * 60;
-
-  const durationHours = (endMinutes - startMinutes) / 60;
-
-  const hours = [];
-  let cur = startMinutes;
-  while (cur < endMinutes) {
-    hours.push(Math.floor(cur / 60) % 24);
-    cur += 60;
-    if (cur === endMinutes) break;
+  let sMin = startH * 60 + (startM || 0), eMin = endH * 60 + (endM || 0);
+  if (eMin <= sMin) eMin += 1440;
+  const dur = (eMin - sMin) / 60;
+  const hrs = []; let cur = sMin;
+  while (cur < eMin) { hrs.push(Math.floor(cur / 60) % 24); cur += 60; if (cur === eMin) break; }
+  if (eMin % 60 !== 0) hrs.push(Math.floor(eMin / 60) % 24);
+  const uniq = [...new Set(hrs)];
+  let tM = 0, tNM = 0, tBC = 0; const detail = [];
+  for (const h of uniq) {
+    const k = String(h);
+    const mO = locData.members.occupancy[k]?.[dayOfWeek] ?? 0;
+    const mP = locData.members.prices[k]?.[dayOfWeek] ?? 0;
+    const nO = locData.nonMembers.occupancy[k]?.[dayOfWeek] ?? 0;
+    const nP = locData.nonMembers.prices[k]?.[dayOfWeek] ?? 0;
+    const mR = mO * mP * numTables, nR = nO * nP * numTables, bc = nP * numTables;
+    tM += mR; tNM += nR; tBC += bc;
+    const mS = PRICING_DATA._hours?.members?.[k]?.[dayOfWeek] ?? 'NP';
+    detail.push({ hour: h, memberOcc: mO, nmOcc: nO, nmPrice: nP, nmRev: nR, memberRev: mR, bookingCost: bc, total: mR + nR, memberStatus: mS });
   }
-  if (endMinutes % 60 !== 0) {
-    hours.push(Math.floor(endMinutes / 60) % 24);
-  }
-  const uniqueHours = [...new Set(hours)];
-
-  const tableFactor = numTables / 4;
-
-  let totalMember = 0;
-  let totalNonMember = 0;
-  let totalBookingCost = 0;
-  const hourDetail = [];
-
-  for (const h of uniqueHours) {
-    const hStr = String(h);
-    const mOcc  = locData.members.occupancy[hStr]?.[dayOfWeek]    ?? 0;
-    const mPrc  = locData.members.prices[hStr]?.[dayOfWeek]       ?? 0;
-    const nmOcc = locData.nonMembers.occupancy[hStr]?.[dayOfWeek] ?? 0;
-    const nmPrc = locData.nonMembers.prices[hStr]?.[dayOfWeek]    ?? 0;
-
-    const mRev  = mOcc  * mPrc  * numTables;
-    const nmRev = nmOcc * nmPrc * numTables;
-    const bookingCost = nmPrc * numTables;
-
-    totalMember      += mRev;
-    totalNonMember   += nmRev;
-    totalBookingCost += bookingCost;
-
-    const mStatus  = PRICING_DATA._hours?.members?.[hStr]?.[dayOfWeek]    ?? 'NP';
-    const nmStatus = PRICING_DATA._hours?.nonMembers?.[hStr]?.[dayOfWeek] ?? 'NP';
-
-    hourDetail.push({
-      hour: h,
-      memberOcc: mOcc, memberPrice: mPrc, memberRev: mRev, memberStatus: mStatus,
-      nmOcc, nmPrice: nmPrc, nmRev, nmStatus,
-      bookingCost,
-      total: mRev + nmRev
-    });
-  }
-
-  return {
-    total: totalMember + totalNonMember,
-    memberTotal: totalMember,
-    nmTotal: totalNonMember,
-    bookingCost: totalBookingCost,
-    durationHours,
-    hours: hourDetail
-  };
+  return { total: tM + tNM, memberTotal: tM, nmTotal: tNM, bookingCost: tBC, durationHours: dur, hours: detail };
 }
 
-// Classify using member hours status: P=Peak, R=Reduced, NP=Off-peak
-function classifyPeriod(location, dayOfWeek, hours) {
-  if (!PRICING_DATA || !PRICING_DATA._hours || !hours.length) return 'offpeak';
-  const memberHours = PRICING_DATA._hours.members;
-  let hasPeak = false;
-  let hasReduced = false;
+// Returns { tag, isPeak, peakHours, reducedHours, offPeakHours, totalHours }
+function classifyPeriod(dayOfWeek, hours) {
+  if (!PRICING_DATA?._hours) return { tag: 'Off-Peak', isPeak: false, peakHours: 0, reducedHours: 0, offPeakHours: hours.length, totalHours: hours.length };
+  const mh = PRICING_DATA._hours.members;
+  let peakH = 0, reducedH = 0, offPeakH = 0;
   for (const h of hours) {
-    const hKey = String(h.hour !== undefined ? h.hour : h);
-    const status = memberHours?.[hKey]?.[dayOfWeek] ?? 'NP';
-    if (status === 'P') hasPeak = true;
-    if (status === 'R') hasReduced = true;
+    const st = mh?.[String(h.hour !== undefined ? h.hour : h)]?.[dayOfWeek] ?? 'NP';
+    if (st === 'P') peakH++;
+    else if (st === 'R') reducedH++;
+    else offPeakH++;
   }
-  if (hasPeak) return 'peak';
-  if (hasReduced) return 'reduced';
-  return 'offpeak';
+  const parts = [];
+  if (peakH) parts.push('Peak');
+  if (reducedH) parts.push('Reduced');
+  if (offPeakH) parts.push('Off-Peak');
+  const tag = parts.length ? parts.join('/') : 'Off-Peak';
+  return { tag, isPeak: peakH > 0 || reducedH > 0, peakHours: peakH, reducedHours: reducedH, offPeakHours: offPeakH, totalHours: peakH + reducedH + offPeakH };
 }
 
 // ============================================================
-// UTILITY
+// HELPERS
 // ============================================================
-
-function fmt(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function fmtWhole(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtW(n) { return '$' + Math.round(n).toLocaleString(); }
 function fmtPct(n) { return (n * 100).toFixed(1) + '%'; }
-
-function getDayAbbr(dateStr) {
-  if (!dateStr) return 'Sat';
-  const d = new Date(dateStr + 'T12:00:00');
-  return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
-}
-
-function getDayName(dateStr) {
-  if (!dateStr) return 'Saturday';
-  const d = new Date(dateStr + 'T12:00:00');
-  return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
-}
+function dayAbbr(d) { if (!d) return 'Sat'; return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
+function dayName(d) { if (!d) return 'Saturday'; return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(d+'T12:00:00').getDay()]; }
 
 // ============================================================
 // TIME DROPDOWNS
 // ============================================================
-
 function populateTimeDropdowns() {
-  const startSel = document.getElementById('startTime');
-  const endSel = document.getElementById('endTime');
-  for (let h = 0; h < 24; h++) {
-    for (const m of [0, 30]) {
-      const val = String(h).padStart(2,'0') + ':' + (m === 0 ? '00' : '30');
-      startSel.appendChild(new Option(val, val));
-      endSel.appendChild(new Option(val, val));
-    }
+  const s = document.getElementById('startTime'), e = document.getElementById('endTime');
+  for (let h = 0; h < 24; h++) for (const m of [0,30]) {
+    const v = String(h).padStart(2,'0') + ':' + (m ? '30' : '00');
+    s.appendChild(new Option(v,v)); e.appendChild(new Option(v,v));
   }
-  startSel.value = '18:00';
-  endSel.value = '21:00';
-  startSel.dataset.prev = '18:00';
+  s.value = '18:00'; e.value = '21:00'; s.dataset.prev = '18:00';
 }
 
 function onStartTimeChange() {
-  const startSel = document.getElementById('startTime');
-  const endSel = document.getElementById('endTime');
-  const prev = startSel.dataset.prev || '18:00';
-  const [oldH, oldM] = prev.split(':').map(Number);
-  const [newH, newM] = startSel.value.split(':').map(Number);
-  const [endH, endM] = endSel.value.split(':').map(Number);
-
-  let duration = (endH * 60 + endM) - (oldH * 60 + oldM);
-  if (duration <= 0) duration += 24 * 60;
-
-  let newEndMins = ((newH * 60 + newM) + duration) % (24 * 60);
-  const neH = Math.floor(newEndMins / 60);
-  const neM = newEndMins % 60;
-  const newEndVal = String(neH).padStart(2,'0') + ':' + String(neM).padStart(2,'0');
-
-  if ([...endSel.options].some(o => o.value === newEndVal)) {
-    endSel.value = newEndVal;
-  }
-  startSel.dataset.prev = startSel.value;
-  calculate();
+  const s = document.getElementById('startTime'), e = document.getElementById('endTime');
+  const [oH,oM] = (s.dataset.prev||'18:00').split(':').map(Number);
+  const [nH,nM] = s.value.split(':').map(Number);
+  const [eH,eM] = e.value.split(':').map(Number);
+  let dur = (eH*60+eM) - (oH*60+oM); if (dur <= 0) dur += 1440;
+  let ne = ((nH*60+nM) + dur) % 1440;
+  const nv = String(Math.floor(ne/60)).padStart(2,'0')+':'+String(ne%60).padStart(2,'0');
+  if ([...e.options].some(o => o.value === nv)) e.value = nv;
+  s.dataset.prev = s.value; calculate();
 }
 
-function setDefaultDate() {
-  const d = new Date();
-  d.setDate(d.getDate() + 7);
-  document.getElementById('eventDate').value = d.toISOString().split('T')[0];
+// Get selected tables info from checkboxes
+function getTableSelection() {
+  const t1 = document.getElementById('tblT1').checked;
+  const t2 = document.getElementById('tblT2').checked;
+  const t3 = document.getElementById('tblT3').checked;
+  const p1 = document.getElementById('tblP1').checked;
+  const numTables = (t1?1:0) + (t2?1:0) + (t3?1:0) + (p1?1:0);
+  const podType = p1 ? 'private' : 'open';
+  return { numTables, podType, t1, t2, t3, p1 };
+}
+
+// Update table checkbox availability based on location
+function updateTableOptions() {
+  const loc = document.getElementById('location').value;
+  const hasPrivate = RATE_TABLES[loc].some(t => t.private !== null);
+  const p1chk = document.getElementById('tblP1');
+  const p1label = p1chk.closest('.tbl-chk');
+  if (!hasPrivate) {
+    p1chk.checked = false;
+    p1label.classList.add('tbl-disabled');
+  } else {
+    p1label.classList.remove('tbl-disabled');
+  }
+  enforceGuestLimit();
+}
+
+// Get max guests from parameters based on location + pod type
+function getMaxGuests(loc, pod) {
+  const map = {
+    'Dobro_open':    'maxDobroOpen',
+    'Dobro_private': 'maxDobroPrivate',
+    'LES_open':      'maxLESOpen',
+    'LES_private':   'maxLESOpen',
+    'Wburg_open':    'maxWburgOpen',
+    'Wburg_private': 'maxWburgPrivate',
+  };
+  const id = map[loc + '_' + pod];
+  if (!id) return 999;
+  return parseInt(document.getElementById(id).value) || 999;
+}
+
+// Derive total guests and enforce limit
+function updateGuestTotal() {
+  const c = parseInt(document.getElementById('numChildren').value) || 0;
+  const a = parseInt(document.getElementById('numAdults').value) || 0;
+  const total = c + a;
+  document.getElementById('totalGuests').textContent = total;
+  return total;
+}
+
+function enforceGuestLimit() {
+  const loc = document.getElementById('location').value;
+  const { podType } = getTableSelection();
+  const max = getMaxGuests(loc, podType);
+  const total = updateGuestTotal();
+  const warn = document.getElementById('guestWarn');
+  if (total > max) {
+    warn.textContent = '(max ' + max + ' for this config)';
+    warn.classList.remove('hidden');
+  } else {
+    warn.classList.add('hidden');
+  }
+}
+
+// Calculate number of coaches: 1 per 10 children + 1 per 15 adults
+function calcCoaches(nChildren, nAdults) {
+  return Math.ceil(nChildren / 10) + Math.ceil(nAdults / 15);
 }
 
 // ============================================================
 // MAIN CALCULATE
 // ============================================================
-
 function calculate() {
   if (!PRICING_DATA) return;
 
-  const location = document.getElementById('location').value;
-  const dateStr = document.getElementById('eventDate').value;
-  const dayOfWeek = getDayAbbr(dateStr);
-  const dayName = getDayName(dateStr);
+  const location  = document.getElementById('location').value;
+  const tblSel    = getTableSelection();
+  const podType   = tblSel.podType;
+  const numTables = tblSel.numTables || 1;
+  const dateStr   = document.getElementById('eventDate').value;
+  const dow       = dayAbbr(dateStr);
+  const dName     = dayName(dateStr);
   const startTime = document.getElementById('startTime').value;
-  const endTime = document.getElementById('endTime').value;
-  const numTables = parseInt(document.getElementById('numTables').value) || 4;
-  const numPeople = parseInt(document.getElementById('numPeople').value) || 20;
-  const numCoaches = parseInt(document.getElementById('numCoaches').value) || 0;
-  const numBanquetTables = parseInt(document.getElementById('numBanquetTables').value) || 0;
-  const numBevTubs = parseInt(document.getElementById('numBevTubs').value) || 0;
+  const endTime   = document.getElementById('endTime').value;
+  const nChildren = parseInt(document.getElementById('numChildren').value) || 0;
+  const nAdults   = parseInt(document.getElementById('numAdults').value) || 0;
+  const numPeople = nChildren + nAdults;
+  const wantCoach = document.getElementById('coachToggle').value === 'yes';
+  const nCoaches  = wantCoach ? calcCoaches(nChildren, nAdults) : 0;
+  const nBanquet  = parseInt(document.getElementById('numBanquetTables').value) || 0;
+  const nBevTubs  = parseInt(document.getElementById('numBevTubs').value) || 0;
+  const wantDrinks = document.getElementById('drinksToggle').checked;
+  const wantSnack  = document.getElementById('snackToggle').checked;
 
-  // Admin parameters
-  const adminFee = parseFloat(document.getElementById('paramAdminFee').value) || 50;
-  const coachRate = parseFloat(document.getElementById('paramCoachRate').value) || 75;
-  const banquetRate = parseFloat(document.getElementById('paramBanquetRate').value) || 100;
-  const bevTubRate = parseFloat(document.getElementById('paramBevTubRate').value) || 75;
-  const headcountThreshold = parseInt(document.getElementById('paramHeadcountThreshold').value) || 30;
-  const headcountSurcharge = parseFloat(document.getElementById('paramHeadcountSurcharge').value) || 5;
-  const multOffPeak = parseFloat(document.getElementById('multOffPeak').value) || 125;
-  const multReduced = parseFloat(document.getElementById('multReduced').value) || 150;
-  const multPeak = parseFloat(document.getElementById('multPeak').value) || 175;
-  const multBuyout = parseFloat(document.getElementById('multBuyout').value) || 25;
-  const budgetSurcharge = parseFloat(document.getElementById('paramBudgetSurcharge').value) || 25;
-  const budgetFactor = 1 + budgetSurcharge / 100;
-  const expPriceFactor = parseFloat(document.getElementById('paramExpPriceFactor').value) || 4;
-  const peakThreshold = parseFloat(document.getElementById('paramPeakThreshold').value) || 75;
+  // Update derived guest display
+  updateGuestTotal();
 
-  // Update addon labels
-  document.getElementById('coachRateLabel').textContent = '$' + coachRate + '/hr each';
-  document.getElementById('banquetRateLabel').textContent = '$' + banquetRate + ' each';
-  document.getElementById('bevTubRateLabel').textContent = '$' + bevTubRate + ' each';
+  // Parameters
+  const adminFee       = parseFloat(document.getElementById('paramAdminFee').value) || 50;
+  const tulipRate      = parseFloat(document.getElementById('paramTulipRate').value) || 10;
+  const coachRate      = parseFloat(document.getElementById('paramCoachRate').value) || 75;
+  const banquetFirst   = parseFloat(document.getElementById('paramBanquetFirst').value) || 60;
+  const banquetAddtl   = parseFloat(document.getElementById('paramBanquetAddtl').value) || 30;
+  const bevTubRate     = parseFloat(document.getElementById('paramBevTub').value) || 30;
+  const drinksRate     = parseFloat(document.getElementById('paramDrinksRate').value) || 5;
+  const drinksAdminFee = parseFloat(document.getElementById('paramDrinksAdmin').value) || 50;
+  const snackRate      = parseFloat(document.getElementById('paramSnackRate').value) || 5;
+  const snackAdminFee  = parseFloat(document.getElementById('paramSnackAdmin').value) || 50;
+  const lgGroupLimit   = parseInt(document.getElementById('paramLgGroupLimit').value) || 6;
+  const lgGroupSurchg  = parseFloat(document.getElementById('paramLgGroupSurcharge').value) || 10;
+  const mBuyout        = parseFloat(document.getElementById('multBuyout').value) || 25;
+  const expRevFactor       = parseFloat(document.getElementById('paramExpRevFactor').value) || 1.5;
+  const nonPeakBuyoutDisc  = parseFloat(document.getElementById('paramNonPeakBuyoutDisc').value) || 25;
+  const reducedDiscPct     = parseFloat(document.getElementById('paramReducedDisc').value) || 20;
+  const nonPeakDiscPct     = parseFloat(document.getElementById('paramNonPeakDisc').value) || 50;
 
-  const rev = expectedRevenue(location, dayOfWeek, startTime, endTime, numTables);
+  // Update day-of-week label
+  document.getElementById('dowLabel').textContent = dow;
+
+  // Update coach count display
+  const coachRow = document.getElementById('coachCountRow');
+  if (wantCoach) {
+    coachRow.textContent = nCoaches + ' coach' + (nCoaches !== 1 ? 'es' : '') + ' (' + nChildren + ' kids ÷ 10 + ' + nAdults + ' adults ÷ 15)';
+    coachRow.classList.remove('hidden');
+  } else {
+    coachRow.classList.add('hidden');
+  }
+
+  // RATE TABLE LOOKUP
+  const rate = lookupRate(location, podType, numPeople);
+
+  // Expected revenue (for negotiation reference)
+  const rev = expectedRevenue(location, dow, startTime, endTime, numTables);
   if (!rev) return;
 
-  // Period classification
-  const period = classifyPeriod(location, dayOfWeek, rev.hours);
-  let periodMult, periodLabel;
-  if (period === 'peak') { periodMult = multPeak; periodLabel = 'Peak'; }
-  else if (period === 'reduced') { periodMult = multReduced; periodLabel = 'Reduced'; }
-  else { periodMult = multOffPeak; periodLabel = 'Off-Peak'; }
+  const period = classifyPeriod(dow, rev.hours);
 
   // Add-on costs
-  const coachCost = numCoaches * coachRate * rev.durationHours;
-  const banquetCost = numBanquetTables * banquetRate;
-  const bevTubCost = numBevTubs * bevTubRate;
-  const headcountExtra = numPeople > headcountThreshold ? (numPeople - headcountThreshold) * headcountSurcharge : 0;
-  const addOnCost = coachCost + banquetCost + bevTubCost + headcountExtra;
+  const coachCost   = nCoaches * coachRate * rev.durationHours;
+  const banquetCost = nBanquet > 0 ? banquetFirst + Math.max(0, nBanquet - 1) * banquetAddtl : 0;
+  const bevTubCost  = nBevTubs * bevTubRate;
 
-  // Buyout price = booking cost + buyout surcharge (no period multiplier)
-  const buyoutPrice = rev.bookingCost * (1 + multBuyout / 100);
+  // Drinks package: rate × people × party hours + admin
+  let drinksCost = 0, drinksPkgAdmin = 0;
+  if (wantDrinks) { drinksCost = drinksRate * numPeople * rev.durationHours; drinksPkgAdmin = drinksAdminFee; }
 
-  // Standard price = booking cost * (period multiplier + buyout surcharge) / 100 + add-ons
-  const totalMult = periodMult + multBuyout;
-  const standardPrice = rev.bookingCost * (totalMult / 100) + addOnCost;
+  // Snack package: rate × people × party hours + admin
+  let snackCost = 0, snackPkgAdmin = 0;
+  if (wantSnack) { snackCost = snackRate * numPeople * rev.durationHours; snackPkgAdmin = snackAdminFee; }
 
-  // Non-peak standard price (for peak->non-peak offers)
-  const nonPeakStandardPrice = rev.bookingCost * ((multOffPeak + multBuyout) / 100) + addOnCost;
+  // Update labels with current rates
+  document.getElementById('drinksLabel').textContent = fmt(drinksRate) + '/pp/hr + ' + fmt(drinksAdminFee) + ' admin';
+  document.getElementById('snackLabel').textContent = fmt(snackRate) + '/pp/hr + ' + fmt(snackAdminFee) + ' admin';
 
-  currentCalc = {
-    location, dateStr, dayOfWeek, dayName, startTime, endTime,
-    numTables, numPeople, numCoaches, numBanquetTables, numBevTubs,
-    adminFee, coachRate, banquetRate, bevTubRate,
-    headcountThreshold, headcountSurcharge,
-    multOffPeak, multReduced, multPeak, multBuyout,
-    budgetFactor, expPriceFactor, peakThreshold,
-    rev, period, periodLabel, periodMult, totalMult,
-    addOnCost, coachCost, banquetCost, bevTubCost, headcountExtra,
-    buyoutPrice, standardPrice, nonPeakStandardPrice,
+  // Large group surcharge: total guests exceeding (limit × tables)
+  const totalCapacity = lgGroupLimit * numTables;
+  const lgExcess = Math.max(0, numPeople - totalCapacity);
+  const lgSurchargeCost = lgExcess * lgGroupSurchg;
+
+  const addOnCost = coachCost + banquetCost + bevTubCost + drinksCost + drinksPkgAdmin + snackCost + snackPkgAdmin;
+
+  // Tulip insurance
+  const tulipCost = rate.needsTulip ? tulipRate * numPeople : 0;
+
+  // STANDARD PRICE = (hourlyRate * hours) * period discount + tulip + addOns
+  // Weighted average discount: peak hours = 0%, reduced = reducedDiscPct%, off-peak = nonPeakDiscPct%
+  let periodDiscountPct = 0;
+  if (period.totalHours > 0) {
+    periodDiscountPct = (period.peakHours * 0 + period.reducedHours * reducedDiscPct + period.offPeakHours * nonPeakDiscPct) / period.totalHours;
+  }
+  const baseRate = rate.fullBuyoutRequired ? 0 : rate.hourlyRate * rev.durationHours;
+  const discountedRate = Math.round(baseRate * (1 - periodDiscountPct / 100));
+  const standardPrice = rate.fullBuyoutRequired ? 0 : (discountedRate + tulipCost + addOnCost);
+
+  // Buyout & negotiation references (from occupancy data)
+  const buyoutPrice     = rev.bookingCost * (1 + mBuyout / 100);
+  C = {
+    location, podType, dateStr, dow, dName, startTime, endTime,
+    numTables, numPeople, nChildren, nAdults, nCoaches, nBanquet, nBevTubs,
+    adminFee, tulipRate, coachRate, mBuyout,
+    lgGroupLimit, lgGroupSurchg, lgSurchargeCost, lgExcess, totalCapacity,
+    expRevFactor, nonPeakBuyoutDisc, reducedDiscPct, nonPeakDiscPct,
+    periodDiscountPct, baseRate, discountedRate,
+    rate, rev, period,
+    addOnCost, coachCost, banquetCost, bevTubCost,
+    drinksCost, drinksPkgAdmin, snackCost, snackPkgAdmin,
+    wantDrinks, drinksRate, wantSnack, snackRate,
+    tulipCost,
+    buyoutPrice, standardPrice,
     expectedRev: rev.total
   };
 
-  updateInfoPanel();
-  generateScript();
+  updatePricingPanel();
+  buildScenarios();
 }
 
 // ============================================================
-// INFO PANEL
+// PRICING PANEL
 // ============================================================
+function updatePricingPanel() {
+  const c = C;
 
-function updateInfoPanel() {
-  const c = currentCalc;
-  document.getElementById('infoStandardPrice').textContent = fmtWhole(c.standardPrice);
-  document.getElementById('infoBuyoutPrice').textContent = fmtWhole(c.buyoutPrice);
-  document.getElementById('infoBuyoutDetail').textContent = 'Booking cost + ' + c.multBuyout + '% surcharge';
-  document.getElementById('infoExpectedRev').textContent = fmt(c.expectedRev);
-  document.getElementById('infoExpRevDetail').textContent =
-    'Mbrs: ' + fmt(c.rev.memberTotal) + '  NM: ' + fmt(c.rev.nmTotal);
+  if (c.rate.fullBuyoutRequired) {
+    document.getElementById('infoStdPrice').textContent = 'N/A';
+    document.getElementById('infoStdPrice').className = 'val red';
+    document.getElementById('infoStdPriceD').textContent = c.rate.tierLabel;
+  } else {
+    document.getElementById('infoStdPrice').textContent = fmtW(c.standardPrice);
+    document.getElementById('infoStdPrice').className = 'val accent';
+    let rateDetail = c.rate.tierLabel + ' · ' + fmt(c.rate.hourlyRate) + '/hr × ' + c.rev.durationHours.toFixed(1) + 'h';
+    if (c.periodDiscountPct > 0) {
+      rateDetail += ' − ' + Math.round(c.periodDiscountPct) + '% ' + c.period.tag + ' disc = ' + fmt(c.discountedRate);
+    }
+    document.getElementById('infoStdPriceD').textContent = rateDetail;
+  }
+
+  document.getElementById('infoTulip').textContent = c.rate.needsTulip ? fmt(c.tulipCost) : 'Not required';
+  document.getElementById('infoTulipD').textContent = c.rate.needsTulip ? c.numPeople + ' guests x ' + fmt(c.tulipRate) + '/person' : '';
+
+  // Add-on line items (collapsible)
+  const aoLines = [];
+  if (c.nCoaches > 0) aoLines.push({ label: c.nCoaches + ' Coach' + (c.nCoaches!==1?'es':'') + ' × ' + fmt(c.coachRate) + '/hr × ' + c.rev.durationHours.toFixed(1) + 'h', val: fmt(c.coachCost) });
+  if (c.nBanquet > 0) aoLines.push({ label: c.nBanquet + ' Banquet Table' + (c.nBanquet!==1?'s':''), val: fmt(c.banquetCost) });
+  if (c.nBevTubs > 0) aoLines.push({ label: c.nBevTubs + ' Beverage Tub' + (c.nBevTubs!==1?'s':''), val: fmt(c.bevTubCost) });
+  if (c.drinksCost > 0) { aoLines.push({ label: 'Drink Pkg ' + c.rev.durationHours.toFixed(1) + 'hr × ' + c.numPeople + 'pp × ' + fmt(c.drinksRate) + '/pp/hr', val: fmt(c.drinksCost) }); aoLines.push({ label: '  Drink Pkg Admin', val: fmt(c.drinksPkgAdmin) }); }
+  if (c.snackCost > 0) { aoLines.push({ label: 'Snack Pkg ' + c.rev.durationHours.toFixed(1) + 'hr × ' + c.numPeople + 'pp × ' + fmt(c.snackRate) + '/pp/hr', val: fmt(c.snackCost) }); aoLines.push({ label: '  Snack Pkg Admin', val: fmt(c.snackPkgAdmin) }); }
+  // Exclude large group surcharge from the add-on display (it has its own line)
+  document.getElementById('infoAddOn').textContent = fmt(c.addOnCost);
+  let linesHtml = '';
+  if (aoLines.length) {
+    for (const l of aoLines) linesHtml += '<div class="addon-line"><span>' + l.label + '</span><span class="ao-val">' + l.val + '</span></div>';
+  } else {
+    linesHtml = '<div class="addon-line"><span>None</span><span></span></div>';
+  }
+  document.getElementById('infoAddOnLines').innerHTML = linesHtml;
+
+  // Large group surcharge
+  document.getElementById('infoLgSurcharge').textContent = fmt(c.lgSurchargeCost);
+  if (c.lgSurchargeCost > 0) {
+    document.getElementById('infoLgSurchargeD').textContent =
+      c.numPeople + ' guests − ' + c.totalCapacity + ' capacity (' + c.lgGroupLimit + '×' + c.numTables + ') = ' +
+      c.lgExcess + ' excess × ' + fmt(c.lgGroupSurchg);
+  } else {
+    document.getElementById('infoLgSurchargeD').textContent = c.numTables > 0 ?
+      c.numPeople + ' guests within ' + c.totalCapacity + ' capacity (' + c.lgGroupLimit + '×' + c.numTables + ')' : '';
+  }
+
   document.getElementById('infoAdminFee').textContent = fmt(c.adminFee);
-  document.getElementById('infoPeriod').textContent = c.periodLabel + ' (' + c.periodMult + '%)';
+
+  // Event Total = standard price + lg group surcharge + admin fee
+  if (c.rate.fullBuyoutRequired) {
+    document.getElementById('infoEventTotal').textContent = 'N/A';
+    document.getElementById('infoEventTotalD').textContent = '';
+  } else {
+    const eventTotal = c.standardPrice + c.lgSurchargeCost + c.adminFee;
+    document.getElementById('infoEventTotal').textContent = fmtW(eventTotal);
+    document.getElementById('infoEventTotalD').textContent =
+      'Rate ' + fmtW(c.discountedRate) +
+      (c.tulipCost > 0 ? ' + Tulip ' + fmt(c.tulipCost) : '') +
+      (c.addOnCost > 0 ? ' + Add-ons ' + fmt(c.addOnCost) : '') +
+      (c.lgSurchargeCost > 0 ? ' + Lg Grp ' + fmt(c.lgSurchargeCost) : '') +
+      ' + Admin ' + fmt(c.adminFee);
+  }
+
+  document.getElementById('infoExpRev').textContent = fmt(c.expectedRev);
+  document.getElementById('infoExpRevD').textContent = 'M: ' + fmt(c.rev.memberTotal) + ' NM: ' + fmt(c.rev.nmTotal);
+  document.getElementById('infoBuyout').textContent = fmtW(c.buyoutPrice);
+  document.getElementById('infoBuyoutD').textContent = 'Booking ' + fmt(c.rev.bookingCost) + ' + ' + c.mBuyout + '%';
+  document.getElementById('infoPeriod').textContent = c.period.tag;
   document.getElementById('infoDuration').textContent = c.rev.durationHours.toFixed(1) + ' hrs';
 
-  const addOnParts = [];
-  if (c.numCoaches > 0) addOnParts.push(c.numCoaches + ' coach' + (c.numCoaches>1?'es':'') + ': ' + fmt(c.coachCost));
-  if (c.numBanquetTables > 0) addOnParts.push(c.numBanquetTables + ' tbl' + (c.numBanquetTables>1?'s':'') + ': ' + fmt(c.banquetCost));
-  if (c.numBevTubs > 0) addOnParts.push(c.numBevTubs + ' bev tub' + (c.numBevTubs>1?'s':'') + ': ' + fmt(c.bevTubCost));
-  if (c.headcountExtra > 0) addOnParts.push('Headcount surchg: ' + fmt(c.headcountExtra));
-  document.getElementById('infoAddOnCost').textContent = fmt(c.addOnCost);
-  document.getElementById('infoAddOnDetail').textContent = addOnParts.length ? addOnParts.join(', ') : 'None';
-
-  // Hour table
-  let html = '<table class="hour-table"><thead><tr><th>Hour</th><th>NM Occ</th><th>Rate</th><th>Rev</th></tr></thead><tbody>';
-  for (const h of c.rev.hours) {
-    html += '<tr><td>' + String(h.hour).padStart(2,'0') + ':00</td><td>' +
-      fmtPct(h.nmOcc) + '</td><td>' + fmt(h.nmPrice) + '</td><td>' + fmt(h.total) + '</td></tr>';
-  }
-  html += '</tbody></table>';
-  document.getElementById('hourTableContainer').innerHTML = html;
+  let ht = '<table class="hour-table"><thead><tr><th>Hr</th><th>Status</th><th>M Occ</th><th>M Rev</th><th>NM Occ</th><th>NM Rate</th><th>NM Rev</th><th>Total</th></tr></thead><tbody>';
+  for (const h of c.rev.hours)
+    ht += '<tr><td>' + String(h.hour).padStart(2,'0') + ':00</td>' +
+      '<td>' + h.memberStatus + '</td>' +
+      '<td>' + fmtPct(h.memberOcc) + '</td><td>' + fmt(h.memberRev) + '</td>' +
+      '<td>' + fmtPct(h.nmOcc) + '</td><td>' + fmt(h.nmPrice) + '</td><td>' + fmt(h.nmRev) + '</td>' +
+      '<td>' + fmt(h.total) + '</td></tr>';
+  ht += '</tbody></table>';
+  document.getElementById('hourTableBox').innerHTML = ht;
 }
 
 // ============================================================
-// SALES SCRIPT GENERATION
+// CONVERSATION STATE MACHINE
 // ============================================================
+let convHistory = [];
+let convStep = -1;
+let currentDiscount = 0;   // tracks negotiated discount
+let currentOffer = 0;      // tracks the offer price (event total - discount)
+let eventTotal = 0;        // cached event total for discount calc
 
-function generateScript() {
-  const c = currentCalc;
+function bookingScript() {
+  return 'OK, we will send you a link with an invoice for you to sign our private party agreement and make a deposit or full payment. ' +
+    'We require 50% to reserve the tables. You may cancel for a full refund up to 2 weeks before the date, less a ' +
+    '<span class="price">' + fmt(C.adminFee) + '</span> admin charge. ' +
+    'You may cancel for a 50% refund up to 1 week before the event.';
+}
+
+function openingText() {
+  if (C.rate.fullBuyoutRequired) return '<em style="color:var(--red)">' + C.rate.tierLabel + '. Please adjust the pod type, guest count, or location.</em>';
+  let ao = '';
+  if (C.addOnCost > 0) {
+    const p = [];
+    if (C.nCoaches > 0) p.push(C.nCoaches + ' coach' + (C.nCoaches!==1?'es':''));
+    if (C.nBanquet > 0) p.push(C.nBanquet + ' banquet table' + (C.nBanquet!==1?'s':''));
+    ao = ' This includes ' + p.join(' and ') + '.';
+  }
+  let tulipNote = C.rate.needsTulip ? ' This also includes Tulip insurance.' : '';
+  return 'Our standard price for a private event at <span class="emphasis">' + C.location +
+    '</span> on <span class="emphasis">' + C.dName + ', ' + C.dateStr +
+    '</span> from <span class="emphasis">' + C.startTime + '</span> to <span class="emphasis">' + C.endTime +
+    '</span> for your group of <span class="emphasis">' + C.numPeople +
+    '</span> is <span class="price">' + fmtW(eventTotal) + '</span>.' + ao + tulipNote;
+}
+
+function updateDiscountDisplay() {
+  const dEl = document.getElementById('infoDiscount');
+  const dD  = document.getElementById('infoDiscountD');
+  const fEl = document.getElementById('infoFinalOffer');
+  const fD  = document.getElementById('infoFinalOfferD');
+
+  if (currentDiscount > 0) {
+    dEl.textContent = '−' + fmtW(currentDiscount);
+    dD.textContent = fmtW(eventTotal) + ' − ' + fmtW(currentDiscount);
+    fEl.textContent = fmtW(currentOffer);
+    fD.textContent = '';
+  } else if (eventTotal > 0 && convStep >= 0) {
+    dEl.textContent = '--';
+    dD.textContent = 'No discount applied';
+    fEl.textContent = fmtW(eventTotal);
+    fD.textContent = 'Full price';
+  } else {
+    dEl.textContent = '--';
+    dD.textContent = '';
+    fEl.textContent = '--';
+    fD.textContent = '';
+  }
+}
+
+function buildScenarios() {
   document.getElementById('placeholder').classList.add('hidden');
   document.getElementById('scriptArea').classList.remove('hidden');
 
-  // Reset script steps
-  resetScriptSteps();
+  const warn = document.getElementById('warnBox');
+  if (C.rate.fullBuyoutRequired) {
+    warn.classList.remove('hidden');
+    warn.textContent = C.rate.tierLabel + '. Consider a different pod type or location.';
+  } else { warn.classList.add('hidden'); }
 
-  // Build add-on mention
-  let addOnText = '';
-  if (c.addOnCost > 0) {
-    const parts = [];
-    if (c.numCoaches > 0) parts.push(c.numCoaches + ' coach' + (c.numCoaches > 1 ? 'es' : ''));
-    if (c.numBanquetTables > 0) parts.push(c.numBanquetTables + ' banquet table' + (c.numBanquetTables > 1 ? 's' : ''));
-    if (c.numBevTubs > 0) parts.push(c.numBevTubs + ' beverage tub' + (c.numBevTubs > 1 ? 's' : ''));
-    if (parts.length > 0) addOnText = ' This includes ' + parts.join(', ') + '.';
+  // Reset conversation & discount
+  convHistory = [];
+  convStep = -1;
+  currentDiscount = 0;
+  eventTotal = C.rate.fullBuyoutRequired ? 0 : (C.standardPrice + C.lgSurchargeCost + C.adminFee);
+  currentOffer = eventTotal;
+
+  pushStep(
+    [{ role: 'sales', html: openingText() }],
+    C.rate.fullBuyoutRequired ? null : [
+      { label: '"Yes, let\'s book it."', action: function() { chooseAccept(); } },
+      { label: '"Let me think about it."', action: function() { chooseHesitate('Let me think about it.'); } },
+      { label: '"Sorry, that\'s too expensive."', action: function() { chooseHesitate('Sorry, that\'s too expensive.'); } },
+    ]
+  );
+
+  renderConv();
+}
+
+function pushStep(entries, choices, discount) {
+  convHistory = convHistory.slice(0, convStep + 1);
+  convHistory.push({ entries, choices, discount: discount !== undefined ? discount : currentDiscount });
+  convStep = convHistory.length - 1;
+  // Update discount from this step
+  currentDiscount = convHistory[convStep].discount;
+  currentOffer = eventTotal - currentDiscount;
+}
+
+function chooseAccept() {
+  pushStep(
+    [
+      { role: 'customer', html: 'Yes, let\'s book it.' },
+      { role: 'sales', html: bookingScript() },
+    ],
+    null, 0
+  );
+  renderConv();
+}
+
+function chooseHesitate(custText) {
+  pushStep(
+    [
+      { role: 'customer', html: custText },
+      { role: 'sales', html: 'How much have you budgeted for the party?' },
+    ],
+    'budget', 0
+  );
+  renderConv();
+}
+
+function declineSuggestions(isPeak) {
+  const opts = [];
+  if (C.rev.durationHours > 1) opts.push('a shorter event');
+  if (C.numPeople > 6) opts.push('fewer guests');
+  if (isPeak) opts.push('a non-peak time');
+  else if (C.period.isPeak) opts.push('a different time');
+  if (opts.length === 0) return 'Please let us know if anything changes.';
+  return 'Would you consider ' + opts.join(', ') + ' to bring the cost down?';
+}
+
+function computeOfferPrice(budget) {
+  const isPeak = C.period.isPeak;
+  const X = C.expRevFactor;                         // Expected Revenue Factor (default 1.5)
+  const Z = C.nonPeakBuyoutDisc / 100;              // Non-Peak Buyout Discount (default 25%)
+  const eR = C.expectedRev;
+  const bP = C.buyoutPrice;
+  const eT = eventTotal;                            // Final offer = std price + lg surcharge + admin
+
+  // Floor price for non-peak offer = max of three values
+  const nonPeakFloor = Math.max(X * eR, budget, (1 - Z) * bP);
+
+  if (!isPeak) {
+    // ---- NON-PEAK TIME ----
+    if (budget >= eT) return { price: eT, text: 'That works perfectly with our pricing of <span class="price">' + fmtW(eT) + '</span>.', canNegotiate: false };
+    if (budget >= bP) return { price: budget, text: 'We are about to start a promotion on private events... I can offer you a discount to meet your budget requirements at <span class="price">' + fmtW(budget) + '</span>.', canNegotiate: true };
+    // Budget below buyout — offer the floor price if budget can reach it
+    if (budget >= nonPeakFloor || nonPeakFloor <= eT) {
+      const offer = Math.round(nonPeakFloor);
+      return { price: offer, text: 'We are about to start a promotion on private events. I can offer you a discounted price of <span class="price">' + fmtW(offer) + '</span>.', canNegotiate: true };
+    }
+    return { price: 0, text: 'Unfortunately, that budget is below what we can offer. ' + declineSuggestions(false), canNegotiate: false };
+  } else {
+    // ---- PEAK TIME ----
+    if (budget >= eT) return { price: eT, text: 'That works perfectly with our pricing of <span class="price">' + fmtW(eT) + '</span>.', canNegotiate: false };
+    if (budget >= bP) return { price: budget, text: 'We are just about to start a promotion, so I can offer you a discount to meet your budget at <span class="price">' + fmtW(budget) + '</span>.', canNegotiate: true };
+    // Budget below buyout — suggest non-peak time at computed floor
+    if (nonPeakFloor <= eT) {
+      const offer = Math.round(nonPeakFloor);
+      return { price: offer, text: 'If you are willing to hold the party during a non-peak time, I can offer you a special price of <span class="price">' + fmtW(offer) + '</span>.', canNegotiate: true };
+    }
+    return { price: 0, text: 'Unfortunately, that budget is below what we can offer. ' + declineSuggestions(true), canNegotiate: false };
   }
-
-  // Step 1: Standard Price Script
-  document.getElementById('standardPriceScript').innerHTML =
-    '"Our standard price for a private event at <strong>' + c.location +
-    '</strong> on <strong>' + c.dayName + '</strong> from <strong>' +
-    c.startTime + '</strong> to <strong>' + c.endTime + '</strong>' +
-    ' for your group of <strong>' + c.numPeople + '</strong> is ' +
-    '<span class="price">' + fmtWhole(c.standardPrice) + '</span>.' +
-    addOnText + '"';
-
-  // Acceptance script (reused for both direct accept and negotiated accept)
-  const bookingScript =
-    '"OK, we will send you a link with an invoice for you to sign our private party agreement and make a deposit or full payment. ' +
-    'We require 50% to reserve the tables. You may cancel for a full refund up to 2 weeks before the date, less a ' +
-    '<span class="price">' + fmt(c.adminFee) + '</span> admin charge. ' +
-    'You may cancel for a 50% refund up to 1 week before the event."';
-
-  document.getElementById('acceptScript').innerHTML = bookingScript;
-  document.getElementById('negotiatedAcceptScript').innerHTML = bookingScript;
 }
 
-function resetScriptSteps() {
-  document.getElementById('acceptCard').classList.add('hidden');
-  document.getElementById('budgetSection').classList.add('hidden');
-  document.getElementById('budgetResponseSection').classList.add('hidden');
-  document.getElementById('step1Buttons').classList.remove('hidden');
-  document.getElementById('step1Card').className = 'script-card active';
-  document.getElementById('step1Card').querySelector('h3').textContent = 'Say to Customer';
-  document.getElementById('step1badge').className = 'step-indicator';
-  document.getElementById('step1badge').textContent = '1';
-  document.getElementById('step2badge').className = 'step-indicator';
-  document.getElementById('customerBudget').value = '';
-}
-
-// ============================================================
-// CUSTOMER RESPONSE HANDLERS
-// ============================================================
-
-function customerAccepts() {
-  document.getElementById('step1Card').className = 'script-card success';
-  document.getElementById('step1Buttons').classList.add('hidden');
-  document.getElementById('step1badge').className = 'step-indicator done';
-  document.getElementById('step1badge').innerHTML = '&#10003;';
-  document.getElementById('step1Card').querySelector('h3').textContent = 'Customer Accepted';
-  document.getElementById('acceptCard').classList.remove('hidden');
-  document.getElementById('budgetSection').classList.add('hidden');
-  document.getElementById('budgetResponseSection').classList.add('hidden');
-}
-
-function customerHesitates() {
-  document.getElementById('step1Card').className = 'script-card';
-  document.getElementById('step1Buttons').classList.add('hidden');
-  document.getElementById('step1badge').className = 'step-indicator done';
-  document.getElementById('step1badge').innerHTML = '&#10003;';
-  document.getElementById('acceptCard').classList.add('hidden');
-  document.getElementById('budgetSection').classList.remove('hidden');
-  document.getElementById('budgetResponseSection').classList.add('hidden');
-}
-
-function processBudget() {
-  const c = currentCalc;
+function submitBudget() {
   const budget = parseFloat(document.getElementById('customerBudget').value);
   if (!budget || budget <= 0) return;
 
-  const isPeak = (c.period === 'peak' || c.period === 'reduced');
-  const adminFee = c.adminFee;
-  const addOnCost = c.addOnCost;
-  const buyoutPrice = c.buyoutPrice;
-  const standardPrice = c.standardPrice;
-  const expectedPrice = c.expectedRev;
-  const budgetFactor = c.budgetFactor;
-  const expPriceFactor = c.expPriceFactor;
-  const peakThreshold = c.peakThreshold / 100;
-  const nonPeakStdPrice = c.nonPeakStandardPrice;
+  const offer = computeOfferPrice(budget);
+  const disc = offer.price > 0 ? Math.max(0, eventTotal - offer.price) : 0;
 
-  document.getElementById('budgetResponseSection').classList.remove('hidden');
-  document.getElementById('step2badge').className = 'step-indicator done';
-  document.getElementById('step2badge').innerHTML = '&#10003;';
-
-  const card = document.getElementById('budgetResponseCard');
-  const title = document.getElementById('budgetResponseTitle');
-  const script = document.getElementById('budgetResponseScript');
-  const negAccept = document.getElementById('negotiatedAcceptCard');
-
-  if (!isPeak) {
-    // ========== NON-PEAK TIME LOGIC ==========
-    if (budget >= standardPrice) {
-      // Budget meets or exceeds standard price
-      card.className = 'script-card success';
-      title.textContent = 'Budget Meets Standard Price';
-      script.innerHTML = '"That works perfectly with our pricing of <span class="price">' +
-        fmtWhole(standardPrice) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else if (budget >= buyoutPrice) {
-      // Budget between buyout and standard — offer promotion to meet budget
-      card.className = 'script-card info';
-      title.textContent = 'Offer Promotion to Meet Budget';
-      script.innerHTML = '"We are about to start a promotion on private events... ' +
-        'I can offer you a discount to meet your budget requirements at ' +
-        '<span class="price">' + fmtWhole(budget) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else if (budget > expectedPrice) {
-      // Budget below buyout but above expected revenue — offer discounted price
-      // Discounted = max(budget * Y, Z * expectedPrice + adminFee + addOnCost)
-      const discountedPrice = Math.max(
-        budget * budgetFactor,
-        expPriceFactor * expectedPrice + adminFee + addOnCost
-      );
-      card.className = 'script-card info';
-      title.textContent = 'Offer Discounted Price';
-      script.innerHTML = '"We are about to start a promotion on private events. ' +
-        'I can offer you a discounted price of ' +
-        '<span class="price">' + fmtWhole(discountedPrice) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else {
-      // Budget below expected revenue — cannot offer
-      card.className = 'script-card declined';
-      title.textContent = 'Below Minimum';
-      script.innerHTML = '"Unfortunately, that budget is below what we can offer for this time slot. ' +
-        'Would you consider a shorter event, fewer tables, or a different time to bring the cost down?"';
-      negAccept.classList.add('hidden');
-    }
-
+  if (offer.price === 0) {
+    // Below threshold — dead end
+    pushStep(
+      [
+        { role: 'customer', html: 'My budget is <span class="price">' + fmtW(budget) + '</span>.' },
+        { role: 'sales', html: offer.text },
+      ],
+      null, 0
+    );
+  } else if (!offer.canNegotiate) {
+    // Budget meets standard — go straight to accept
+    pushStep(
+      [
+        { role: 'customer', html: 'My budget is <span class="price">' + fmtW(budget) + '</span>.' },
+        { role: 'sales', html: offer.text },
+      ],
+      [
+        { label: '"OK, let\'s book it."', action: function() { acceptOffer(disc); } },
+      ], disc
+    );
   } else {
-    // ========== PEAK TIME LOGIC ==========
-    if (budget >= standardPrice) {
-      card.className = 'script-card success';
-      title.textContent = 'Budget Meets Standard Price';
-      script.innerHTML = '"That works perfectly with our pricing of <span class="price">' +
-        fmtWhole(standardPrice) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else if (budget >= standardPrice * peakThreshold) {
-      // Within threshold% of peak standard — offer promotion
-      card.className = 'script-card info';
-      title.textContent = 'Offer Peak Promotion';
-      script.innerHTML = '"We are just about to start a promotion, so I can offer you a discount to meet your budget at ' +
-        '<span class="price">' + fmtWhole(budget) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else if (budget >= nonPeakStdPrice * peakThreshold || budget >= buyoutPrice) {
-      // Budget falls in acceptable non-peak range — suggest non-peak
-      card.className = 'script-card warning';
-      title.textContent = 'Suggest Non-Peak Time';
-      script.innerHTML = '"If you are willing to hold the party during a non-peak time, we can meet your budget."';
-      negAccept.classList.remove('hidden');
-
-    } else if (budget > expectedPrice) {
-      // Below non-peak standard but above expected — offer discounted non-peak
-      const discountedPrice = Math.max(
-        budget * budgetFactor,
-        expPriceFactor * expectedPrice + adminFee + addOnCost
-      );
-      card.className = 'script-card info';
-      title.textContent = 'Suggest Non-Peak with Discount';
-      script.innerHTML = '"If you are willing to hold the party during a non-peak time, ' +
-        'I can offer you a special price of <span class="price">' + fmtWhole(discountedPrice) + '</span>."';
-      negAccept.classList.remove('hidden');
-
-    } else {
-      // Budget too low
-      card.className = 'script-card declined';
-      title.textContent = 'Below Minimum';
-      script.innerHTML = '"Unfortunately, that budget is below what we can offer. ' +
-        'Would you consider a shorter event, fewer tables, or a non-peak time to bring the cost down?"';
-      negAccept.classList.add('hidden');
-    }
+    // Offer made — customer can accept or hesitate
+    pushStep(
+      [
+        { role: 'customer', html: 'My budget is <span class="price">' + fmtW(budget) + '</span>.' },
+        { role: 'sales', html: offer.text },
+      ],
+      [
+        { label: '"OK, let\'s book it."', action: function() { acceptOffer(disc); } },
+        { label: '"Hmmm... let me think about it."', action: function() { offerSweetener(offer.price, disc); } },
+      ], disc
+    );
   }
+  renderConv();
+}
+
+function acceptOffer(disc) {
+  pushStep(
+    [
+      { role: 'customer', html: 'OK, let\'s book it.' },
+      { role: 'sales', html: bookingScript() },
+    ],
+    null, disc
+  );
+  renderConv();
+}
+
+function offerSweetener(currentPrice, prevDisc) {
+  // 5% additional off the current offered price
+  const sweetenerPct = 0.05;
+  const sweetenerAmt = Math.round(currentPrice * sweetenerPct);
+  const sweetenedPrice = currentPrice - sweetenerAmt;
+  const totalDisc = eventTotal - sweetenedPrice;
+
+  pushStep(
+    [
+      { role: 'customer', html: 'Hmmm... let me think about it.' },
+      { role: 'sales', html: 'Let me sweeten the deal a bit. If you book right now, I\'ll offer you a further 5% off. That\'s <span class="price">' + fmtW(sweetenedPrice) + '</span>.' },
+    ],
+    [
+      { label: '"OK, let\'s book it."', action: function() { acceptSweetener(totalDisc); } },
+      { label: '"I\'m not ready to decide."', action: function() { declineSweetener(); } },
+    ], totalDisc
+  );
+  renderConv();
+}
+
+function acceptSweetener(disc) {
+  pushStep(
+    [
+      { role: 'customer', html: 'OK, let\'s book it.' },
+      { role: 'sales', html: bookingScript() },
+    ],
+    null, disc
+  );
+  renderConv();
+}
+
+function declineSweetener() {
+  pushStep(
+    [
+      { role: 'customer', html: 'I\'m not ready to decide.' },
+      { role: 'sales', html: 'That\'s fine. We are here for you when you\'re ready. Thank you for calling PingPod.' },
+    ],
+    null, 0
+  );
+  renderConv();
 }
 
 // ============================================================
-// INITIALIZATION
+// RENDER CONVERSATION
 // ============================================================
+function renderConv() {
+  const box = document.getElementById('dialogueBox');
+  const choicesArea = document.getElementById('choicesArea');
+  const choicesList = document.getElementById('choicesList');
 
+  // Restore discount from current step
+  currentDiscount = convHistory[convStep].discount;
+  currentOffer = eventTotal - currentDiscount;
+
+  // Build all dialogue entries up to current step
+  let html = '';
+  for (let i = 0; i <= convStep; i++) {
+    if (i > 0) html += '<hr class="dialogue-divider">';
+    for (const e of convHistory[i].entries) {
+      html += '<div class="dialogue-entry">' +
+        '<div class="dialogue-role ' + (e.role === 'sales' ? 'sales' : 'customer') + '">' +
+        (e.role === 'sales' ? 'Salesperson:' : 'Customer:') + '</div>' +
+        '<div class="dialogue-text">' + e.html + '</div></div>';
+    }
+  }
+  box.innerHTML = html;
+  box.scrollTop = box.scrollHeight;
+
+  // Render choices for current step
+  const current = convHistory[convStep];
+  if (current.choices === null) {
+    choicesArea.classList.add('hidden');
+  } else if (current.choices === 'budget') {
+    choicesArea.classList.remove('hidden');
+    choicesList.innerHTML =
+      '<div class="budget-inline"><label>Their budget: $</label>' +
+      '<input type="number" id="customerBudget" min="0" step="10" placeholder="0">' +
+      '<button onclick="submitBudget()">Go</button></div>';
+  } else {
+    choicesArea.classList.remove('hidden');
+    let ch = '';
+    for (let ci = 0; ci < current.choices.length; ci++) {
+      ch += '<button class="choice-btn" onclick="convHistory[convStep].choices[' + ci + '].action()">' +
+        current.choices[ci].label + '</button>';
+    }
+    choicesList.innerHTML = ch;
+  }
+
+  document.getElementById('btnBack').disabled = (convStep <= 0);
+  updateDiscountDisplay();
+}
+
+function convBack() {
+  if (convStep <= 0) return;
+  convHistory = convHistory.slice(0, convStep);
+  convStep = convHistory.length - 1;
+  renderConv();
+}
+
+// ============================================================
+// INIT
+// ============================================================
 populateTimeDropdowns();
-setDefaultDate();
+(function() { const d = new Date(); d.setDate(d.getDate()+7); document.getElementById('eventDate').value = d.toISOString().split('T')[0]; })();
 
-// Wire event listeners
 document.getElementById('startTime').addEventListener('change', onStartTimeChange);
-['endTime','location','eventDate','numTables','numPeople','numCoaches','numBanquetTables','numBevTubs',
- 'multOffPeak','multReduced','multPeak','multBuyout',
- 'paramAdminFee','paramBudgetSurcharge','paramExpPriceFactor','paramPeakThreshold',
- 'paramCoachRate','paramBanquetRate','paramBevTubRate',
- 'paramHeadcountThreshold','paramHeadcountSurcharge'].forEach(id => {
+document.getElementById('location').addEventListener('change', function() { updateTableOptions(); calculate(); });
+
+// Children / Adults → update total + enforce limit
+['numChildren','numAdults'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() { enforceGuestLimit(); calculate(); });
+});
+
+// Table checkboxes
+['tblT1','tblT2','tblT3','tblP1'].forEach(id => {
+  document.getElementById(id).addEventListener('change', function() { enforceGuestLimit(); calculate(); });
+});
+
+// All other inputs that trigger recalculate
+['endTime','eventDate','coachToggle','numBanquetTables','numBevTubs',
+ 'drinksToggle','snackToggle',
+ 'multBuyout',
+ 'paramAdminFee','paramTulipRate','paramLgGroupLimit','paramLgGroupSurcharge',
+ 'paramReducedDisc','paramNonPeakDisc','paramExpRevFactor','paramNonPeakBuyoutDisc',
+ 'paramCoachRate','paramBanquetFirst','paramBanquetAddtl','paramBevTub',
+ 'paramDrinksRate','paramDrinksAdmin',
+ 'paramSnackRate','paramSnackAdmin'].forEach(id => {
   document.getElementById(id).addEventListener('change', calculate);
 });
 
-loadPricingData().then(() => calculate());
+// Max guest parameter changes: re-enforce limit and recalculate
+['maxDobroOpen','maxDobroPrivate','maxLESOpen','maxWburgOpen','maxWburgPrivate'].forEach(id => {
+  document.getElementById(id).addEventListener('change', function() { enforceGuestLimit(); calculate(); });
+});
+
+updateTableOptions();
+loadPricingData();
 </script>
 </body>
 </html>
