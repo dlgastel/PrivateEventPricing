@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Event Revenue Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f2eb;
+    --accent: #c8430a;
+    --muted: #8a8070;
+    --rule: #d4cebc;
+    --highlight: #fff8e8;
+    --green: #2a6144;
+    --green-bg: #e8f2ec;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 20px 36px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  header span {
+    font-size: 0.7rem;
+    opacity: 0.5;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    min-height: calc(100vh - 65px);
+  }
+
+  .sidebar {
+    border-right: 1px solid var(--rule);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: white;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  select, input[type="number"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 10px 12px;
+    background: var(--paper);
+    color: var(--ink);
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230e0e0e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+
+  select:focus, input:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: white;
+  }
+
+  .tables-input {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .tables-input input {
+    width: 80px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .tables-btn {
+    font-family: 'DM Mono', monospace;
+    width: 36px; height: 36px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.1s;
+    flex-shrink: 0;
+  }
+  .tables-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 4px 0;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .multiplier-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .multiplier-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .multiplier-input-wrap input {
+    width: 60px;
+    padding: 4px 6px;
+    text-align: right;
+    font-family: inherit;
+    font-size: 0.78rem;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink);
+  }
+
+  .result-item {
+    margin-bottom: 4px;
+  }
+
+  .result-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 12px 0;
+  }
+
+  .result-box .result-value {
+    font-size: 1.8rem;
+  }
+
+
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 20px;
+    background: var(--highlight);
+    margin-top: auto;
+  }
+
+  .result-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .result-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .result-value.zero { color: var(--muted); }
+
+  .result-breakdown {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .breakdown-row strong { color: var(--ink); }
+
+  .main {
+    padding: 28px 32px;
+    overflow-y: auto;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .hours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    gap: 4px;
+    margin-bottom: 28px;
+  }
+
+  .hour-cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    border: 1px solid transparent;
+    position: relative;
+    cursor: default;
+  }
+
+  .hour-cell .hr { font-weight: 500; font-size: 0.78rem; }
+  .hour-cell .rev { font-size: 0.6rem; color: var(--muted); }
+
+  .hour-cell.active {
+    background: var(--green-bg);
+    border-color: #b8d9c5;
+  }
+
+  .hour-cell.active .rev { color: var(--green); font-weight: 500; }
+
+  .hour-cell.inactive {
+    background: #f8f6f0;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .hour-cell.peak {
+    background: #fff0e8;
+    border-color: #f5c8a8;
+  }
+  .hour-cell.peak .rev { color: var(--accent); }
+
+  .chart-container {
+    height: 180px;
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 150px;
+    padding-bottom: 0;
+  }
+
+  .bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    transition: height 0.3s ease;
+    min-height: 2px;
+    position: relative;
+  }
+
+  .bar-members { background: var(--green); }
+  .bar-nonmembers { background: var(--accent); opacity: 0.7; }
+  .bar-label {
+    font-size: 0.55rem;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .warn-box {
+    border: 1px solid #f5c8a8;
+    background: #fff8f5;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    color: #8a4020;
+    margin-bottom: 16px;
+  }
+
+  .hour-breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+  }
+
+  .hour-breakdown-table th {
+    text-align: left;
+    padding: 6px 10px;
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+  }
+
+  .hour-breakdown-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hour-breakdown-table tr:last-child td { border-bottom: none; }
+  .hour-breakdown-table tr.active-row { background: var(--highlight); }
+  .hour-breakdown-table tr.inactive-row td { color: var(--muted); }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tag-peak { background: #fff0e8; color: var(--accent); }
+  .tag-regular { background: var(--green-bg); color: var(--green); }
+  .tag-restricted { background: #f0f0f0; color: var(--muted); }
+  .tag-closed { background: #f5f5f5; color: #bbb; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--rule); }
+    header { padding: 16px 20px; }
+    .main { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading-banner" style="background:#fff8e8;border-bottom:1px solid #d4cebc;padding:10px 36px;font-size:0.75rem;color:#8a8070;">
+  Loading pricing data…
+</div>
+
+<header>
+  <h1>Private Event Revenue Calculator</h1>
+  <span>JS Port · VBA ExpectedRevenueCalculator</span>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="field-group">
+      <label>Location</label>
+      <select id="location">
+        <option value="Dobro">Dobro</option>
+        <option value="LES">LES</option>
+        <option value="Wburg">Wburg</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label>Day of Week</label>
+      <select id="dayofweek">
+        <option value="Mon">Monday</option>
+        <option value="Tue">Tuesday</option>
+        <option value="Wed">Wednesday</option>
+        <option value="Thu">Thursday</option>
+        <option value="Fri">Friday</option>
+        <option value="Sat">Saturday</option>
+        <option value="Sun">Sunday</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label>Start Time</label>
+      <select id="startTime"></select>
+    </div>
+
+    <div class="field-group">
+      <label>End Time</label>
+      <select id="endTime"></select>
+    </div>
+
+    <div class="field-group">
+      <label>Number of Tables (1–4)</label>
+      <div class="tables-input">
+        <button class="tables-btn" onclick="adjustTables(-1)">−</button>
+        <input type="number" id="numTables" value="4" min="1" max="4" style="text-align:center;">
+        <button class="tables-btn" onclick="adjustTables(1)">+</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Editable multipliers -->
+    <div class="section-label">Price Multipliers</div>
+    <div class="multiplier-row">
+      <label>Off-peak</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multOffPeak" value="125" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Reduced</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multReduced" value="150" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Peak</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multPeak" value="175" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="multiplier-row">
+      <label>Buyout surcharge</label>
+      <div class="multiplier-input-wrap">
+        <input type="number" id="multBuyout" value="25" min="0" step="1">
+        <span>%</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Results -->
+    <div class="result-box">
+      <div class="result-item">
+        <div class="result-label">Expected Revenues</div>
+        <div class="result-value zero" id="resultValue">—</div>
+        <div class="result-breakdown" id="breakdown" style="display:none;">
+          <div class="breakdown-row">
+            <span>Members</span>
+            <strong id="memberRev">—</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Non-Members</span>
+            <strong id="nonMemberRev">—</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Duration</span>
+            <strong id="durationHours">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Booking Cost for Non-Members</div>
+        <div class="result-value zero" id="bookingCostValue">—</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Multiplier</div>
+        <div class="result-value zero" id="multiplierValue">—</div>
+        <div class="result-breakdown" id="multiplierBreakdown" style="display:none;">
+          <div class="breakdown-row">
+            <span>Period type</span>
+            <strong id="periodType">—</strong>
+          </div>
+          <div class="breakdown-row" id="buyoutRow" style="display:none;">
+            <span>Buyout surcharge</span>
+            <strong id="buyoutPct">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-item">
+        <div class="result-label">Recommended Price</div>
+        <div class="result-value zero" id="recommendedValue">—</div>
+      </div>
+      <button onclick="calculate()" style="margin-top:16px;width:100%;padding:10px;background:var(--ink);color:var(--paper);border:none;font-family:inherit;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;">Calculate</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="warnBox" class="warn-box" style="display:none;"></div>
+
+    <div class="section-title">Hour-by-Hour Detail</div>
+    <table class="hour-breakdown-table" id="detailTable">
+      <thead>
+        <tr>
+          <th>Hour</th>
+          <th>Member Occ.</th>
+          <th>Member Rate</th>
+          <th>Member Rev.</th>
+          <th>Non-Member Occ.</th>
+          <th>NM Rate</th>
+          <th>NM Rev.</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="detailBody"></tbody>
+    </table>
+  </main>
+</div>
+
+<script>
+// ============================================================
+// PRICING DATA (extracted from VBA workbook)
+// ============================================================
+const FALLBACK_PRICING_DATA = {"Dobro":{"members":{"occupancy":{"0":{"Sat":0.007256376811594203,"Sun":0.009625384615384616,"Mon":0.03366384615384616,"Tue":0.004817692307692308,"Wed":0.01622621621621622,"Thu":0.004817692307692308,"Fri":0.004840917874396135},"1":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"2":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"3":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"4":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"5":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"6":{"Sat":0.01989636363636364,"Sun":0.02748252747252747,"Mon":0.01603564102564102,"Tue":0.01443307692307692,"Wed":0.01618250673854447,"Thu":0.02894890675241157,"Fri":0.05807451612903226},"7":{"Sat":0.09376,"Sun":0.0985676923076923,"Mon":0.07644312101910827,"Tue":0.05556555555555556,"Wed":0.05631026809651475,"Thu":0.1224058333333333,"Fri":0.09017393442622951},"8":{"Sat":0.7235676923076922,"Sun":0.7301304819277108,"Mon":0.1368024528301887,"Tue":0.2427845664739884,"Wed":0.09607986899563319,"Thu":0.2919175144508671,"Fri":0.2552401255230126},"9":{"Sat":0.8028946153846154,"Sun":0.8164351207729468,"Mon":0.2231504958677686,"Tue":0.4565317391304348,"Wed":0.2243343243243243,"Thu":0.3774609803921569,"Fri":0.5013433333333333},"10":{"Sat":0.12501,"Sun":0.1432138834951456,"Mon":0.3065793430656935,"Tue":0.5314109661835749,"Wed":0.4575571698113208,"Thu":0.5456830769230768,"Fri":0.5408753846153845},"11":{"Sat":0.1259359259259259,"Sun":0.1466446153846154,"Mon":0.3154134229828851,"Tue":0.50001,"Wed":0.5118024528301887,"Thu":0.5036419612590799,"Fri":0.5122051219512195},"12":{"Sat":0.08848184986595174,"Sun":0.1009715384615385,"Mon":0.04456445544554456,"Tue":0.05393156862745099,"Wed":0.04029436018957346,"Thu":0.06025096385542169,"Fri":0.06061606060606061},"13":{"Sat":0.06342463414634146,"Sun":0.1153946153846154,"Mon":0.03008518796992481,"Tue":0.03686503685503686,"Wed":0.02133701421800948,"Thu":0.0314869975786925,"Fri":0.03884495145631068},"14":{"Sat":0.08938198067632849,"Sun":0.07693307692307692,"Mon":0.039129804400978,"Tue":0.04902960784313726,"Wed":0.05661377358490566,"Thu":0.06281193236714976,"Fri":0.05122951219512195},"15":{"Sat":0.09201968523002421,"Sun":0.08654846153846153,"Mon":0.08938198067632849,"Tue":0.06039647342995169,"Wed":0.08491566037735848,"Thu":0.09135615384615384,"Fri":0.05186185185185185},"16":{"Sat":0.06251,"Sun":0.08654846153846153,"Mon":0.1301304819277108,"Tue":0.08174076923076923,"Wed":0.2335005660377359,"Thu":0.1418369230769231,"Fri":0.09880518072289156},"17":{"Sat":0.09269292682926829,"Sun":0.1538561538461539,"Mon":0.02164461538461538,"Tue":0.09376,"Wed":0.1533118867924528,"Thu":0.06010615384615385,"Fri":0.08414461538461539},"18":{"Sat":0.07711843373493976,"Sun":0.25001,"Mon":0.1081830769230769,"Tue":0.1466446153846154,"Wed":0.08255716981132075,"Thu":0.1226061538461538,"Fri":0.1610676923076923},"19":{"Sat":0.05289461538461539,"Sun":0.2307792307692308,"Mon":0.1610676923076923,"Tue":0.2331830769230769,"Wed":0.1928671428571429,"Thu":0.3285124154589372,"Fri":0.1899138461538462},"20":{"Sat":0.02645230769230769,"Sun":0.3990484615384616,"Mon":0.1180822891566265,"Tue":0.2063206796116505,"Wed":0.259443962264151,"Thu":0.3091887439613527,"Fri":0.1207829468599034},"21":{"Sat":0.03847153846153847,"Sun":0.4759715384615384,"Mon":0.08414461538461539,"Tue":0.1893303883495146,"Wed":0.1179345283018868,"Thu":0.1014592753623188,"Fri":0.02899550724637681},"22":{"Sat":0.02404846153846154,"Sun":0.1899138461538462,"Mon":0.04087538461538462,"Tue":0.1041262227602906,"Wed":0.02123641509433962,"Thu":0.04380562043795621,"Fri":0.04107280193236715},"23":{"Sat":0.004817692307692308,"Sun":0.07693307692307692,"Mon":0.002413846153846154,"Tue":0.01928710843373494,"Wed":1e-05,"Thu":0.00967183574879227,"Fri":0.02174913043478261}},"prices":{"0":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"1":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"2":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"3":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"4":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"5":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"6":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"7":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"8":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"9":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"10":{"Sat":21.0,"Sun":21.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"11":{"Sat":21.0,"Sun":21.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"12":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"13":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"14":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"15":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":21.0},"16":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":21.0},"17":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"18":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"19":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"20":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"21":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"22":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"23":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0}}},"nonMembers":{"occupancy":{"0":{"Sat":0.09179743961352657,"Sun":0.09376,"Mon":0.04327923076923077,"Tue":0.009625384615384616,"Wed":0.03514513513513514,"Thu":0.04087538461538462,"Fri":0.06281193236714976},"1":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"2":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"3":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"4":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"5":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"6":{"Sat":1e-05,"Sun":0.002757252747252747,"Mon":0.00642025641025641,"Tue":0.009625384615384616,"Wed":0.005400835579514825,"Thu":0.01287173633440514,"Fri":0.00968741935483871},"7":{"Sat":0.02865583333333333,"Sun":0.03847153846153847,"Mon":0.003194713375796179,"Tue":0.01516151515151515,"Wed":0.005371930294906166,"Thu":0.01303083333333333,"Fri":0.01913568306010929},"8":{"Sat":0.03366384615384616,"Sun":0.03133530120481928,"Mon":0.02831188679245283,"Tue":0.008680520231213872,"Wed":0.01747724890829694,"Thu":0.005790346820809248,"Fri":0.01674640167364017},"9":{"Sat":0.02885615384615385,"Sun":0.03141096618357488,"Mon":0.08265462809917355,"Tue":0.03624188405797102,"Wed":0.08109108108108108,"Thu":0.06128450980392157,"Fri":0.07734333333333333},"10":{"Sat":0.1838335294117647,"Sun":0.3859323300970874,"Mon":0.0924674209245742,"Tue":0.1449375362318841,"Wed":0.09670811320754717,"Thu":0.08654846153846153,"Fri":0.12501},"11":{"Sat":0.3506272839506173,"Sun":0.4543369230769231,"Mon":0.136929315403423,"Tue":0.1802984615384615,"Wed":0.1108590566037736,"Thu":0.1356032203389831,"Fri":0.0975709756097561},"12":{"Sat":0.4155595978552279,"Sun":0.4783753846153846,"Mon":0.1782278217821782,"Tue":0.1029511764705882,"Wed":0.1137540758293839,"Thu":0.1590461445783133,"Fri":0.148999898989899},"13":{"Sat":0.4463514634146342,"Sun":0.5432792307692307,"Mon":0.2756992230576441,"Tue":0.1498871498771499,"Wed":0.1611474407582938,"Thu":0.2421407506053269,"Fri":0.2160294174757282},"14":{"Sat":0.5410728019323671,"Sun":0.5913561538461538,"Mon":0.234728826405868,"Tue":0.1911864705882353,"Wed":0.1651043396226415,"Thu":0.2343095169082126,"Fri":0.2536685365853659},"15":{"Sat":0.6004942615012107,"Sun":0.68751,"Mon":0.2584641062801932,"Tue":0.2318940579710145,"Wed":0.1910477358490566,"Thu":0.2524138461538462,"Fri":0.2864297530864198},"16":{"Sat":0.6346253846153845,"Sun":0.6851061538461538,"Mon":0.3180822891566265,"Tue":0.3557792307692308,"Wed":0.3419911320754717,"Thu":0.3365484615384616,"Fri":0.4578413253012048},"17":{"Sat":0.5048880487804878,"Sun":0.5216446153846154,"Mon":0.21876,"Tue":0.2572215384615384,"Wed":0.2641609433962264,"Thu":0.2307792307692308,"Fri":0.3653946153846154},"18":{"Sat":0.4698895180722892,"Sun":0.6754907692307692,"Mon":0.2956830769230769,"Tue":0.3149138461538462,"Wed":0.5707647169811321,"Thu":0.3341446153846154,"Fri":0.4182792307692308},"19":{"Sat":0.3918369230769231,"Sun":0.6947215384615384,"Mon":0.37501,"Tue":0.3413561538461539,"Wed":0.3952480952380952,"Thu":0.4058071014492754,"Fri":0.50001},"20":{"Sat":0.3726061538461539,"Sun":0.4302984615384616,"Mon":0.3084437349397591,"Tue":0.3106896116504854,"Wed":0.3585005660377358,"Thu":0.3744061352657005,"Fri":0.427546231884058},"21":{"Sat":0.3149138461538462,"Sun":0.1899138461538462,"Mon":0.2283753846153846,"Tue":0.2961265048543689,"Wed":0.2547269811320755,"Thu":0.3285124154589372,"Fri":0.3647442995169082},"22":{"Sat":0.2836638461538462,"Sun":0.1586638461538462,"Mon":0.1346253846153846,"Tue":0.1864506779661017,"Wed":0.1485949056603774,"Thu":0.0949005109489051,"Fri":0.2174013043478261},"23":{"Sat":0.1802984615384615,"Sun":0.0673176923076923,"Mon":0.06251,"Tue":0.06025096385542169,"Wed":0.08491566037735848,"Thu":0.06039647342995169,"Fri":0.1497684541062802}},"prices":{"0":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"1":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"2":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"3":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"4":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"5":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"6":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"7":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"8":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"9":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"10":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"11":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"12":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"13":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"14":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"15":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"16":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"17":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"18":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"19":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"20":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"21":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"22":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"23":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0}}}},"LES":{"members":{"occupancy":{"0":{"Sat":0.08895230769230769,"Sun":0.0577023076923077,"Mon":0.09376,"Tue":0.04946054945054945,"Wed":0.06133075471698114,"Thu":0.04568307692307692,"Fri":0.04087538461538462},"1":{"Sat":0.04808692307692308,"Sun":0.02164461538461538,"Mon":0.02885615384615385,"Tue":0.02885615384615385,"Wed":0.01887792452830189,"Thu":0.01683692307692308,"Fri":0.02164461538461538},"2":{"Sat":0.01443307692307692,"Sun":1e-05,"Mon":1e-05,"Tue":0.009625384615384616,"Wed":1e-05,"Thu":0.003856153846153846,"Fri":1e-05},"3":{"Sat":1e-05,"Sun":0.009625384615384616,"Mon":1e-05,"Tue":0.0,"Wed":0.0,"Thu":0.009625384615384616,"Fri":1e-05},"4":{"Sat":1e-05,"Sun":0.009625384615384616,"Mon":1e-05,"Tue":1e-05,"Wed":0.0,"Thu":0.009625384615384616,"Fri":0.0},"5":{"Sat":0.009625384615384616,"Sun":0.01924076923076923,"Mon":0.0,"Tue":1e-05,"Wed":0.0,"Thu":1e-05,"Fri":0.0},"6":{"Sat":0.1506272839506173,"Sun":0.1226061538461538,"Mon":0.2091446153846154,"Tue":0.2457102457002457,"Wed":0.2004816981132076,"Thu":0.2139523076923077,"Fri":0.1610676923076923},"7":{"Sat":0.50001,"Sun":0.4615484615384616,"Mon":0.5504907692307692,"Tue":0.5985676923076922,"Wed":0.5825571698113207,"Thu":0.5432792307692307,"Fri":0.4831830769230769},"8":{"Sat":0.5865484615384615,"Sun":0.5985676923076922,"Mon":0.4591446153846154,"Tue":0.5264523076923077,"Wed":0.5235949056603774,"Thu":0.5673176923076922,"Fri":0.4807792307692308},"9":{"Sat":0.6658263265306122,"Sun":0.6298176923076922,"Mon":0.4327023076923077,"Tue":0.4759715384615384,"Wed":0.4811420754716981,"Thu":0.6177984615384615,"Fri":0.4879907692307692},"10":{"Sat":0.1824424324324324,"Sun":0.2716446153846154,"Mon":0.6009715384615384,"Tue":0.6150221065375302,"Wed":0.5636892452830188,"Thu":0.6153946153846154,"Fri":0.6370292307692307},"11":{"Sat":0.1756473937677054,"Sun":0.2932792307692308,"Mon":0.6630827762803234,"Tue":0.6778450515463917,"Wed":0.6221762468513854,"Thu":0.6592897783933518,"Fri":0.6356689147286821},"12":{"Sat":0.1133104926108374,"Sun":0.2067407692307692,"Mon":0.06290308176100629,"Tue":0.08760124087591241,"Wed":0.07064197026022305,"Thu":0.09562752988047808,"Fri":0.1124597991967871},"13":{"Sat":0.1497684541062802,"Sun":0.1754907692307692,"Mon":0.06061606060606061,"Tue":0.02977190476190476,"Wed":0.08384233532934131,"Thu":0.06780661016949152,"Fri":0.1035698705501618},"14":{"Sat":0.2355869230769231,"Sun":0.2307792307692308,"Mon":0.08934002481389577,"Tue":0.6900826392251815,"Wed":0.1445597630331754,"Thu":0.1800586618004866,"Fri":0.1475926972010178},"15":{"Sat":0.2788561538461539,"Sun":0.2764523076923077,"Mon":0.2163561538461539,"Tue":0.68751,"Wed":0.1919531279620853,"Thu":0.2749491727493917,"Fri":0.2009903921568628},"16":{"Sat":0.1670802179176755,"Sun":0.1514523076923077,"Mon":0.2115484615384615,"Tue":0.2829368292682927,"Wed":0.2464554976303318,"Thu":0.3454206280193237,"Fri":0.2705414009661836},"17":{"Sat":0.1057792307692308,"Sun":0.1274138461538462,"Mon":0.2115484615384615,"Tue":0.2795280722891567,"Wed":0.2417161611374408,"Thu":0.2385642168674699,"Fri":0.20001},"18":{"Sat":0.1140876699029126,"Sun":0.3702023076923077,"Mon":0.1827023076923077,"Tue":0.2826186956521739,"Wed":0.4633669739952719,"Thu":0.3389523076923077,"Fri":0.2355869230769231},"19":{"Sat":0.1466446153846154,"Sun":0.3798176923076923,"Mon":0.1995292307692308,"Tue":0.3164351207729469,"Wed":0.455198679245283,"Thu":0.3221253846153846,"Fri":0.2692407692307692},"20":{"Sat":0.1153946153846154,"Sun":0.4831830769230769,"Mon":0.1899138461538462,"Tue":0.2620292307692308,"Wed":0.2099156603773585,"Thu":0.28126,"Fri":0.2747087951807229},"21":{"Sat":0.05289461538461539,"Sun":0.6490484615384615,"Mon":0.1322215384615385,"Tue":0.1298176923076923,"Wed":0.1179345283018868,"Thu":0.1706830769230769,"Fri":0.2115484615384615},"22":{"Sat":0.1226061538461538,"Sun":0.5504907692307692,"Mon":0.08654846153846153,"Tue":0.1586638461538462,"Wed":0.1320854716981132,"Thu":0.1490484615384615,"Fri":0.1827023076923077},"23":{"Sat":0.0985676923076923,"Sun":0.3101061538461539,"Mon":0.06491384615384616,"Tue":0.04808692307692308,"Wed":0.0589722641509434,"Thu":0.04568307692307692,"Fri":0.1105869230769231}},"prices":{"0":{"Sat":22.0,"Sun":22.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"1":{"Sat":22.0,"Sun":22.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"2":{"Sat":22.0,"Sun":22.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"3":{"Sat":24.0,"Sun":24.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"4":{"Sat":24.0,"Sun":24.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"5":{"Sat":24.0,"Sun":24.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"6":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"7":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"8":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"9":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"10":{"Sat":24.0,"Sun":24.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"11":{"Sat":24.0,"Sun":24.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"12":{"Sat":24.0,"Sun":24.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"13":{"Sat":24.0,"Sun":24.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"14":{"Sat":24.0,"Sun":24.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"15":{"Sat":24.0,"Sun":24.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":24.0},"16":{"Sat":24.0,"Sun":24.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":24.0},"17":{"Sat":24.0,"Sun":0.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"18":{"Sat":24.0,"Sun":0.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"19":{"Sat":24.0,"Sun":0.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"20":{"Sat":24.0,"Sun":0.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"21":{"Sat":24.0,"Sun":0.0,"Mon":24.0,"Tue":24.0,"Wed":24.0,"Thu":24.0,"Fri":24.0},"22":{"Sat":22.0,"Sun":0.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0},"23":{"Sat":22.0,"Sun":0.0,"Mon":22.0,"Tue":22.0,"Wed":22.0,"Thu":22.0,"Fri":22.0}}},"nonMembers":{"occupancy":{"0":{"Sat":0.1634715384615385,"Sun":0.1490484615384615,"Mon":0.06251,"Tue":0.02473527472527472,"Wed":0.05661377358490566,"Thu":0.06251,"Fri":0.0673176923076923},"1":{"Sat":0.1057792307692308,"Sun":0.08414461538461539,"Mon":0.02645230769230769,"Tue":0.01683692307692308,"Wed":0.02123641509433962,"Thu":0.02404846153846154,"Fri":0.02885615384615385},"2":{"Sat":0.04808692307692308,"Sun":0.03847153846153847,"Mon":0.03077923076923077,"Tue":1e-05,"Wed":0.01180245283018868,"Thu":0.01924076923076923,"Fri":0.08654846153846153},"3":{"Sat":0.0577023076923077,"Sun":0.09616384615384616,"Mon":0.02885615384615385,"Tue":0.0,"Wed":0.0,"Thu":0.02885615384615385,"Fri":0.03847153846153847},"4":{"Sat":0.07693307692307692,"Sun":0.08654846153846153,"Mon":0.01924076923076923,"Tue":0.03847153846153847,"Wed":0.0,"Thu":0.01924076923076923,"Fri":0.0},"5":{"Sat":0.01924076923076923,"Sun":0.0673176923076923,"Mon":0.0,"Tue":0.03847153846153847,"Wed":0.0,"Thu":0.01924076923076923,"Fri":0.0},"6":{"Sat":0.01976308641975309,"Sun":0.01202923076923077,"Mon":0.01924076923076923,"Tue":0.01229501228501228,"Wed":0.01416094339622642,"Thu":0.004817692307692308,"Fri":0.01924076923076923},"7":{"Sat":0.02885615384615385,"Sun":0.01443307692307692,"Mon":0.01202923076923077,"Tue":0.02164461538461538,"Wed":0.02359490566037736,"Thu":0.009625384615384616,"Fri":0.01683692307692308},"8":{"Sat":0.04568307692307692,"Sun":0.09616384615384616,"Mon":0.03847153846153847,"Tue":0.01924076923076923,"Wed":0.01180245283018868,"Thu":0.02885615384615385,"Fri":0.06491384615384616},"9":{"Sat":0.07398959183673469,"Sun":0.18751,"Mon":0.0673176923076923,"Tue":0.04808692307692308,"Wed":0.07548169811320754,"Thu":0.04808692307692308,"Fri":0.09616384615384616},"10":{"Sat":0.1486586486486487,"Sun":0.1706830769230769,"Mon":0.1226061538461538,"Tue":0.1065475302663438,"Wed":0.1037835849056604,"Thu":0.1346253846153846,"Fri":0.1418369230769231},"11":{"Sat":0.226638895184136,"Sun":0.2163561538461539,"Mon":0.123999218328841,"Tue":0.08506154639175258,"Wed":0.1083223425692695,"Thu":0.1080432409972299,"Fri":0.1343769250645995},"12":{"Sat":0.2783351231527094,"Sun":0.21876,"Mon":0.1949785534591195,"Tue":0.1240975912408759,"Wed":0.09294680297397769,"Thu":0.1314841035856574,"Fri":0.2048292771084337},"13":{"Sat":0.3985607246376812,"Sun":0.2668369230769231,"Mon":0.196979696969697,"Tue":0.1815576190476191,"Wed":0.08983035928143712,"Thu":0.2062246892655367,"Fri":0.2621459223300971},"14":{"Sat":0.4879907692307692,"Sun":0.3581830769230769,"Mon":0.1836328287841191,"Tue":0.2784603631961259,"Wed":0.1801047867298578,"Thu":0.2700829927007299,"Fri":0.3129870992366413},"15":{"Sat":0.4976061538461539,"Sun":0.4543369230769231,"Mon":0.2980869230769231,"Tue":0.28126,"Wed":0.2132801421800948,"Thu":0.2846815328467153,"Fri":0.3676570588235294},"16":{"Sat":0.5254337288135593,"Sun":0.5384715384615384,"Mon":0.3317407692307692,"Tue":0.2487904878048781,"Wed":0.3056972037914692,"Thu":0.3285124154589372,"Fri":0.4058071014492754},"17":{"Sat":0.5817407692307692,"Sun":0.5144330769230768,"Mon":0.15626,"Tue":0.2265160240963855,"Wed":0.1919531279620853,"Thu":0.2626606024096386,"Fri":0.4241063855421687},"18":{"Sat":0.4757381553398058,"Sun":0.4158753846153846,"Mon":0.2524138461538462,"Tue":0.321266038647343,"Wed":0.2955182742316785,"Thu":0.3581830769230769,"Fri":0.4639523076923077},"19":{"Sat":0.3557792307692308,"Sun":0.3918369230769231,"Mon":0.3293369230769231,"Tue":0.355082463768116,"Wed":0.3089722641509434,"Thu":0.3942407692307692,"Fri":0.4543369230769231},"20":{"Sat":0.3509715384615384,"Sun":0.2764523076923077,"Mon":0.2836638461538462,"Tue":0.3365484615384616,"Wed":0.3419911320754717,"Thu":0.4014523076923077,"Fri":0.3783232530120482},"21":{"Sat":0.3653946153846154,"Sun":0.1153946153846154,"Mon":0.2235676923076923,"Tue":0.2283753846153846,"Wed":0.3184062264150944,"Thu":0.31251,"Fri":0.4182792307692308},"22":{"Sat":0.3557792307692308,"Sun":0.1153946153846154,"Mon":0.1610676923076923,"Tue":0.1226061538461538,"Wed":0.1674628301886792,"Thu":0.1730869230769231,"Fri":0.4038561538461539},"23":{"Sat":0.2548176923076923,"Sun":0.07693307692307692,"Mon":0.07693307692307692,"Tue":0.08895230769230769,"Wed":0.1320854716981132,"Thu":0.1274138461538462,"Fri":0.2331830769230769}},"prices":{"0":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"1":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"2":{"Sat":50.0,"Sun":50.0,"Mon":50.0,"Tue":50.0,"Wed":50.0,"Thu":50.0,"Fri":50.0},"3":{"Sat":50.0,"Sun":50.0,"Mon":50.0,"Tue":50.0,"Wed":50.0,"Thu":50.0,"Fri":50.0},"4":{"Sat":50.0,"Sun":50.0,"Mon":50.0,"Tue":50.0,"Wed":50.0,"Thu":50.0,"Fri":50.0},"5":{"Sat":50.0,"Sun":50.0,"Mon":50.0,"Tue":50.0,"Wed":50.0,"Thu":50.0,"Fri":50.0},"6":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"7":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"8":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"9":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"10":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"11":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"12":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"13":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"14":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"15":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"16":{"Sat":48.0,"Sun":48.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"17":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"18":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"19":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"20":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"21":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"22":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0},"23":{"Sat":48.0,"Sun":48.0,"Mon":48.0,"Tue":48.0,"Wed":48.0,"Thu":48.0,"Fri":48.0}}}},"Wburg":{"members":{"occupancy":{"0":{"Sat":0.03606769230769231,"Sun":0.007221538461538462,"Mon":1e-05,"Tue":1e-05,"Wed":0.009625384615384616,"Thu":0.004726981132075471,"Fri":0.02404846153846154},"1":{"Sat":0.01202923076923077,"Sun":0.004817692307692308,"Mon":1e-05,"Tue":1e-05,"Wed":1e-05,"Thu":1e-05,"Fri":0.004911960784313725},"2":{"Sat":1e-05,"Sun":1e-05,"Mon":1e-05,"Tue":1e-05,"Wed":0.00642025641025641,"Thu":1e-05,"Fri":0.004817692307692308},"3":{"Sat":1e-05,"Sun":1e-05,"Mon":1e-05,"Tue":0.002460980392156863,"Wed":1e-05,"Thu":1e-05,"Fri":0.00642025641025641},"4":{"Sat":1e-05,"Sun":1e-05,"Mon":1e-05,"Tue":1e-05,"Wed":1e-05,"Thu":1e-05,"Fri":0.00642025641025641},"5":{"Sat":0.0,"Sun":0.005504505494505495,"Mon":1e-05,"Tue":1e-05,"Wed":0.0,"Thu":1e-05,"Fri":0.00642025641025641},"6":{"Sat":0.003856153846153846,"Sun":0.01924076923076923,"Mon":0.0,"Tue":0.01220512195121951,"Wed":1e-05,"Thu":1e-05,"Fri":0.003215128205128205},"7":{"Sat":0.02658004830917874,"Sun":0.08414461538461539,"Mon":0.03526641025641026,"Tue":0.04107280193236715,"Wed":0.04488179487179488,"Thu":0.07672232876712329,"Fri":0.06411256410256409},"8":{"Sat":0.2874792874692875,"Sun":0.1995292307692308,"Mon":0.05449717948717949,"Tue":0.04808692307692308,"Wed":0.1081830769230769,"Thu":0.08895230769230769,"Fri":0.08242758241758241},"9":{"Sat":0.37501,"Sun":0.2788561538461539,"Mon":0.1270818232044199,"Tue":0.09474684210526316,"Wed":0.1914993617021277,"Thu":0.1417212299465241,"Fri":0.1340582573726542},"10":{"Sat":0.05379973105134474,"Sun":0.1033753846153846,"Mon":0.1909190909090909,"Tue":0.2932651319648094,"Wed":0.2591193117408907,"Thu":0.3104495604395605,"Fri":0.3333433333333333},"11":{"Sat":0.1083843842364532,"Sun":0.08654846153846153,"Mon":0.1032708695652174,"Tue":0.2908753846153846,"Wed":0.273946170212766,"Thu":0.3136892452830189,"Fri":0.3152273913043478},"12":{"Sat":0.1002544987775061,"Sun":0.03606769230769231,"Mon":0.03366384615384616,"Tue":0.06251,"Wed":0.09179743961352657,"Thu":0.0731232075471698,"Fri":0.0975709756097561},"13":{"Sat":0.08049780487804878,"Sun":0.06491384615384616,"Mon":0.04327923076923077,"Tue":0.05826242718446602,"Wed":0.06491384615384616,"Thu":0.0589722641509434,"Fri":0.06634906633906633},"14":{"Sat":0.1038747342995169,"Sun":0.06010615384615385,"Mon":0.03366384615384616,"Tue":0.04902960784313726,"Wed":0.03847153846153847,"Thu":0.06133075471698114,"Fri":0.04879048780487805},"15":{"Sat":0.07711843373493976,"Sun":0.05289461538461539,"Mon":0.05289461538461539,"Tue":0.03126,"Wed":0.01683692307692308,"Thu":0.04010433962264151,"Fri":0.04568307692307692},"16":{"Sat":0.03847153846153847,"Sun":0.1033753846153846,"Mon":0.1490484615384615,"Tue":0.1207829468599034,"Wed":0.03847153846153847,"Thu":0.04048619047619048,"Fri":0.08174076923076923},"17":{"Sat":0.03856421686746989,"Sun":0.1129907692307692,"Mon":0.1971253846153846,"Tue":0.0721253846153846,"Wed":0.06491384615384616,"Thu":0.07143857142857142,"Fri":0.1226061538461538},"18":{"Sat":0.02416458937198068,"Sun":0.15626,"Mon":0.2115484615384615,"Tue":0.0577023076923077,"Wed":0.07933692307692307,"Thu":0.1108590566037736,"Fri":0.2067407692307692},"19":{"Sat":0.03865734299516908,"Sun":0.1682792307692308,"Mon":0.1754907692307692,"Tue":0.1586638461538462,"Wed":0.1634715384615385,"Thu":0.2004816981132076,"Fri":0.25001},"20":{"Sat":0.03382642512077295,"Sun":0.1586638461538462,"Mon":0.1322215384615385,"Tue":0.3653946153846154,"Wed":0.1610676923076923,"Thu":0.1839722641509434,"Fri":0.1370292307692308},"21":{"Sat":0.05073463768115943,"Sun":0.2740484615384616,"Mon":0.05529846153846154,"Tue":0.3004907692307692,"Wed":0.2139523076923077,"Thu":0.1037835849056604,"Fri":0.1057792307692308},"22":{"Sat":0.05798101449275363,"Sun":0.2115484615384615,"Mon":0.02645230769230769,"Tue":0.1370292307692308,"Wed":0.1827023076923077,"Thu":0.07784018867924528,"Fri":0.05289461538461539},"23":{"Sat":0.03865734299516908,"Sun":0.01924076923076923,"Mon":0.005504505494505495,"Tue":0.02164461538461538,"Wed":0.04808692307692308,"Thu":0.02831188679245283,"Fri":0.009625384615384616}},"prices":{"0":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"1":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"2":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"3":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"4":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"5":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"6":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"7":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"8":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"9":{"Sat":0.0,"Sun":0.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"10":{"Sat":21.0,"Sun":21.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"11":{"Sat":21.0,"Sun":21.0,"Mon":0.0,"Tue":0.0,"Wed":0.0,"Thu":0.0,"Fri":0.0},"12":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"13":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"14":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":18.0},"15":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":21.0},"16":{"Sat":21.0,"Sun":21.0,"Mon":18.0,"Tue":18.0,"Wed":18.0,"Thu":18.0,"Fri":21.0},"17":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"18":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"19":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"20":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"21":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"22":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0},"23":{"Sat":21.0,"Sun":21.0,"Mon":21.0,"Tue":21.0,"Wed":21.0,"Thu":21.0,"Fri":21.0}}},"nonMembers":{"occupancy":{"0":{"Sat":0.1129907692307692,"Sun":0.12501,"Mon":0.03366384615384616,"Tue":0.03022978021978022,"Wed":0.04087538461538462,"Thu":0.02123641509433962,"Fri":0.05049076923076923},"1":{"Sat":0.06491384615384616,"Sun":0.0577023076923077,"Mon":0.03606769230769231,"Tue":0.00642025641025641,"Wed":0.01924076923076923,"Thu":0.01887792452830189,"Fri":0.0196178431372549},"2":{"Sat":0.04488179487179488,"Sun":0.02885615384615385,"Mon":0.01283051282051282,"Tue":0.00642025641025641,"Wed":0.009625384615384616,"Thu":0.01618250673854447,"Fri":0.02404846153846154},"3":{"Sat":0.02473527472527472,"Sun":0.02645230769230769,"Mon":0.00642025641025641,"Tue":1e-05,"Wed":0.00642025641025641,"Thu":0.009443962264150943,"Fri":0.01603564102564102},"4":{"Sat":0.01443307692307692,"Sun":0.01443307692307692,"Mon":0.01283051282051282,"Tue":0.004911960784313725,"Wed":1e-05,"Thu":0.006299308176100629,"Fri":0.009625384615384616},"5":{"Sat":0.0,"Sun":0.002757252747252747,"Mon":0.009625384615384616,"Tue":1e-05,"Wed":0.0,"Thu":0.006299308176100629,"Fri":1e-05},"6":{"Sat":0.01154846153846154,"Sun":1e-05,"Mon":0.0,"Tue":1e-05,"Wed":0.01924076923076923,"Thu":0.006299308176100629,"Fri":0.00642025641025641},"7":{"Sat":0.02174913043478261,"Sun":0.007221538461538462,"Mon":0.00642025641025641,"Tue":0.02416458937198068,"Wed":0.009625384615384616,"Thu":1e-05,"Fri":0.003215128205128205},"8":{"Sat":0.03686503685503686,"Sun":0.01443307692307692,"Mon":0.003215128205128205,"Tue":0.01683692307692308,"Wed":0.01443307692307692,"Thu":0.007221538461538462,"Fri":0.008251758241758242},"9":{"Sat":0.08174076923076923,"Sun":0.04808692307692308,"Mon":0.01934701657458563,"Tue":0.02895736842105263,"Wed":0.03192489361702128,"Thu":0.0160527807486631,"Fri":0.01341482573726542},"10":{"Sat":0.1051444743276284,"Sun":0.06491384615384616,"Mon":0.03637363636363636,"Tue":0.02933551319648094,"Wed":0.03644724696356275,"Thu":0.02198802197802198,"Fri":0.02667666666666667},"11":{"Sat":0.1477932512315271,"Sun":0.1394330769230769,"Mon":0.06522739130434782,"Tue":0.05529846153846154,"Wed":0.0399036170212766,"Thu":0.03538735849056604,"Fri":0.03533608695652174},"12":{"Sat":0.215168924205379,"Sun":0.1298176923076923,"Mon":0.06491384615384616,"Tue":0.05289461538461539,"Wed":0.08938198067632849,"Thu":0.04010433962264151,"Fri":0.05610756097560976},"13":{"Sat":0.2487904878048781,"Sun":0.2067407692307692,"Mon":0.07693307692307692,"Tue":0.05826242718446602,"Wed":0.0721253846153846,"Thu":0.0731232075471698,"Fri":0.08354808353808353},"14":{"Sat":0.3116042028985507,"Sun":0.2836638461538462,"Mon":0.1009715384615385,"Tue":0.04902960784313726,"Wed":0.0577023076923077,"Thu":0.1061420754716981,"Fri":0.09513195121951219},"15":{"Sat":0.3156726506024096,"Sun":0.3221253846153846,"Mon":0.1851061538461539,"Tue":0.1009715384615385,"Wed":0.08174076923076923,"Thu":0.1108590566037736,"Fri":0.1730869230769231},"16":{"Sat":0.3485676923076923,"Sun":0.3149138461538462,"Mon":0.2043369230769231,"Tue":0.1352757004830918,"Wed":0.09135615384615384,"Thu":0.08572428571428571,"Fri":0.2043369230769231},"17":{"Sat":0.3783232530120482,"Sun":0.3077023076923077,"Mon":0.1754907692307692,"Tue":0.1057792307692308,"Wed":0.1153946153846154,"Thu":0.08334333333333332,"Fri":0.1634715384615385},"18":{"Sat":0.3236814975845411,"Sun":0.3221253846153846,"Mon":0.1610676923076923,"Tue":0.1802984615384615,"Wed":0.2668369230769231,"Thu":0.1886892452830189,"Fri":0.1634715384615385},"19":{"Sat":0.251217729468599,"Sun":0.31251,"Mon":0.1851061538461539,"Tue":0.2644330769230769,"Wed":0.2427984615384615,"Thu":0.2547269811320755,"Fri":0.2211638461538462},"20":{"Sat":0.251217729468599,"Sun":0.2764523076923077,"Mon":0.1586638461538462,"Tue":0.3485676923076923,"Wed":0.2235676923076923,"Thu":0.2712364150943397,"Fri":0.3245292307692308},"21":{"Sat":0.251217729468599,"Sun":0.1778946153846154,"Mon":0.1081830769230769,"Tue":0.3269330769230769,"Wed":0.1730869230769231,"Thu":0.2429345283018868,"Fri":0.2524138461538462},"22":{"Sat":0.2343095169082126,"Sun":0.08414461538461539,"Mon":0.08414461538461539,"Tue":0.1153946153846154,"Wed":0.1057792307692308,"Thu":0.1297269811320755,"Fri":0.1706830769230769},"23":{"Sat":0.176338502415459,"Sun":0.04808692307692308,"Mon":0.04946054945054945,"Tue":0.0673176923076923,"Wed":0.04087538461538462,"Thu":0.09199113207547169,"Fri":0.1634715384615385}},"prices":{"0":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"1":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"2":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"3":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"4":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"5":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"6":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"7":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"8":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"9":{"Sat":36.0,"Sun":36.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"10":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"11":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"12":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"13":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"14":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":36.0},"15":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"16":{"Sat":42.0,"Sun":42.0,"Mon":36.0,"Tue":36.0,"Wed":36.0,"Thu":36.0,"Fri":48.0},"17":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"18":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"19":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"20":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"21":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"22":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0},"23":{"Sat":42.0,"Sun":42.0,"Mon":42.0,"Tue":42.0,"Wed":42.0,"Thu":42.0,"Fri":42.0}}}},"_hours":{"nonMembers":{"0":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"1":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"2":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"3":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"4":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"5":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"6":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"7":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"8":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"9":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"10":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"11":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"12":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"13":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"14":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"15":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"P"},"16":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"P"},"17":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"18":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"19":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"20":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"21":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"22":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"23":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"}},"members":{"0":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"1":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"2":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"3":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"4":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"5":{"Sat":"R","Sun":"R","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"6":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"7":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"8":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"9":{"Sat":"NP","Sun":"NP","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"10":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"11":{"Sat":"P","Sun":"P","Mon":"NP","Tue":"NP","Wed":"NP","Thu":"NP","Fri":"NP"},"12":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"13":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"14":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"15":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"P"},"16":{"Sat":"P","Sun":"P","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"P"},"17":{"Sat":"P","Sun":"P","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"18":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"19":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"20":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"21":{"Sat":"P","Sun":"NP","Mon":"P","Tue":"P","Wed":"P","Thu":"P","Fri":"P"},"22":{"Sat":"R","Sun":"NP","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"},"23":{"Sat":"R","Sun":"NP","Mon":"R","Tue":"R","Wed":"R","Thu":"R","Fri":"R"}}}};
+
+let PRICING_DATA = null;
+
+async function loadPricingData() {
+  try {
+    const response = await fetch('pricing_data.json?v=' + Date.now());
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    PRICING_DATA = await response.json();
+  } catch (err) {
+    // Fall back to embedded data — works when opened directly as a local file
+    PRICING_DATA = FALLBACK_PRICING_DATA;
+  }
+  document.getElementById('loading-banner').style.display = 'none';
+  calculate();
+}
+
+// ============================================================
+// CORE CALCULATION FUNCTION (port of VBA expectedRevenue)
+// ============================================================
+
+/**
+ * expectedRevenue(location, dayOfWeek, startTime, endTime, numTables)
+ *
+ * Mirrors the VBA function ExpectedRevenueCalculator.expectedRevenue.
+ *
+ * Logic:
+ *  1. Validate inputs — return null if missing/invalid
+ *  2. Determine the set of integer hours covered by [startTime, endTime)
+ *     Handle midnight crossing (e.g., 22:00 → 02:00)
+ *  3. For each hour in the range, look up:
+ *       memberOccupancy  * memberPrice  * numTables
+ *       nmOccupancy      * nmPrice      * numTables
+ *     Sum the two to get hourly revenue contribution
+ *  4. Return total, plus per-type subtotals and per-hour detail
+ *
+ * The occupancy × price value is already pre-multiplied by the
+ * expected number of tables occupied (the "Expected Revenue" sheet
+ * uses 4 tables as the denominator, so we scale by numTables/4).
+ */
+function expectedRevenue(location, dayOfWeek, startTimeStr, endTimeStr, numTables) {
+  // --- Validate inputs ---
+  if (!location || !dayOfWeek || !startTimeStr || !endTimeStr || !numTables) return null;
+
+  const locData = PRICING_DATA[location];
+  if (!locData) return null;
+
+  const [startH, startM] = startTimeStr.split(':').map(Number);
+  const [endH, endM] = endTimeStr.split(':').map(Number);
+
+  if (isNaN(startH) || isNaN(endH)) return null;
+
+  // Duration in fractional hours
+  let startMinutes = startH * 60 + (startM || 0);
+  let endMinutes   = endH   * 60 + (endM   || 0);
+
+  // Handle midnight crossing
+  if (endMinutes <= startMinutes) endMinutes += 24 * 60;
+
+  const durationHours = (endMinutes - startMinutes) / 60;
+
+  // Collect integer hours in range [startH .. endH)
+  // The booking covers partial or full hours; we include an hour if the
+  // booking overlaps it. The original VBA uses integer hour iteration.
+  const hours = [];
+  let cur = startMinutes;
+  while (cur < endMinutes) {
+    hours.push(Math.floor(cur / 60) % 24);
+    cur += 60;
+    // avoid exact end-hour if booking ends at :00
+    if (cur === endMinutes) break;
+  }
+  // If duration is not integer, include final partial hour
+  if (endMinutes % 60 !== 0) {
+    hours.push(Math.floor(endMinutes / 60) % 24);
+  }
+  // deduplicate
+  const uniqueHours = [...new Set(hours)];
+
+  // Scale factor: data is based on 4 tables
+  const tableFactor = numTables / 4;
+
+  let totalMember    = 0;
+  let totalNonMember = 0;
+  let totalBookingCost = 0;
+  const hourDetail   = [];
+
+  for (const h of uniqueHours) {
+    const hStr = String(h);
+    const mOcc  = locData.members.occupancy[hStr]?.[dayOfWeek]    ?? 0;
+    const mPrc  = locData.members.prices[hStr]?.[dayOfWeek]       ?? 0;
+    const nmOcc = locData.nonMembers.occupancy[hStr]?.[dayOfWeek] ?? 0;
+    const nmPrc = locData.nonMembers.prices[hStr]?.[dayOfWeek]    ?? 0;
+
+    const mRev  = mOcc  * mPrc  * numTables;
+    const nmRev = nmOcc * nmPrc * numTables;
+
+    // Booking cost: rack rate × numTables, no utilization factor
+    const bookingCost = nmPrc * numTables;
+
+    totalMember      += mRev;
+    totalNonMember   += nmRev;
+    totalBookingCost += bookingCost;
+
+    const mStatus  = PRICING_DATA._hours.members[hStr]?.[dayOfWeek]    ?? 'NP';
+    const nmStatus = PRICING_DATA._hours.nonMembers[hStr]?.[dayOfWeek] ?? 'NP';
+
+    hourDetail.push({
+      hour: h,
+      memberOcc: mOcc,  memberPrice: mPrc,  memberRev: mRev,  memberStatus: mStatus,
+      nmOcc,            nmPrice: nmPrc,     nmRev,            nmStatus,
+      bookingCost,
+      total: mRev + nmRev,
+      inWindow: true
+    });
+  }
+
+  return {
+    total:        totalMember + totalNonMember,
+    memberTotal:  totalMember,
+    nmTotal:      totalNonMember,
+    bookingCost:  totalBookingCost,
+    durationHours,
+    hours:        hourDetail
+  };
+}
+
+// ============================================================
+// UI
+// ============================================================
+
+function fmt(n) {
+  return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function fmtPct(n) {
+  return (n * 100).toFixed(1) + '%';
+}
+
+// Classify booking period using member hours only.
+// Priority: Peak > Reduced > Off-peak
+function classifyPeriod(location, dayOfWeek, hours) {
+  if (!PRICING_DATA || !hours.length) return 'offpeak';
+  const memberHours = PRICING_DATA._hours.members;
+  let hasPeak = false;
+  let hasReduced = false;
+  for (const h of hours) {
+    const status = memberHours[String(h.hour)]?.[dayOfWeek] ?? 'NP';
+    if (status === 'P') hasPeak = true;
+    if (status === 'R') hasReduced = true;
+  }
+  if (hasPeak) return 'peak';
+  if (hasReduced) return 'reduced';
+  return 'offpeak';
+}
+
+function adjustTables(delta) {
+  const el = document.getElementById('numTables');
+  const v = Math.min(4, Math.max(1, (parseInt(el.value) || 1) + delta));
+  el.value = v;
+  calculate();
+}
+
+function calculate() {
+  if (!PRICING_DATA) return; // data not yet loaded
+  const location   = document.getElementById('location').value;
+  const dayOfWeek  = document.getElementById('dayofweek').value;
+  const startTime  = document.getElementById('startTime').value;
+  const endTime    = document.getElementById('endTime').value;
+  const numTables  = parseInt(document.getElementById('numTables').value) || 1;
+
+  // Read multipliers
+  const multOffPeak = parseFloat(document.getElementById('multOffPeak').value) || 125;
+  const multReduced = parseFloat(document.getElementById('multReduced').value) || 150;
+  const multPeak    = parseFloat(document.getElementById('multPeak').value)    || 175;
+  const multBuyout  = parseFloat(document.getElementById('multBuyout').value)  || 25;
+
+  const warn = document.getElementById('warnBox');
+  warn.style.display = 'none';
+
+  const result = expectedRevenue(location, dayOfWeek, startTime, endTime, numTables);
+
+  const resultValue      = document.getElementById('resultValue');
+  const breakdown        = document.getElementById('breakdown');
+  const multiplierValue  = document.getElementById('multiplierValue');
+  const multiplierBD     = document.getElementById('multiplierBreakdown');
+  const recommendedValue = document.getElementById('recommendedValue');
+
+  if (!result) {
+    resultValue.textContent = '—';
+    resultValue.className = 'result-value zero';
+    breakdown.style.display = 'none';
+    document.getElementById('bookingCostValue').textContent = '—';
+    document.getElementById('bookingCostValue').className = 'result-value zero';
+    multiplierValue.textContent = '—';
+    multiplierValue.className = 'result-value zero';
+    multiplierBD.style.display = 'none';
+    recommendedValue.textContent = '—';
+    recommendedValue.className = 'result-value zero';
+    renderTable([]);
+    return;
+  }
+
+  // Check for zero revenue (all-closed hours)
+  if (result.total === 0) {
+    warn.textContent = 'No revenue expected for this time slot — all selected hours are outside active booking windows for this location and day.';
+    warn.style.display = 'block';
+  }
+
+  // --- Opportunity cost ---
+  resultValue.textContent = fmt(result.total);
+  resultValue.className = 'result-value' + (result.total === 0 ? ' zero' : '');
+  breakdown.style.display = 'flex';
+  document.getElementById('memberRev').textContent     = fmt(result.memberTotal);
+  document.getElementById('nonMemberRev').textContent  = fmt(result.nmTotal);
+  document.getElementById('durationHours').textContent = result.durationHours.toFixed(1) + ' hrs';
+
+  // --- Booking cost for non-members ---
+  const bookingCostEl = document.getElementById('bookingCostValue');
+  bookingCostEl.textContent = fmt(result.bookingCost);
+  bookingCostEl.className = 'result-value' + (result.bookingCost === 0 ? ' zero' : '');
+
+  // --- Multiplier ---
+  const period = classifyPeriod(location, dayOfWeek, result.hours);
+  const periodLabels = { peak: 'Peak', reduced: 'Reduced', offpeak: 'Off-peak' };
+  const baseMult = period === 'peak' ? multPeak : period === 'reduced' ? multReduced : multOffPeak;
+  const isBuyout = numTables === 4;
+  const totalMult = isBuyout ? baseMult + multBuyout : baseMult;
+
+  multiplierValue.textContent = totalMult.toFixed(1) + '%';
+  multiplierValue.className = 'result-value';
+  multiplierBD.style.display = 'flex';
+  document.getElementById('periodType').textContent = periodLabels[period] + ' (' + baseMult.toFixed(0) + '%)';
+  const buyoutRow = document.getElementById('buyoutRow');
+  if (isBuyout) {
+    buyoutRow.style.display = 'flex';
+    document.getElementById('buyoutPct').textContent = '+' + multBuyout.toFixed(0) + '%';
+  } else {
+    buyoutRow.style.display = 'none';
+  }
+
+  // --- Recommended price ---
+  const recommended = result.bookingCost * (totalMult / 100);
+  recommendedValue.textContent = fmt(recommended);
+  recommendedValue.className = 'result-value';
+
+  renderTable(result.hours);
+}
+
+function renderTable(hours) {
+  const tbody = document.getElementById('detailBody');
+  tbody.innerHTML = '';
+
+  if (!hours.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--muted);">Enter valid inputs to see breakdown</td></tr>';
+    return;
+  }
+
+  hours.forEach(h => {
+    const tr = document.createElement('tr');
+    tr.className = h.total > 0 ? 'active-row' : 'inactive-row';
+    tr.innerHTML = `
+      <td><strong>${h.hour}:00</strong></td>
+      <td>${fmtPct(h.memberOcc)}</td>
+      <td>${h.memberPrice > 0 ? fmt(h.memberPrice) : '—'}</td>
+      <td>${h.memberRev > 0 ? fmt(h.memberRev) : '—'}</td>
+      <td>${fmtPct(h.nmOcc)}</td>
+      <td>${h.nmPrice > 0 ? fmt(h.nmPrice) : '—'}</td>
+      <td>${h.nmRev > 0 ? fmt(h.nmRev) : '—'}</td>
+      <td><strong>${h.total > 0 ? fmt(h.total) : '—'}</strong></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Populate time dropdowns (on-the-hour and half-hour only)
+function populateTimeDropdowns() {
+  const startSel = document.getElementById('startTime');
+  const endSel   = document.getElementById('endTime');
+
+  for (let h = 0; h < 24; h++) {
+    for (const m of [0, 30]) {
+      const hh  = String(h).padStart(2, '0');
+      const mm  = m === 0 ? '00' : '30';
+      const val = `${hh}:${mm}`;
+      const lbl = `${hh}:${mm}`;
+      startSel.appendChild(new Option(lbl, val));
+      endSel.appendChild(new Option(lbl, val));
+    }
+  }
+
+  startSel.value = '09:00';
+  endSel.value   = '11:00';
+}
+
+populateTimeDropdowns();
+
+// When start time changes, shift end time to preserve duration
+function onStartTimeChange() {
+  const startSel = document.getElementById('startTime');
+  const endSel   = document.getElementById('endTime');
+
+  const prev = startSel.dataset.prev || '09:00';
+  const [oldStartH, oldStartM] = prev.split(':').map(Number);
+  const [newStartH, newStartM] = startSel.value.split(':').map(Number);
+  const [endH, endM]           = endSel.value.split(':').map(Number);
+
+  const oldStartMins = oldStartH * 60 + oldStartM;
+  const newStartMins = newStartH * 60 + newStartM;
+  let   endMins      = endH * 60 + endM;
+
+  // Compute current duration (handle midnight crossing)
+  let duration = endMins - oldStartMins;
+  if (duration <= 0) duration += 24 * 60;
+
+  // New end = new start + same duration, wrapped to 24h
+  let newEndMins = (newStartMins + duration) % (24 * 60);
+  const newEndH   = Math.floor(newEndMins / 60);
+  const newEndM   = newEndMins % 60;
+  const newEndVal = String(newEndH).padStart(2,'0') + ':' + String(newEndM).padStart(2,'0');
+
+  if ([...endSel.options].some(o => o.value === newEndVal)) {
+    endSel.value = newEndVal;
+  }
+
+  startSel.dataset.prev = startSel.value;
+  calculate();
+}
+
+// Set initial prev value once dropdowns are populated
+document.getElementById('startTime').dataset.prev = '09:00';
+
+// Wire up start time with duration-preserving handler
+document.getElementById('startTime').addEventListener('change', onStartTimeChange);
+
+// Wire up all other inputs directly to calculate
+['endTime','location','dayofweek','numTables','multOffPeak','multReduced','multPeak','multBuyout'].forEach(id => {
+  document.getElementById(id).addEventListener('change', calculate);
+});
+
+// Initial load — fetches pricing_data.json then triggers calculate()
+loadPricingData();
+</script>
+</body>
+</html>
